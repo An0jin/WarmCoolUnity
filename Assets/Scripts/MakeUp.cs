@@ -13,7 +13,6 @@ public class MakeUp : MonoBehaviour
     public void SetColor(string hex){
         Color color;
         ColorUtility.TryParseHtmlString(hex,out color);
-        print(color);
         mesh.material.color=color;
     }
 }
