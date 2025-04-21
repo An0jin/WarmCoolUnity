@@ -283,7 +283,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 100, y: 42.749207}
+  m_AnchoredPosition: {x: 100, y: 42.749268}
   m_SizeDelta: {x: 200, y: 85.4984}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &787437771
@@ -330,7 +330,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1061668251}
+      - m_Target: {fileID: 1692170710}
         m_TargetAssemblyTypeName: MakeUp, Assembly-CSharp
         m_MethodName: SetColor
         m_Mode: 5
@@ -415,7 +415,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 42.749207}
+  m_AnchoredPosition: {x: 0, y: 42.749268}
   m_SizeDelta: {x: 200, y: 85.4984}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &865469334
@@ -462,7 +462,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1061668251}
+      - m_Target: {fileID: 1692170710}
         m_TargetAssemblyTypeName: MakeUp, Assembly-CSharp
         m_MethodName: SetColor
         m_Mode: 5
@@ -586,7 +586,6 @@ GameObject:
   - component: {fileID: 1061668247}
   - component: {fileID: 1061668246}
   - component: {fileID: 1061668245}
-  - component: {fileID: 1061668251}
   m_Layer: 0
   m_Name: AR Default Face
   m_TagString: Untagged
@@ -706,18 +705,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1061668251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1061668244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 987f6b61ddab739459b270d0833607dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1127620681
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,6 +1048,7 @@ GameObject:
   - component: {fileID: 1692170709}
   - component: {fileID: 1692170708}
   - component: {fileID: 1692170707}
+  - component: {fileID: 1692170710}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -1115,6 +1103,18 @@ Transform:
   - {fileID: 243498793}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1692170710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1692170706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 987f6b61ddab739459b270d0833607dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2032961814
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,7 +1218,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -100, y: 42.749207}
+  m_AnchoredPosition: {x: -100, y: 42.749268}
   m_SizeDelta: {x: 200, y: 85.4984}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2060197107
@@ -1265,7 +1265,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1061668251}
+      - m_Target: {fileID: 1692170710}
         m_TargetAssemblyTypeName: MakeUp, Assembly-CSharp
         m_MethodName: SetColor
         m_Mode: 5

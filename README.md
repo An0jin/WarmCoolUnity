@@ -60,6 +60,19 @@ FastAPI 서버와 YOLOv11-CLS 모델을 연동하여 퍼스널 컬러를 분류�
 - ![Unity](https://img.shields.io/badge/-Unity-000000?style=flat&logo=unity&logoColor=white)
 - ![Unity(ARFoundation)](https://img.shields.io/badge/-ARFoundation(Unity)-000000?style=flat&logo=unity&logoColor=white)
 - ![Unity(Photon Chat)](https://img.shields.io/badge/-Photon%20Chat(Unity)-000000?style=flat&logo=unity&logoColor=white)
+---
+
+## 🖼️ 에셋 출처
+
+- ### 폰트
+    - [신촌랩소디체](https://noonnu.cc/font_page/1577)
+
+- ### 참고 이미지
+    - [![AR Face Assets](https://img.shields.io/badge/-AR%20Face%20Assets-000000?style=flat&logo=unity&logoColor=white)](https://assetstore.unity.com/packages/essentials/asset-packs/ar-face-assets-184187)
+
+- ### UI/UX 이미지
+    - ![ChatGPT 4.0](https://img.shields.io/badge/-ChatGPT%204.0-74AA9C?style=flat&logo=openai&logoColor=white)
+
 
 ---
 
