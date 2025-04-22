@@ -58,8 +58,8 @@ FastAPI 서버와 YOLOv11-CLS 모델을 연동하여 퍼스널 컬러를 분류�
 ## 🛠 사용 기술
 
 - ![Unity](https://img.shields.io/badge/-Unity-000000?style=flat&logo=unity&logoColor=white)
-- ![Unity(ARFoundation)](https://img.shields.io/badge/-ARFoundation(Unity)-000000?style=flat&logo=unity&logoColor=white)
-- ![Unity(Photon Chat)](https://img.shields.io/badge/-Photon%20Chat(Unity)-000000?style=flat&logo=unity&logoColor=white)
+- ![ARFoundation](https://img.shields.io/badge/-ARFoundation(Unity)-000000?style=flat&logo=unity&logoColor=white)
+- ![Photon Chat](https://img.shields.io/badge/-Photon%20Chat(Unity)-004480?style=flat&logo=photon&logoColor=white)
 ---
 
 ## 🖼️ 에셋 출처
@@ -75,13 +75,12 @@ FastAPI 서버와 YOLOv11-CLS 모델을 연동하여 퍼스널 컬러를 분류�
 
 
 ---
-
 ## 💻 기술 스택
 
-- **AI/ML**: ![Ultralytics(YOLOv11-CLS)](https://img.shields.io/badge/YOLOv11--CLS(Ultralytics)-111F68?style=flat&logo=Ultralytics&logoColor=white)
+- **AI/ML**: ![Ultralytics(YOLOv11-CLS)](https://img.shields.io/badge/YOLOv11--CLS-111F68?style=flat&logo=Ultralytics&logoColor=white)
 - **백엔드**: ![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
 - **DB** : ![Postgresql](https://img.shields.io/badge/-postgresql-4169E1?style=flat&logo=postgresql&logoColor=white)
-- **프론트엔드**: ![Unity(ARFoundation)](https://img.shields.io/badge/-ARFoundation(Unity)-000000?style=flat&logo=unity&logoColor=white)
-- **네트워킹**: ![Unity(Photon Chat)](https://img.shields.io/badge/-Photon%20Chat(Unity)-000000?style=flat&logo=unity&logoColor=white)
+- **프론트엔드**: ![Unity(ARFoundation)](https://img.shields.io/badge/-ARFoundation-000000?style=flat&logo=unity&logoColor=white)
+- **네트워킹**: ![Photon Chat](https://img.shields.io/badge/-Photon%20Chat-004480?style=flat&logo=photon&logoColor=white)
 - **데이터 수집**: ![Roboflow](https://img.shields.io/badge/-roboflow-6706CE?style=flat&logo=roboflow&logoColor=white),![github](https://img.shields.io/badge/-github-000000?style=flat&logo=github&logoColor=white)
 - **디자인**: ![Photoshop](https://img.shields.io/badge/-Photoshop-31A8FF?style=flat&logo=adobe-photoshop&logoColor=white)
