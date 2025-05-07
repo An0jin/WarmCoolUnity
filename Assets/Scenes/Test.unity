@@ -289,7 +289,7 @@ MonoBehaviour:
   m_LightEstimationMode: -1
   m_AutoFocus: 1
   m_LightEstimation: 0
-  m_FacingDirection: 1
+  m_FacingDirection: 2
   m_RenderMode: 0
 --- !u!81 &280615612
 AudioListener:
@@ -776,11 +776,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1238924673}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e11a7ab117120dd4f885d593c51187ef, type: 3}
+  m_Script: {fileID: 11500000, guid: f0962344fbd9b02429c0d9c33fecce18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  btn: {fileID: 0}
-  canClick: 1
 --- !u!1 &1422012374
 GameObject:
   m_ObjectHideFlags: 0

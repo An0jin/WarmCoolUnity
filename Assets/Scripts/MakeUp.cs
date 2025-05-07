@@ -11,18 +11,18 @@ public class MakeUp : MonoBehaviour
     {
         faceManager = GetComponent<ARFaceManager>();
     }
-    public void SetColor(string hex)
+    
+    void Update()
     {
         Color color;
-        ColorUtility.TryParseHtmlString(hex, out color);
+        ColorUtility.TryParseHtmlString(Session.session.HexCode,out color);
         foreach (ARFace face in faceManager.trackables)
         {
 
             var meshRenderer = face.GetComponent<MeshRenderer>();
             if (meshRenderer != null)
-            {
                 meshRenderer.material.color = color;
-            }
         }
+        
     }
 }

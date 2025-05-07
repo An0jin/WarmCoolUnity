@@ -27,12 +27,12 @@ public class Session : MonoBehaviour
     }
 
     
-    public static string UserId { get; private set; }
+    public string UserId { get; private set; }
     public string Name { get; private set; }
     public string Gender { get; private set; }
     public int Year { get; private set; }
     public string ColorId { get; private set; }
-    public string HexCode { get; private set; }
+    public string HexCode { get;  set; }
     public string Description { get; private set; }
     public string chatid { 
         get=>server.AppSettings.AppIdChat;
