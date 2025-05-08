@@ -33,13 +33,13 @@ public class Put : MonoBehaviour
         put.onClick.AddListener(() =>
         {
             if (isUpdate)
-                StartCoroutine(Update());
+                StartCoroutine(Set());
         });
     }
     void SetInputField(ref InputField inputField,object title){
         inputField.text=$"{title}";
     }
-    IEnumerator Update()
+    IEnumerator Set()
     {
         string gender = man.isOn ? "남자" : "여자";
         int iYear=int.Parse(year.text);
