@@ -1318,6 +1318,7 @@ GameObject:
   - component: {fileID: 1127620685}
   - component: {fileID: 1127620684}
   - component: {fileID: 1127620683}
+  - component: {fileID: 1127620688}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1532,6 +1533,23 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1127620688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127620681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b15f82cc229284894964d2d30806969d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HumanSegmentationStencilMode: 3
+  m_HumanSegmentationDepthMode: 2
+  m_EnvironmentDepthMode: 3
+  m_EnvironmentDepthTemporalSmoothing: 1
+  m_OcclusionPreferenceMode: 1
 --- !u!1 &1184336088
 GameObject:
   m_ObjectHideFlags: 0
@@ -2051,7 +2069,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 761122714}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999964
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2105,6 +2123,7 @@ GameObject:
   - component: {fileID: 1945464909}
   - component: {fileID: 1945464911}
   - component: {fileID: 1945464910}
+  - component: {fileID: 1945464912}
   m_Layer: 5
   m_Name: GameObject
   m_TagString: Untagged
@@ -2175,6 +2194,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1945464912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945464908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 148e8e5b6d3e22f499232b11e834cccb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1962091566
 GameObject:
   m_ObjectHideFlags: 0
@@ -2372,7 +2403,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 545206535}
   m_HandleRect: {fileID: 545206534}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

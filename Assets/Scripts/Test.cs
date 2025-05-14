@@ -29,10 +29,20 @@ public class Test : MonoBehaviour
         StartCoroutine(Post(img.EncodeToJPG()));
         SetBtn(true);//버튼을 보여준다
     }
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            SceneManager.LoadScene(0);
+        }
+    }
     IEnumerator Post(byte[] img)
     {
         WWWForm form = new WWWForm();
-        form.AddField("user_id", Session.session.UserId);
+        if(!Session.session.isGeust)
+            form.AddField("user_id", Session.session.UserId);
         form.AddBinaryData("img", img);
         using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("predict"), form))
         {

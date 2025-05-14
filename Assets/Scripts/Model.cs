@@ -19,3 +19,8 @@ public class JsonList<T>{
 public class ColorJson{
     public string color_id, hex_code, description;
 }
+
+[Serializable]
+public class Message{
+    public string chat_id, name, msg;
+}

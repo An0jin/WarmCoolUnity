@@ -34,6 +34,7 @@ public class Session : MonoBehaviour
     public string ColorId { get; private set; }
     public string HexCode { get;  set; }
     public string Description { get; private set; }
+    public bool isGeust{get;set;}
     public string chatid { 
         get=>server.AppSettings.AppIdChat;
         set=>server.AppSettings.AppIdChat=value;

@@ -5,23 +5,25 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Put : MonoBehaviour
+public class Form : MonoBehaviour
 {
-    Button put;
+    Button put,delete;
     InputField name, year, pw;
-    bool isUpdate;
+    bool isUpdate,isDelete;
     Toggle man;
     Text msg,title;
     // Start is called before the first frame update
     void Start()
     {
         isUpdate = true;
+        isDelete=true;
         title = GameObject.Find("title").GetComponent<Text>();
         name = GameObject.Find("name").GetComponent<InputField>();
         year = GameObject.Find("year").GetComponent<InputField>();
         pw = GameObject.Find("pw").GetComponent<InputField>();
         man = GameObject.Find("man").GetComponent<Toggle>();
         put = GameObject.Find("Put").GetComponent<Button>();
+        delete = GameObject.Find("del").GetComponent<Button>();
         msg = GameObject.Find("msg").GetComponent<Text>();
         
         title.text=$"{Session.session.UserId}님의 정보";
@@ -33,13 +35,29 @@ public class Put : MonoBehaviour
         put.onClick.AddListener(() =>
         {
             if (isUpdate)
-                StartCoroutine(Set());
+                StartCoroutine(Put());
         });
+        
+        delete.onClick.AddListener(() =>
+        {
+            if (isDelete)
+                StartCoroutine(Delete());
+        });
+    }
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
+    {
+        
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            SceneManager.LoadScene(3);
+        }
     }
     void SetInputField(ref InputField inputField,object title){
         inputField.text=$"{title}";
     }
-    IEnumerator Set()
+    IEnumerator Put()
     {
         string gender = man.isOn ? "남자" : "여자";
         int iYear=int.Parse(year.text);
@@ -100,6 +118,30 @@ public class Put : MonoBehaviour
                 msg.color = new Color(1, 0, 0);
                 msg.text = "회원가입에 실패했습니다. (서버 연결 오류)";
                 isUpdate = true;
+            }
+        }
+    }
+    IEnumerator Delete()
+    {
+        using (UnityWebRequest www = UnityWebRequest.Delete(Env.Api($"user/{Session.session.UserId}")))
+        {
+            www.downloadHandler=new DownloadHandlerBuffer();
+            yield return www.SendWebRequest();
+
+            // 디버그 로그 추가
+            Debug.Log("서버 응답 코드: " + www.responseCode);
+            Debug.Log("서버 응답 내용: " + www.downloadHandler.text);
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {   
+                SceneManager.LoadScene(0);
+            }
+            else
+            {
+                Debug.LogError("웹 요청 오류: " + www.error);
+                msg.color = new Color(1, 0, 0);
+                msg.text = "서버 접속 안됨";
+                isDelete = true;
             }
         }
     }

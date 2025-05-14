@@ -9,40 +9,48 @@ using WebSocketSharp;
 public class Title : MonoBehaviour
 {
     InputField id, pw;
-    Button SignIn;
-    bool isSignUp;
+    Button SignIn,geust;
+    bool isSignIn;
     Text msg;
     // Start is called before the first frame update
     void Start()
     {
-        isSignUp = true;
+        isSignIn = true;
         id = GameObject.Find("id").GetComponent<InputField>();
         pw = GameObject.Find("pw").GetComponent<InputField>();
         SignIn = GameObject.Find("SignIn").GetComponent<Button>();
+        geust = GameObject.Find("Geust").GetComponent<Button>();
         msg = GameObject.Find("msg").GetComponent<Text>();
         SignIn.onClick.AddListener(() =>
         {
-            if (isSignUp)
+            if (isSignIn)
                 StartCoroutine(LogIn());
+        });
+        geust.onClick.AddListener(() =>
+        {
+            Session.session.isGeust=true;
+            SceneManager.LoadScene(2);
         });
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            Application.Quit();
+        }
     }
     IEnumerator LogIn()
     {
         print("버튼을 눌렀다");
-        isSignUp = false;
+        isSignIn = false;
         msg.color = new Color(1, 1, 1);
         msg.text = "로그인 하는중";
         if (id.text == "" || pw.text == "")
         {
             msg.color = new Color(1, 0, 0);
             msg.text = "아이디와 비밀번호를 입력해주세요";
-            isSignUp = true;
+            isSignIn = true;
             yield break;
         }
         WWWForm form = new WWWForm();
@@ -60,14 +68,14 @@ public class Title : MonoBehaviour
                     InfoJson json = JsonUtility.FromJson<InfoJson>(www.downloadHandler.text);
                     if (json.msg == "성공")
                     {
+                        Session.session.isGeust=false;
                         Session.session.Login(json);
                         SceneManager.LoadScene(Session.session.HexCode.IsNullOrEmpty() ? 2 : 3);
-
                     }
                     else
                     {
                         msg.text = json.msg;
-                        isSignUp = true;
+                        isSignIn = true;
                     }
 
                 }
@@ -76,7 +84,7 @@ public class Title : MonoBehaviour
                     Debug.LogError("JSON 파싱 오류: " + e.Message);
                     msg.color = new Color(1, 0, 0);
                     msg.text = "로그인 실패";
-                    isSignUp = true;
+                    isSignIn = true;
                 }
             }
             else
@@ -84,7 +92,7 @@ public class Title : MonoBehaviour
                 Debug.LogError("웹 요청 오류: " + www.error);
                 msg.color = new Color(1, 0, 0);
                 msg.text = "회원가입에 실패했습니다. (서버 연결 오류)";
-                isSignUp = true;
+                isSignIn = true;
             }
         }
     }

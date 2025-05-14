@@ -30,6 +30,16 @@ public class SignUp : MonoBehaviour
                 StartCoroutine(SignUP());
         });
     }
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
+    {    
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            SceneManager.LoadScene(0);
+        }
+    
+    }
     IEnumerator SignUP()
     {
         string gender = man.isOn ? "남자" : "여자";
@@ -78,6 +88,7 @@ public class SignUp : MonoBehaviour
                     Json<string> json = JsonUtility.FromJson<Json<string>>(www.downloadHandler.text);
                     Debug.Log("JSON 파싱 결과: " + JsonUtility.ToJson(json));
                     Session.session.SignIn(id.text, name.text, gender, iYear);
+                    Session.session.isGeust=false;
                     SceneManager.LoadScene(2);
                 }
                 catch (Exception e)

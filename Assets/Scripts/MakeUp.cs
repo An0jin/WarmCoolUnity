@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
 
 public class MakeUp : MonoBehaviour
@@ -22,6 +23,9 @@ public class MakeUp : MonoBehaviour
             var meshRenderer = face.GetComponent<MeshRenderer>();
             if (meshRenderer != null)
                 meshRenderer.material.color = color;
+        }
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            SceneManager.LoadScene(0);
         }
         
     }

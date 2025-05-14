@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class SceneBtn : MonoBehaviour
 {
-    [SerializeField][Range(0,5)]private int scene;
+    [SerializeField][Range(0,5)] int scene;
     Button btn;
     // Start is called before the first frame update
     void Start()
