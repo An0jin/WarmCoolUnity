@@ -11,7 +11,7 @@ public class Session : MonoBehaviour
         {
             if (_instance == null)
             {
-                // 씬에 이미 존재하는 Session 인스턴스 찾기
+                // Find existing Session instance in the scene
                 _instance = FindObjectOfType<Session>();
 
                 if (_instance == null)

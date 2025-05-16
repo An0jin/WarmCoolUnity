@@ -912,7 +912,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: " \uB2F9\uC2E0\uC758 \uD53C\uBD80\uD1A4 : \uC5EC\uB984 \uCFE8\uD1A4"
+  m_Text: Test Results
 --- !u!222 &973793844
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2069,7 +2069,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 761122714}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99999964
+  m_Size: 0.99999946
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

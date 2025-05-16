@@ -687,7 +687,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1946092345}
   m_HandleRect: {fileID: 1946092344}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -1143,7 +1143,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter text...
+  m_Text: Enter message
 --- !u!222 &1079177887
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1223,7 +1223,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB098\uAC00\uAE30"
+  m_Text: Close
 --- !u!222 &1104047250
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1707,7 +1707,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBCF4\uB0B4\uAE30"
+  m_Text: Send
 --- !u!222 &1828457604
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -42,15 +42,15 @@ public class SignUp : MonoBehaviour
     }
     IEnumerator SignUP()
     {
-        string gender = man.isOn ? "남자" : "여자";
+        string gender = man.isOn ? "Male" : "Female";
         int iYear=int.Parse(year.text);
         msg.color = new Color(1, 1, 1);
-        msg.text = "회원가입 하는중";
+        msg.text = "Signing up...";
         isSignUp = false;
         if (id.text == "" || pw.text == "" || year.text == "" || name.text == "")
         {
             msg.color = new Color(1, 0, 0);
-            msg.text = "정보들을 입력해주세요";
+            msg.text = "Please enter all information";
             isSignUp = true;
             yield break;//끝내기
         }
@@ -58,7 +58,7 @@ public class SignUp : MonoBehaviour
         if (int.Parse(year.text) > today || int.Parse(year.text) < today - 100)
         {
             msg.color = new Color(1, 0, 0);
-            msg.text = "태어난 연도가 이상합니다";
+            msg.text = "Birth year is not valid";
             isSignUp = true;
             yield break;//끝내기
         }
@@ -95,7 +95,7 @@ public class SignUp : MonoBehaviour
                 {
                     Debug.LogError("JSON 파싱 오류: " + e.Message);
                     msg.color = new Color(1, 0, 0);
-                    msg.text = "회원가입에 실패했습니다. (응답 처리 오류)";
+                    msg.text = "Sign up failed. (Response processing error)";
                     isSignUp = true;
                 }
             }
@@ -103,7 +103,7 @@ public class SignUp : MonoBehaviour
             {
                 Debug.LogError("웹 요청 오류: " + www.error);
                 msg.color = new Color(1, 0, 0);
-                msg.text = "회원가입에 실패했습니다. (서버 연결 오류)";
+                msg.text = "Sign up failed. (Server connection error)";
                 isSignUp = true;
             }
         }

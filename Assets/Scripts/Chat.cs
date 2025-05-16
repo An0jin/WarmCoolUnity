@@ -25,7 +25,7 @@ public class Chat : MonoBehaviour, IChatClientListener
         {
             if (isConn)
                 StartCoroutine(Submit());
-                // chatClient.PublishMessage("웜톤", input.text);
+                // chatClient.PublishMessage("WarmTone", input.text);
         });
         StartCoroutine(GetChat());
         // chatClient.Connect(Env.chatid, "1.0", new AuthenticationValues("test"));
@@ -35,7 +35,7 @@ public class Chat : MonoBehaviour, IChatClientListener
     IEnumerator GetChat()
     {
         using (UnityWebRequest www = UnityWebRequest.Get(Env.Api($"chat/{Session.session.ColorId}")))
-        // using (UnityWebRequest www = UnityWebRequest.Get(Env.Api($"chat/웜톤")))
+        // using (UnityWebRequest www = UnityWebRequest.Get(Env.Api($"chat/WarmTone")))
         {
             yield return www.SendWebRequest();
             if (www.result == UnityWebRequest.Result.Success)
@@ -76,8 +76,8 @@ public class Chat : MonoBehaviour, IChatClientListener
     }
     public void OnConnected()
     {
-        // chatClient.Subscribe(Session.session.ColorId);
-        chatClient.Subscribe("웜톤");
+        chatClient.Subscribe(Session.session.ColorId);
+        // chatClient.Subscribe("WarmTone");
     }
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)

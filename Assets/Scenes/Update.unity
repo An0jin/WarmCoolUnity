@@ -192,7 +192,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: " \uC5EC\uC790"
+  m_Text: Female
 --- !u!222 &5213305
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -315,8 +315,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 211.16005, y: -91.999985}
-  m_SizeDelta: {x: 210.567, y: 81.5019}
+  m_AnchoredPosition: {x: 216.48402, y: -91.999985}
+  m_SizeDelta: {x: 276.2321, y: 81.5019}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &71116556
 MonoBehaviour:
@@ -531,7 +531,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC218\uC815\uD558\uAE30"
+  m_Text: Update
 --- !u!222 &79161112
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -842,7 +842,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "anyoungjin0106\uB2D8\uC758 \uC815\uBCF4"
+  m_Text: Update Profile
 --- !u!222 &270402548
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1117,7 +1117,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -196.00002, y: -91.999985}
+  m_AnchoredPosition: {x: -235, y: -91.999985}
   m_SizeDelta: {x: 210.567, y: 81.5019}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &567746158
@@ -1451,7 +1451,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD654\uC7A5\uD654\uBA74 \uBCF4\uAE30"
+  m_Text: Back
 --- !u!222 &793509138
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1530,7 +1530,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD0DC\uC5B4\uB09C \uC5F0\uB3C4"
+  m_Text: Enter Birth Year
 --- !u!222 &1017210989
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1714,7 +1714,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: " \uB0A8\uC790"
+  m_Text: Male
 --- !u!222 &1137628346
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1939,7 +1939,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC774\uB984"
+  m_Text: Enter Name
 --- !u!222 &1385839608
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2497,7 +2497,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD0C8\uD1F4\uD558\uAE30"
+  m_Text: Delete Account
 --- !u!222 &1535468290
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2576,7 +2576,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBE44\uBC00\uBC88\uD638"
+  m_Text: Enter Password
 --- !u!222 &1592693494
 CanvasRenderer:
   m_ObjectHideFlags: 0

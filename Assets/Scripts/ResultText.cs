@@ -10,6 +10,6 @@ public class ResultText : MonoBehaviour
     void Start()
     {
         text=GetComponent<Text>();
-        text.text=$" 당신의 피부톤 : {Session.session.ColorId}";
+        text.text=$" Your Skin Tone: {Session.session.ColorId}";
     }
 }

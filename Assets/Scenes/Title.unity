@@ -208,7 +208,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD68C\uC6D0\uAC00\uC785"
+  m_Text: Sign Up
 --- !u!222 &12800353
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -638,10 +638,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'TONEiVerse
-
-
-'
+  m_Text: Toneiverse
 --- !u!222 &506967761
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1315,7 +1312,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC544\uC774\uB514"
+  m_Text: Enter ID
 --- !u!222 &1081013563
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1395,7 +1392,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB85C\uADF8\uC778"
+  m_Text: Sign In
 --- !u!222 &1085268533
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1573,10 +1570,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 40498b1822c5913428a7b906dc9da9ad, type: 3}
-    m_FontSize: 50
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 1
+    m_MinSize: 0
     m_MaxSize: 100
     m_Alignment: 3
     m_AlignByGeometry: 0
@@ -1584,9 +1581,20 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC2DC\uC2A4\uD15C \uAC1C\uBC1C \uBC0F UI/UX \uB514\uC790\uC778 : \uC548\uC601\uC9C4\n\uBB38\uC11C
-    \uC81C\uC791 \uBC0F \uAD00\uB9AC : \uC815\uD604\uC911 \n\uB370\uC774\uD130 \uC218\uC9D1
-    \uBC0F \uAD00\uB9AC : Tharaphy Hnin"
+  m_Text: 'An Young-jin
+
+    System Development & UI/UX Design
+
+
+    Jung Hyun-jung
+
+    Document
+    Production & Management
+
+
+    Tharaphy Hnin
+
+    Data Collection & Management'
 --- !u!222 &1286483387
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1681,7 +1689,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uAC8C\uC2A4\uD2B8 \uB85C\uADF8\uC778"
+  m_Text: Guest
 --- !u!222 &1356315200
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2052,7 +2060,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBE44\uBC00\uBC88\uD638"
+  m_Text: Enter Password
 --- !u!222 &1592693494
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2556,7 +2564,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB098\uAC00\uAE30"
+  m_Text: Confirm
 --- !u!222 &2022209072
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2715,7 +2723,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uB9CC\uB4E0 \uC0AC\uB78C\uB4E4"
+  m_Text: About Developer
 --- !u!222 &2047512797
 CanvasRenderer:
   m_ObjectHideFlags: 0

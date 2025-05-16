@@ -42,14 +42,14 @@ public class Title : MonoBehaviour
     }
     IEnumerator LogIn()
     {
-        print("버튼을 눌렀다");
+        print("Button pressed");
         isSignIn = false;
         msg.color = new Color(1, 1, 1);
-        msg.text = "로그인 하는중";
+        msg.text = "Logging in...";
         if (id.text == "" || pw.text == "")
         {
             msg.color = new Color(1, 0, 0);
-            msg.text = "아이디와 비밀번호를 입력해주세요";
+            msg.text = "Please enter ID and password";
             isSignIn = true;
             yield break;
         }
@@ -66,7 +66,7 @@ public class Title : MonoBehaviour
                 try
                 {
                     InfoJson json = JsonUtility.FromJson<InfoJson>(www.downloadHandler.text);
-                    if (json.msg == "성공")
+                    if (json.msg == "성공" || json.msg == "Success")
                     {
                         Session.session.isGeust=false;
                         Session.session.Login(json);
@@ -83,7 +83,7 @@ public class Title : MonoBehaviour
                 {
                     Debug.LogError("JSON 파싱 오류: " + e.Message);
                     msg.color = new Color(1, 0, 0);
-                    msg.text = "로그인 실패";
+                    msg.text = "Login failed";
                     isSignIn = true;
                 }
             }
@@ -91,7 +91,7 @@ public class Title : MonoBehaviour
             {
                 Debug.LogError("웹 요청 오류: " + www.error);
                 msg.color = new Color(1, 0, 0);
-                msg.text = "회원가입에 실패했습니다. (서버 연결 오류)";
+                msg.text = "Sign up failed. (Server connection error)";
                 isSignIn = true;
             }
         }

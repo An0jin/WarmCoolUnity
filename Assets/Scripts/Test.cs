@@ -23,11 +23,11 @@ public class Test : MonoBehaviour
     IEnumerator Capture()
     {
         canClick = false;
-        SetBtn(false);//버튼을 가린다
+        SetBtn(false);//Hide the button
         yield return new WaitForEndOfFrame();
         var img = ScreenCapture.CaptureScreenshotAsTexture();
         StartCoroutine(Post(img.EncodeToJPG()));
-        SetBtn(true);//버튼을 보여준다
+        SetBtn(true);//Show the button
     }
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
@@ -61,6 +61,6 @@ public class Test : MonoBehaviour
         ColorBlock color = btn.colors;
         color.normalColor = new Color(1, 1, 1, isShow ? 1 : 0);
         btn.colors = color;
-        text.text = isShow ? "예측하는 중" : "";
+        text.text = isShow ? "Predicting..." : "";
     }
 }

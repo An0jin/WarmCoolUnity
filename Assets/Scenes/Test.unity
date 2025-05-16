@@ -976,7 +976,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD37C\uC2A4\uB110 \uCEEC\uB7EC \uC9C4\uB2E8\uBC1B\uAE30"
+  m_Text: Start Test
 --- !u!222 &2106800549
 CanvasRenderer:
   m_ObjectHideFlags: 0

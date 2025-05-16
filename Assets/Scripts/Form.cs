@@ -11,13 +11,12 @@ public class Form : MonoBehaviour
     InputField name, year, pw;
     bool isUpdate,isDelete;
     Toggle man;
-    Text msg,title;
+    Text msg;
     // Start is called before the first frame update
     void Start()
     {
         isUpdate = true;
         isDelete=true;
-        title = GameObject.Find("title").GetComponent<Text>();
         name = GameObject.Find("name").GetComponent<InputField>();
         year = GameObject.Find("year").GetComponent<InputField>();
         pw = GameObject.Find("pw").GetComponent<InputField>();
@@ -26,10 +25,9 @@ public class Form : MonoBehaviour
         delete = GameObject.Find("del").GetComponent<Button>();
         msg = GameObject.Find("msg").GetComponent<Text>();
         
-        title.text=$"{Session.session.UserId}님의 정보";
         SetInputField(ref name,Session.session.Name);
         SetInputField(ref year,Session.session.Year);
-        if(Session.session.Gender=="남자")
+        if(Session.session.Gender=="Male")
             man.isOn=true;
         
         put.onClick.AddListener(() =>
@@ -59,15 +57,15 @@ public class Form : MonoBehaviour
     }
     IEnumerator Put()
     {
-        string gender = man.isOn ? "남자" : "여자";
+        string gender = man.isOn ? "Male" : "Female";
         int iYear=int.Parse(year.text);
         msg.color = new Color(1, 1, 1);
-        msg.text = "수정중";
+        msg.text = "Updating...";
         isUpdate = false;
         if ( pw.text == "" || year.text == "" || name.text == "")
         {
             msg.color = new Color(1, 0, 0);
-            msg.text = "정보들을 입력해주세요";
+            msg.text = "Please enter all information";
             isUpdate = true;
             yield break;//끝내기
         }
@@ -75,7 +73,7 @@ public class Form : MonoBehaviour
         if (int.Parse(year.text) > today || int.Parse(year.text) < today - 100)
         {
             msg.color = new Color(1, 0, 0);
-            msg.text = "태어난 연도가 이상합니다";
+            msg.text = "Birth year is not valid";
             isUpdate = true;
             yield break;//끝내기
         }
@@ -101,14 +99,14 @@ public class Form : MonoBehaviour
                     Json<string> json = JsonUtility.FromJson<Json<string>>(www.downloadHandler.text);
                     Debug.Log("JSON 파싱 결과: " + JsonUtility.ToJson(json));
                     Session.session.UpdateInfo(name.text, gender, iYear);
-                    msg.color=new Color(1,1,1,json.result=="수정 완료"?1:0);
+                    msg.color=new Color(1,1,1,json.result=="Update complete"?1:0);
                     msg.text=json.result;
                 }
                 catch (Exception e)
                 {
                     Debug.LogError("JSON 파싱 오류: " + e.Message);
                     msg.color = new Color(1, 0, 0);
-                    msg.text = "회원가입에 실패했습니다. (응답 처리 오류)";
+                    msg.text = "Sign up failed. (Response processing error)";
                     isUpdate = true;
                 }
             }
@@ -116,7 +114,7 @@ public class Form : MonoBehaviour
             {
                 Debug.LogError("웹 요청 오류: " + www.error);
                 msg.color = new Color(1, 0, 0);
-                msg.text = "회원가입에 실패했습니다. (서버 연결 오류)";
+                msg.text = "Sign up failed. (Server connection error)";
                 isUpdate = true;
             }
         }
@@ -140,7 +138,7 @@ public class Form : MonoBehaviour
             {
                 Debug.LogError("웹 요청 오류: " + www.error);
                 msg.color = new Color(1, 0, 0);
-                msg.text = "서버 접속 안됨";
+                msg.text = "Server connection failed";
                 isDelete = true;
             }
         }
