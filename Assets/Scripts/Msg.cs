@@ -14,6 +14,9 @@ public class Msg : MonoBehaviour
     public string text{
         set=>msg.text=value;
     }
+    /// <summary>
+/// Sets the ID and updates the text color based on whether the session's user ID matches the provided ID.
+/// </summary>
     public string id{
         set{
             _id=value;
