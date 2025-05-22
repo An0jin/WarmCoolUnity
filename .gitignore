@@ -2,6 +2,7 @@
 !.gitignore
 !./Assets
 !./Assets/**
+!./Assets/Scripts/**
 ./Assets/Scripts/Env.cs
 !./Packages
 !./Packages/**
