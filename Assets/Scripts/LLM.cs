@@ -43,6 +43,7 @@ public class LLM : MonoBehaviour
         form.AddField("user_id", Session.session.UserId);
         form.AddField("msg", prompt.text);
         form.AddField("color_id", Session.session.ColorId);
+        prompt.text="";
         using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("llm"), form))
         {
             yield return www.SendWebRequest();
