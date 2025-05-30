@@ -32,7 +32,7 @@ public class Session : MonoBehaviour
     public string Gender { get; private set; }
     public int Year { get; private set; }
     public string ColorId { get; private set; }
-    public string HexCode { get;  set; }
+    public string HexCode {set;get;}
     public string Description { get; private set; }
     public bool isGeust{get;set;}
     public string chatid { 
@@ -43,8 +43,6 @@ public class Session : MonoBehaviour
         get=>server.AppSettings.AppIdRealtime;
         set=>server.AppSettings.AppIdRealtime=value;
     }
-
-
     private void Awake()
     {
         // Application.runInBackground = true;

@@ -44,6 +44,12 @@ public class LLM : MonoBehaviour
         form.AddField("msg", prompt.text);
         form.AddField("color_id", Session.session.ColorId);
         prompt.text="";
+        Text placeholder=prompt.placeholder.GetComponent<Text>();
+        string placeholder_text=placeholder.text;
+        placeholder.text="Loading result...";
+        prompt.interactable=false;
+        submit.interactable=false;
+        cls.interactable=false;
         using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("llm"), form))
         {
             yield return www.SendWebRequest();
@@ -54,10 +60,17 @@ public class LLM : MonoBehaviour
                 Json<string> colorJson = JsonUtility.FromJson<Json<string>>(json);
                 Session.session.HexCode = colorJson.result;
                 canSubmit = true;
+                placeholder.text=placeholder_text;
+                prompt.interactable=true;
+                submit.interactable=true;
+                cls.interactable=true;
                 gameObject.SetActive(false);
             }else{
                 canSubmit = true;
-                gameObject.SetActive(false);
+                placeholder.text=placeholder_text;
+                prompt.interactable=true;
+                submit.interactable=true;
+                cls.interactable=true;
                 print(www.error);
             }
         }

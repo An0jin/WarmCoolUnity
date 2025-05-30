@@ -47,7 +47,6 @@ public class Form : MonoBehaviour
     /// </summary>
     void Update()
     {
-        
         if(Input.GetKeyDown(KeyCode.Escape)){
             SceneManager.LoadScene(3);
         }

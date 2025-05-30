@@ -12,21 +12,22 @@ public class MakeUp : MonoBehaviour
     {
         faceManager = GetComponent<ARFaceManager>();
     }
-    
+
     void Update()
     {
         Color color;
-        ColorUtility.TryParseHtmlString(Session.session.HexCode,out color);
+        ColorUtility.TryParseHtmlString(Session.session.HexCode, out color);
         foreach (ARFace face in faceManager.trackables)
         {
-
             var meshRenderer = face.GetComponent<MeshRenderer>();
             if (meshRenderer != null)
+            {
+                color.a = meshRenderer.material.color.a;
                 meshRenderer.material.color = color;
+            }
         }
-        if(Input.GetKeyDown(KeyCode.Escape)){
+        if (Input.GetKeyDown(KeyCode.Escape))
             SceneManager.LoadScene(0);
-        }
-        
+
     }
 }
