@@ -77,7 +77,6 @@ public class Chat : MonoBehaviour, IChatClientListener
     public void OnConnected()
     {
         chatClient.Subscribe(Session.session.ColorId);
-        // chatClient.Subscribe("WarmTone");
     }
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
