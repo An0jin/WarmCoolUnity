@@ -70,7 +70,7 @@ FastAPI 서버와 YOLOv11-CLS 모델을 연동하여 퍼스널 컬러를 분류�
 - ### 참고 이미지
     - [![AR Face Assets](https://img.shields.io/badge/-AR%20Face%20Assets-000000?style=flat&logo=unity&logoColor=white)](https://assetstore.unity.com/packages/essentials/asset-packs/ar-face-assets-184187)
 
-- ### UI/UX 이미지
-    - ![ChatGPT 4.0](https://img.shields.io/badge/-ChatGPT%204.0-74AA9C?style=flat&logo=openai&logoColor=white)
-    - ![Photoshop](https://img.shields.io/badge/-Photoshop-31A8FF?style=flat&logo=adobe-photoshop&logoColor=white)
+## 🎨 UI/UX 디자인
+- ![ChatGPT 4.0](https://img.shields.io/badge/-ChatGPT%204.0-74AA9C?style=flat&logo=openai&logoColor=white)
+- ![Photoshop](https://img.shields.io/badge/-Photoshop-31A8FF?style=flat&logo=adobe-photoshop&logoColor=white)
 
