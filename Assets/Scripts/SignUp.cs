@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 public class SignUp : MonoBehaviour
 {
@@ -42,6 +43,8 @@ public class SignUp : MonoBehaviour
     }
     IEnumerator SignUP()
     {
+        string idPattern = "^[a-zA-Z0-9]{8,16}$";
+        string pwPattern = "^[a-zA-Z0-9`~!@#$%^&*()_\\-+=\\[\\]{}|;:'\",<.>/?]{8,16}$";
         string gender = man.isOn ? "Male" : "Female";
         int iYear=int.Parse(year.text);
         msg.color = new Color(1, 1, 1);
@@ -61,6 +64,20 @@ public class SignUp : MonoBehaviour
             msg.text = "Birth year is not valid";
             isSignUp = true;
             yield break;//끝내기
+        }
+        if (!Regex.IsMatch(id.text, idPattern))
+        {
+            msg.color = new Color(1, 0, 0);
+            msg.text = "The ID must be composed of only English letters and numbers and must be between 8 and 16 characters long.";
+            isSignUp = true;
+            yield break;
+        }
+        if (!Regex.IsMatch(pw.text, pwPattern))
+        {
+            msg.color = new Color(1, 0, 0);
+            msg.text = "The password must be composed of only English letters and numbers and special characters and must be between 8 and 16 characters long.";
+            isSignUp = true;
+            yield break;
         }
         WWWForm form = new WWWForm();
         form.AddField("user_id", id.text);
