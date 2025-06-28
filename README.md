@@ -14,7 +14,7 @@ FastAPI 서버와 YOLOv11-CLS 모델을 연동하여 퍼스널 컬러를 분류�
 - 🛰 FastAPI 서버로 이미지 전송 및 분석 결과 수신
 - 💄 분석 결과에 따라 AR 가상 메이크업 적용
 - 💬 Photon Chat으로 같은 퍼스널 컬러 그룹 사용자 간 실시간 채팅
-
+- 🤖 LLM 기반 상황과 퍼스널 컬러에 맞는 립스틱 추천
 ---
 
 
@@ -63,12 +63,6 @@ FastAPI 서버와 YOLOv11-CLS 모델을 연동하여 퍼스널 컬러를 분류�
 
 ---
 
-## 🛠 사용 기술
-
-- ![Unity](https://img.shields.io/badge/-Unity-000000?style=flat&logo=unity&logoColor=white)
-- ![ARFoundation](https://img.shields.io/badge/-ARFoundation(Unity)-000000?style=flat&logo=unity&logoColor=white)
-- ![Photon Chat](https://img.shields.io/badge/-Photon%20Chat(Unity)-004480?style=flat&logo=photon&logoColor=white)
----
 
 ## 🖼️ 에셋 출처
 
@@ -78,7 +72,17 @@ FastAPI 서버와 YOLOv11-CLS 모델을 연동하여 퍼스널 컬러를 분류�
 - ### 참고 이미지
     - [![AR Face Assets](https://img.shields.io/badge/-AR%20Face%20Assets-000000?style=flat&logo=unity&logoColor=white)](https://assetstore.unity.com/packages/essentials/asset-packs/ar-face-assets-184187)
 
-## 🎨 UI/UX 디자인
+
+---
+
+## 🛠 사용 기술
+
+### 🧑‍💻 코딩
+
+- ![Unity](https://img.shields.io/badge/-Unity-000000?style=flat&logo=unity&logoColor=white)
+- ![ARFoundation](https://img.shields.io/badge/-ARFoundation(Unity)-000000?style=flat&logo=unity&logoColor=white)
+- ![Photon Chat](https://img.shields.io/badge/-Photon%20Chat(Unity)-004480?style=flat&logo=photon&logoColor=white)
+
+### 🎨 UI/UX 디자인
 - ![ChatGPT 4.0](https://img.shields.io/badge/-ChatGPT%204.0-74AA9C?style=flat&logo=openai&logoColor=white)
 - ![Photoshop](https://img.shields.io/badge/-Photoshop-31A8FF?style=flat&logo=adobe-photoshop&logoColor=white)
-
