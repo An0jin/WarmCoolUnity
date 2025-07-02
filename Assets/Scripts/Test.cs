@@ -9,9 +9,11 @@ using UnityEngine.UI;
 public class Test : MonoBehaviour
 {
     Button btn;
+    Text msg;
     bool canClick;
     void Start()
     {
+        msg=GameObject.Find("MSG").GetComponent<Text>();
         canClick = true;
         btn = GetComponent<Button>();
         btn.onClick.AddListener(()=>{
@@ -50,13 +52,19 @@ public class Test : MonoBehaviour
             if (www.result == UnityWebRequest.Result.Success)
             {
                 ColorJson colorJson=JsonUtility.FromJson<ColorJson>(www.downloadHandler.text);
-                Session.session.Predict(colorJson);
-                SceneManager.LoadScene(3);
+                print(colorJson.color_id);
+                if(colorJson.description!=""){
+                    Session.session.Predict(colorJson);
+                    SceneManager.LoadScene(3);
+                }else{
+                    msg.text=colorJson.color_id;
+                }
             }
         }
     }
     void SetBtn(bool isShow)
     {
+        msg.text="";
         Text text = btn.transform.GetChild(0).GetComponent<Text>();
         ColorBlock color = btn.colors;
         color.normalColor = new Color(1, 1, 1, isShow ? 1 : 0);

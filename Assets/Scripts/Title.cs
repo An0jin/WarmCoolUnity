@@ -15,6 +15,7 @@ public class Title : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(Test());
         isSignIn = true;
         id = GameObject.Find("id").GetComponent<InputField>();
         pw = GameObject.Find("pw").GetComponent<InputField>();
@@ -94,6 +95,14 @@ public class Title : MonoBehaviour
                 msg.text = "Sign up failed. (Server connection error)";
                 isSignIn = true;
             }
+        }
+    }
+    IEnumerator Test()
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get(Env.Api("")))
+        {
+            yield return www.SendWebRequest();
+            Debug.Log("서버 응답 내용: " + www.downloadHandler.text);
         }
     }
 }

@@ -36,11 +36,9 @@ public class Session : MonoBehaviour
     public string Description { get; private set; }
     public bool isGeust{get;set;}
     public string chatid { 
-        get=>server.AppSettings.AppIdChat;
         set=>server.AppSettings.AppIdChat=value;
     }
     public string punid { 
-        get=>server.AppSettings.AppIdRealtime;
         set=>server.AppSettings.AppIdRealtime=value;
     }
     private void Awake()
