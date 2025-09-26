@@ -476,7 +476,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: submit
+  m_Text: "AI\uC5D0\uAC8C \uC9C8\uBB38\uD558\uAE30"
 --- !u!222 &249319493
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -751,7 +751,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: close
+  m_Text: "\uB2EB\uAE30"
 --- !u!222 &647592773
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1365,8 +1365,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 237.49284, y: -121}
-  m_SizeDelta: {x: 474.9857, y: 71.518616}
+  m_AnchoredPosition: {x: 400, y: -121}
+  m_SizeDelta: {x: 800, y: 71.5186}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &973793842
 MonoBehaviour:
@@ -1416,7 +1416,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Test Results
+  m_Text: 'Test Results : springwarm'
 --- !u!222 &973793844
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2885,7 +2885,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter text...
+  m_Text: "\uC0C1\uD669\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694"
 --- !u!222 &1747890489
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2976,8 +2976,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 761122715}
   m_HandleRect: {fileID: 761122714}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.99999946
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3060,7 +3060,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -50, y: 325}
+  m_AnchoredPosition: {x: -50, y: 270}
   m_SizeDelta: {x: 100, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1945464910
@@ -3093,9 +3093,9 @@ MonoBehaviour:
     m_Left: 0
     m_Right: 0
     m_Top: 0
-    m_Bottom: 30
+    m_Bottom: 20
   m_ChildAlignment: 0
-  m_Spacing: 30
+  m_Spacing: 10
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -3312,7 +3312,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 545206535}
   m_HandleRect: {fileID: 545206534}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

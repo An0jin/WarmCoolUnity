@@ -46,7 +46,7 @@ public class LLM : MonoBehaviour
         prompt.text="";
         Text placeholder=prompt.placeholder.GetComponent<Text>();
         string placeholder_text=placeholder.text;
-        placeholder.text="Loading result...";
+        placeholder.text="AI가 생각하고 있습니다.";
         prompt.interactable=false;
         submit.interactable=false;
         cls.interactable=false;

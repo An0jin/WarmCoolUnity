@@ -46,11 +46,11 @@ public class Title : MonoBehaviour
         print("Button pressed");
         isSignIn = false;
         msg.color = new Color(1, 1, 1);
-        msg.text = "Logging in...";
+        msg.text = "로그인 중...";
         if (id.text == "" || pw.text == "")
         {
             msg.color = new Color(1, 0, 0);
-            msg.text = "Please enter ID and password";
+            msg.text = "ID와 비밀번호를 입력해주세요.";
             isSignIn = true;
             yield break;
         }
@@ -84,7 +84,7 @@ public class Title : MonoBehaviour
                 {
                     Debug.LogError("JSON 파싱 오류: " + e.Message);
                     msg.color = new Color(1, 0, 0);
-                    msg.text = "Login failed";
+                    msg.text = "로그인 실패. (응답 처리 오류)";
                     isSignIn = true;
                 }
             }
@@ -92,7 +92,7 @@ public class Title : MonoBehaviour
             {
                 Debug.LogError("웹 요청 오류: " + www.error);
                 msg.color = new Color(1, 0, 0);
-                msg.text = "Sign up failed. (Server connection error)";
+                msg.text = "로그인 실패. (서버 연결 오류)";
                 isSignIn = true;
             }
         }

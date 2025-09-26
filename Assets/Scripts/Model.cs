@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 [Serializable]
 public class InfoJson{
-    public string user_id,name,gender,hex_code, color_id,msg,description;
+    public string user_id,name,gender,hex_code, color_id,msg,description,token;
     public int year;
 }
 [Serializable]

@@ -52,7 +52,7 @@ public class Chat : MonoBehaviour, IChatClientListener
     {
         chatClient.PublishMessage(Session.session.ColorId, input.text);
         WWWForm form = new WWWForm();
-        form.AddField("user_id", Session.session.UserId);
+        form.AddField("token", Session.session.Token);
         form.AddField("msg", input.text);
         input.text = "";
         using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("chat"), form))

@@ -59,12 +59,12 @@ public class Form : MonoBehaviour
         string gender = man.isOn ? "Male" : "Female";
         int iYear=int.Parse(year.text);
         msg.color = new Color(1, 1, 1);
-        msg.text = "Updating...";
+        msg.text = "수정중";
         isUpdate = false;
         if ( pw.text == "" || year.text == "" || name.text == "")
         {
             msg.color = new Color(1, 0, 0);
-            msg.text = "Please enter all information";
+            msg.text = "모든정보를 입력해주세요";
             isUpdate = true;
             yield break;//끝내기
         }
@@ -72,7 +72,7 @@ public class Form : MonoBehaviour
         if (int.Parse(year.text) > today || int.Parse(year.text) < today - 100)
         {
             msg.color = new Color(1, 0, 0);
-            msg.text = "Birth year is not valid";
+            msg.text = "태어난 연도가 이상합니다";
             isUpdate = true;
             yield break;//끝내기
         }
@@ -105,7 +105,7 @@ public class Form : MonoBehaviour
                 {
                     Debug.LogError("JSON 파싱 오류: " + e.Message);
                     msg.color = new Color(1, 0, 0);
-                    msg.text = "Sign up failed. (Response processing error)";
+                    msg.text = "수정 실패. (응답 처리 오류)";
                     isUpdate = true;
                 }
             }
@@ -113,7 +113,7 @@ public class Form : MonoBehaviour
             {
                 Debug.LogError("웹 요청 오류: " + www.error);
                 msg.color = new Color(1, 0, 0);
-                msg.text = "Sign up failed. (Server connection error)";
+                msg.text = "수정 실패. (서버 연결 오류)";
                 isUpdate = true;
             }
         }
@@ -137,7 +137,7 @@ public class Form : MonoBehaviour
             {
                 Debug.LogError("웹 요청 오류: " + www.error);
                 msg.color = new Color(1, 0, 0);
-                msg.text = "Server connection failed";
+                msg.text = "삭제 실패. (서버 연결 오류)";
                 isDelete = true;
             }
         }

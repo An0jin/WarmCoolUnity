@@ -25,11 +25,11 @@ public class Test : MonoBehaviour
     IEnumerator Capture()
     {
         canClick = false;
-        SetBtn(false);//Hide the button
+        SetBtn=false;//Hide the button
         yield return new WaitForEndOfFrame();
         var img = ScreenCapture.CaptureScreenshotAsTexture();
         StartCoroutine(Post(img.EncodeToJPG()));
-        SetBtn(true);//Show the button
+        SetBtn=true;//Show the button
     }
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
@@ -58,17 +58,21 @@ public class Test : MonoBehaviour
                     SceneManager.LoadScene(3);
                 }else{
                     msg.text=colorJson.color_id;
+                    SetBtn=true;
+                    yield return new WaitForSeconds(2);
+                    msg.text="";
                 }
             }
         }
     }
-    void SetBtn(bool isShow)
-    {
-        msg.text="";
-        Text text = btn.transform.GetChild(0).GetComponent<Text>();
-        ColorBlock color = btn.colors;
-        color.normalColor = new Color(1, 1, 1, isShow ? 1 : 0);
-        btn.colors = color;
-        text.text = isShow ? "Predicting..." : "";
+    bool SetBtn{
+        set{
+            msg.text="";
+            Text text = btn.transform.GetChild(0).GetComponent<Text>();
+            ColorBlock color = btn.colors;
+            color.normalColor = new Color(1, 1, 1, value ? 1 : 0);
+            btn.colors = color;
+            text.text = value ? "Predicting..." : "";
+        }
     }
 }

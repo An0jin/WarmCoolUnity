@@ -27,6 +27,7 @@ public class Session : MonoBehaviour
     }
 
     
+    public string Token { get; private set; }
     public string UserId { get; private set; }
     public string Name { get; private set; }
     public string Gender { get; private set; }
@@ -62,6 +63,7 @@ public class Session : MonoBehaviour
         ColorId = json.color_id;
         HexCode = json.hex_code;
         Description = json.description;
+        Token = json.token;
     }
 
     public void SignIn(string userId, string name, string gender, int year)

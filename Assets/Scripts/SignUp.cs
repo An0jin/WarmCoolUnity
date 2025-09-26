@@ -48,12 +48,12 @@ public class SignUp : MonoBehaviour
         string gender = man.isOn ? "Male" : "Female";
         int iYear=int.Parse(year.text);
         msg.color = new Color(1, 1, 1);
-        msg.text = "Signing up...";
+        msg.text = "회원가입 중...";
         isSignUp = false;
         if (id.text == "" || pw.text == "" || year.text == "" || name.text == "")
         {
             msg.color = new Color(1, 0, 0);
-            msg.text = "Please enter all information";
+            msg.text = "모든 정보를 입력해주세요.";
             isSignUp = true;
             yield break;//끝내기
         }
@@ -68,14 +68,14 @@ public class SignUp : MonoBehaviour
         if (!Regex.IsMatch(id.text, idPattern))
         {
             msg.color = new Color(1, 0, 0);
-            msg.text = "The ID must be composed of only English letters and numbers and must be between 8 and 16 characters long.";
+            msg.text = "ID는 영문과 숫자로 구성되어야 하며 8~16자리여야 합니다.";
             isSignUp = true;
             yield break;
         }
         if (!Regex.IsMatch(pw.text, pwPattern))
         {
             msg.color = new Color(1, 0, 0);
-            msg.text = "The password must be composed of only English letters and numbers and special characters and must be between 8 and 16 characters long.";
+            msg.text = "비밀번호는 영문과 숫자, 특수문자로 구성되어야 하며 8~16자리여야 합니다.";
             isSignUp = true;
             yield break;
         }
@@ -112,7 +112,7 @@ public class SignUp : MonoBehaviour
                 {
                     Debug.LogError("JSON 파싱 오류: " + e.Message);
                     msg.color = new Color(1, 0, 0);
-                    msg.text = "Sign up failed. (Response processing error)";
+                    msg.text = "Sign up failed. (응답 처리 오류)";
                     isSignUp = true;
                 }
             }
@@ -120,7 +120,7 @@ public class SignUp : MonoBehaviour
             {
                 Debug.LogError("웹 요청 오류: " + www.error);
                 msg.color = new Color(1, 0, 0);
-                msg.text = "Sign up failed. (Server connection error)";
+                msg.text = "Sign up failed. (서버 연결 오류)";
                 isSignUp = true;
             }
         }
