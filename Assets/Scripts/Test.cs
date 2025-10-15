@@ -72,7 +72,7 @@ public class Test : MonoBehaviour
             ColorBlock color = btn.colors;
             color.normalColor = new Color(1, 1, 1, value ? 1 : 0);
             btn.colors = color;
-            text.text = value ? "Predicting..." : "";
+            text.text = value ? "예축하는중(오래걸릴수 있음)" : "";
         }
     }
 }

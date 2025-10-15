@@ -7,29 +7,18 @@ using UnityEngine.UI;
 
 public class LLM : MonoBehaviour
 {
-    Button cls;
-    Button open;
     Button submit;
     InputField prompt;
+    Button cls;
     bool canSubmit;
 
     void Awake()
     {
         canSubmit = true;
-        cls = transform.GetChild(2).GetComponent<Button>();
-        open = GameObject.Find("open").GetComponent<Button>();
         prompt = transform.GetChild(0).GetComponent<InputField>();
         submit = transform.GetChild(1).GetComponent<Button>();
-        gameObject.SetActive(false);
-        cls.onClick.AddListener(() =>
-        {
-            if (canSubmit)
-                gameObject.SetActive(false);
-        });
-        open.onClick.AddListener(() =>
-        {
-            gameObject.SetActive(true);
-        });
+        cls = transform.GetChild(2).GetComponent<Button>();
+
         submit.onClick.AddListener(() =>
         {
             if (canSubmit)
