@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using WebSocketSharp;
 
 public class Title : MonoBehaviour
 {
@@ -67,11 +67,11 @@ public class Title : MonoBehaviour
                 try
                 {
                     InfoJson json = JsonUtility.FromJson<InfoJson>(www.downloadHandler.text);
-                    if (json.msg == "성공" || json.msg == "Success")
+                    if (json.msg == "성공")
                     {
                         Session.session.isGeust=false;
                         Session.session.Login(json);
-                        SceneManager.LoadScene(Session.session.HexCode.IsNullOrEmpty() ? 2 : 3);
+                        SceneManager.LoadScene(string.IsNullOrEmpty(Session.session.HexCode) ? 2 : 3);
                     }
                     else
                     {

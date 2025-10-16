@@ -89,7 +89,7 @@ public class SignUp : MonoBehaviour
         form.AddField("year",iYear);
         Debug.Log($"year : {iYear}");
         form.AddField("gender", gender);
-        Debug.Log($"gender : {gender}");
+        Debug.Log($"gender : {gender}"); 
         using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("user"), form))
         {
             yield return www.SendWebRequest();
@@ -103,10 +103,20 @@ public class SignUp : MonoBehaviour
                 try
                 {
                     Json<string> json = JsonUtility.FromJson<Json<string>>(www.downloadHandler.text);
-                    Debug.Log("JSON 파싱 결과: " + JsonUtility.ToJson(json));
-                    Session.session.SignIn(id.text, name.text, gender, iYear);
-                    Session.session.isGeust=false;
-                    SceneManager.LoadScene(2);
+                    if (json.result == "Sign up complete")
+                    {
+
+                        Session.session.SignIn(id.text, name.text, gender, iYear);
+                        Session.session.isGeust = false;
+                        SceneManager.LoadScene(2);
+                    } else
+                    {
+                    msg.color = new Color(1, 0, 0);
+                    msg.text = "Sign up failed. (응답 처리 오류)";
+                    isSignUp = true;
+
+                    
+                    }
                 }
                 catch (Exception e)
                 {
