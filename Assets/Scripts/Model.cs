@@ -31,5 +31,6 @@ SignUp,
 Test,
     Result,
     Chat,
-    Update
+    Update,
+    GetPW
 }

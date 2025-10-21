@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class Title : MonoBehaviour
 {
     [SerializeField]InputField id, pw;
-    [SerializeField]Button signIn,geust,signUp;
+    [SerializeField]Button signIn,geust,signUp,getPw;
     bool isSignIn;
     [SerializeField]Text msg, loading;
     // Start is called before the first frame update
@@ -36,6 +36,7 @@ public class Title : MonoBehaviour
         signIn.gameObject.SetActive(!show);
         signUp.gameObject.SetActive(!show);
         geust.gameObject.SetActive(!show);
+        getPw.gameObject.SetActive(!show);
     }
 
     // Update is called once per frame
@@ -125,6 +126,10 @@ public class Title : MonoBehaviour
                     loading.text = "업데이트 필요";
                     Application.Quit();
                 }
+            }
+            else
+            {
+                msg.text="서버 정검중이거나 서버에 문제가 생겼습니다";
             }
         }
     }

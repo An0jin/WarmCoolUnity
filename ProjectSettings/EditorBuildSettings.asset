@@ -23,6 +23,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Update.unity
     guid: 3526dbd2bcb58a546a5bf3a00ec646ed
+  - enabled: 1
+    path: Assets/Scenes/GetPW.unity
+    guid: 1b0e656ae5477a2418852f087eba706f
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 05d0f42aa2a683a4496f00437cc50936, type: 2}
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: e210018184c39e84bbace46ad677fe0d, type: 2}
