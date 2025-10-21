@@ -8,30 +8,34 @@ using UnityEngine.UI;
 
 public class Title : MonoBehaviour
 {
-    InputField id, pw;
-    Button SignIn,geust;
+    [SerializeField]InputField id, pw;
+    [SerializeField]Button signIn,geust,signUp;
     bool isSignIn;
-    Text msg;
+    [SerializeField]Text msg, loading;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Test());
+        StartCoroutine(CheckVersion());
         isSignIn = true;
-        id = GameObject.Find("id").GetComponent<InputField>();
-        pw = GameObject.Find("pw").GetComponent<InputField>();
-        SignIn = GameObject.Find("SignIn").GetComponent<Button>();
-        geust = GameObject.Find("Geust").GetComponent<Button>();
-        msg = GameObject.Find("msg").GetComponent<Text>();
-        SignIn.onClick.AddListener(() =>
+        signIn.onClick.AddListener(() =>
         {
             if (isSignIn)
                 StartCoroutine(LogIn());
         });
         geust.onClick.AddListener(() =>
         {
-            Session.session.isGeust=true;
+            Session.session.isGeust = true;
             SceneManager.LoadScene(2);
         });
+        SetLoading(true);
+    }
+    void SetLoading(bool show){
+        loading.gameObject.SetActive(show);
+        id.gameObject.SetActive(!show);
+        pw.gameObject.SetActive(!show);
+        signIn.gameObject.SetActive(!show);
+        signUp.gameObject.SetActive(!show);
+        geust.gameObject.SetActive(!show);
     }
 
     // Update is called once per frame
@@ -71,7 +75,7 @@ public class Title : MonoBehaviour
                     {
                         Session.session.isGeust=false;
                         Session.session.Login(json);
-                        SceneManager.LoadScene(string.IsNullOrEmpty(Session.session.HexCode) ? 2 : 3);
+                        SceneManager.LoadScene((int)(string.IsNullOrEmpty(Session.session.HexCode) ? Scene.Test : Scene.Result));
                     }
                     else
                     {
@@ -97,12 +101,31 @@ public class Title : MonoBehaviour
             }
         }
     }
-    IEnumerator Test()
+    IEnumerator CheckVersion()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get(Env.Api("")))
+        using (UnityWebRequest www = UnityWebRequest.Get(Env.Api($"/version/{Application.version}")))
         {
             yield return www.SendWebRequest();
-            Debug.Log("서버 응답 내용: " + www.downloadHandler.text);
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                Json<bool> json = JsonUtility.FromJson<Json<bool>>(www.downloadHandler.text);
+                if (json.result)
+                {
+                    SetLoading(false);
+                }
+                else
+                {
+                    string url = "";
+                    #if UNITY_IOS
+                        url = "나중에 만들예정";
+                    #else
+                        url = "https://play.google.com/store/apps/details?id=com.an0jin.Toneiverse";
+#endif
+                    Application.OpenURL(url);
+                    loading.text = "업데이트 필요";
+                    Application.Quit();
+                }
+            }
         }
     }
 }

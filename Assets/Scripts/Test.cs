@@ -9,11 +9,10 @@ using UnityEngine.UI;
 public class Test : MonoBehaviour
 {
     Button btn;
-    Text msg;
+    [SerializeField]Text msg;
     bool canClick;
     void Start()
     {
-        msg=GameObject.Find("MSG").GetComponent<Text>();
         canClick = true;
         btn = GetComponent<Button>();
         btn.onClick.AddListener(()=>{
@@ -55,7 +54,7 @@ public class Test : MonoBehaviour
                 print(colorJson.color_id);
                 if(colorJson.description!=""){
                     Session.session.Predict(colorJson);
-                    SceneManager.LoadScene(3);
+                    SceneManager.LoadScene((int)Scene.Result);
                 }else{
                     msg.text=colorJson.color_id;
                     SetBtn=true;
@@ -72,7 +71,7 @@ public class Test : MonoBehaviour
             ColorBlock color = btn.colors;
             color.normalColor = new Color(1, 1, 1, value ? 1 : 0);
             btn.colors = color;
-            text.text = value ? "예축하는중(오래걸릴수 있음)" : "";
+            text.text = value ? "예축하는중" : "";
         }
     }
 }

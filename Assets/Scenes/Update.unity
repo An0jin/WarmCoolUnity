@@ -1527,7 +1527,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD0DC\uC5B4\uB09C \uC5F0\uB3C4"
+  m_Text: "\uC774\uBA54\uC77C"
 --- !u!222 &1017210989
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1641,6 +1641,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a98c8b9a0e4e8746a92fa4670db45dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  put: {fileID: 85452558}
+  delete: {fileID: 567835704}
+  name: {fileID: 1500356088}
+  pw: {fileID: 1452042124}
+  email: {fileID: 1217695376}
+  man: {fileID: 567746158}
+  msg: {fileID: 1521097683}
 --- !u!1 &1137628343
 GameObject:
   m_ObjectHideFlags: 0
@@ -1733,7 +1740,7 @@ GameObject:
   - component: {fileID: 1217695377}
   - component: {fileID: 1217695376}
   m_Layer: 5
-  m_Name: year
+  m_Name: email
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1803,13 +1810,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1217695377}
   m_TextComponent: {fileID: 71177961}
   m_Placeholder: {fileID: 1017210988}
-  m_ContentType: 0
+  m_ContentType: 6
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 7
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 5
   m_CharacterLimit: 0
   m_OnSubmit:
     m_PersistentCalls:

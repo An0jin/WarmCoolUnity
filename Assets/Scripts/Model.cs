@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 [Serializable]
 public class InfoJson{
-    public string user_id,name,gender,hex_code, color_id,msg,description,token;
-    public int year;
+    public string user_id,name,gender,hex_code, color_id,msg,description,token,email;
 }
 [Serializable]
 public class Json<T>{
@@ -21,6 +20,16 @@ public class ColorJson{
 }
 
 [Serializable]
-public class Message{
+public class Message
+{
     public string chat_id, name, msg;
+}
+enum Scene
+{
+    Title,
+SignUp,
+Test,
+    Result,
+    Chat,
+    Update
 }

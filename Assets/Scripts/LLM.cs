@@ -7,9 +7,9 @@ using UnityEngine.UI;
 
 public class LLM : MonoBehaviour
 {
-    Button submit;
-    InputField prompt;
-    Button cls;
+    [SerializeField]Button submit;
+    [SerializeField]InputField prompt;
+    [SerializeField]Button cls;
     bool canSubmit;
 
     void Awake()

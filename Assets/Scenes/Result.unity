@@ -2533,6 +2533,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f94c32665109df489712b72eafef186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  submit: {fileID: 486158276}
+  prompt: {fileID: 77374003}
+  cls: {fileID: 1430574107}
 --- !u!1 &1061668244
 GameObject:
   m_ObjectHideFlags: 0
@@ -4199,7 +4202,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 761122714}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9999997
+  m_Size: 0.99999946
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

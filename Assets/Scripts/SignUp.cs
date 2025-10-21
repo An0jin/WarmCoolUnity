@@ -9,22 +9,15 @@ using System.Text.RegularExpressions;
 
 public class SignUp : MonoBehaviour
 {
-    Button signUP;
-    InputField id, name, year, pw;
+    [SerializeField]Button signUP;
+    [SerializeField]InputField id, name, pw,email;
     bool isSignUp;
-    Toggle man;
-    Text msg;
+    [SerializeField]Toggle man;
+    [SerializeField]Text msg;
     // Start is called before the first frame update
     void Start()
     {
         isSignUp = true;
-        id = GameObject.Find("id").GetComponent<InputField>();
-        name = GameObject.Find("name").GetComponent<InputField>();
-        year = GameObject.Find("year").GetComponent<InputField>();
-        pw = GameObject.Find("pw").GetComponent<InputField>();
-        man = GameObject.Find("man").GetComponent<Toggle>();
-        signUP = GameObject.Find("SignUP").GetComponent<Button>();
-        msg = GameObject.Find("msg").GetComponent<Text>();
         signUP.onClick.AddListener(() =>
         {
             if (isSignUp)
@@ -45,23 +38,22 @@ public class SignUp : MonoBehaviour
     {
         string idPattern = "^[a-zA-Z0-9]{8,16}$";
         string pwPattern = "^[a-zA-Z0-9`~!@#$%^&*()_\\-+=\\[\\]{}|;:'\",<.>/?]{8,16}$";
+        string emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.(com|net|org|kr)$";
         string gender = man.isOn ? "Male" : "Female";
-        int iYear=int.Parse(year.text);
         msg.color = new Color(1, 1, 1);
         msg.text = "회원가입 중...";
         isSignUp = false;
-        if (id.text == "" || pw.text == "" || year.text == "" || name.text == "")
+        if (id.text == "" || pw.text == "" || email.text == "" || name.text == "")
         {
             msg.color = new Color(1, 0, 0);
             msg.text = "모든 정보를 입력해주세요.";
             isSignUp = true;
             yield break;//끝내기
         }
-        int today = DateTime.Today.Year;
-        if (int.Parse(year.text) > today || int.Parse(year.text) < today - 100)
+        if (!Regex.IsMatch(email.text, emailPattern))
         {
             msg.color = new Color(1, 0, 0);
-            msg.text = "Birth year is not valid";
+            msg.text = "이메일이 이상합니다";
             isSignUp = true;
             yield break;//끝내기
         }
@@ -81,15 +73,10 @@ public class SignUp : MonoBehaviour
         }
         WWWForm form = new WWWForm();
         form.AddField("user_id", id.text);
-        Debug.Log($"id : {id.text}");
         form.AddField("pw", pw.text);
-        Debug.Log($"pw : {pw.text}");
         form.AddField("name", name.text);
-        Debug.Log($"name : {name.text}");
-        form.AddField("year",iYear);
-        Debug.Log($"year : {iYear}");
+        form.AddField("email",email.text);
         form.AddField("gender", gender);
-        Debug.Log($"gender : {gender}"); 
         using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("user"), form))
         {
             yield return www.SendWebRequest();
@@ -106,7 +93,7 @@ public class SignUp : MonoBehaviour
                     if (json.result == "Sign up complete")
                     {
 
-                        Session.session.SignIn(id.text, name.text, gender, iYear);
+                        Session.session.SignIn(id.text, name.text, gender, email.text);
                         Session.session.isGeust = false;
                         SceneManager.LoadScene(2);
                     } else

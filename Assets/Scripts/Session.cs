@@ -31,7 +31,7 @@ public class Session : MonoBehaviour
     public string UserId { get; private set; }
     public string Name { get; private set; }
     public string Gender { get; private set; }
-    public int Year { get; private set; }
+    public string Email { get; private set; }
     public string ColorId { get; private set; }
     public string HexCode {set;get;}
     public string Description { get; private set; }
@@ -59,26 +59,26 @@ public class Session : MonoBehaviour
         UserId = json.user_id;
         Name = json.name;
         Gender = json.gender;
-        Year = json.year;
+        Email = json.email;
         ColorId = json.color_id;
         HexCode = json.hex_code;
         Description = json.description;
         Token = json.token;
     }
 
-    public void SignIn(string userId, string name, string gender, int year)
+    public void SignIn(string userId, string name, string gender, string email)
     {
         UserId = userId;
         Name = name;
         Gender = gender;
-        Year = year;
+        Email = email;
     }
 
-    public void UpdateInfo(string name, string gender, int year)
+    public void UpdateInfo(string name, string gender, string email)
     {
         Name = name;
         Gender = gender;
-        Year = year;
+        Email = email;
     }
 
     public void Predict(ColorJson json)

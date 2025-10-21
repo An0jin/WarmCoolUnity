@@ -12,15 +12,13 @@ using UnityEngine.UI;
 public class Chat : MonoBehaviour, IChatClientListener
 {
     private ChatClient chatClient;
-    Button submit;
-    InputField input;
+    [SerializeField]Button submit;
+    [SerializeField]InputField input;
     bool isConn;
     void Awake()
     {
         isConn = false;
         chatClient = new ChatClient(this);
-        submit = GameObject.Find("submit").GetComponent<Button>();
-        input = GameObject.Find("input").GetComponent<InputField>();
         submit.onClick.AddListener(() =>
         {
             if (isConn)

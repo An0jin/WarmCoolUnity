@@ -5,7 +5,7 @@
 !/Assets/Scripts/
 !/Assets/Scripts/**
 !/Assets/Scripts/LLM.cs
-/Assets/Scripts/Env.cs
+/Assets/Scripts/Env*
 !/Packages/
 !/Packages/**
 !/ProjectSettings/
