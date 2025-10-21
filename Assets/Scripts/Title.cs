@@ -129,7 +129,7 @@ public class Title : MonoBehaviour
             }
             else
             {
-                msg.text="서버 정검중이거나 서버에 문제가 생겼습니다";
+                loading.text="서버 정검중이거나 서버에 문제가 생겼습니다";
             }
         }
     }
