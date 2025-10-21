@@ -20,11 +20,11 @@ public class GetPW : MonoBehaviour
     {
         WWWForm form=new WWWForm();
         form.AddField("email", email.text);
-        msg.text="아이디와 비밀번호 찾는중";
+        msg.text="아이디와 비밀번호 찾는중...";
         using(UnityWebRequest www=UnityWebRequest.Post(Env.Api("email"),form))
         {
             yield return www.SendWebRequest();
-            if(www.result!=UnityWebRequest.Result.Success)
+            if(www.result==UnityWebRequest.Result.Success)
             {
                 Json<string> json=JsonUtility.FromJson<Json<string>>(www.downloadHandler.text);
                 msg.text=json.result;
