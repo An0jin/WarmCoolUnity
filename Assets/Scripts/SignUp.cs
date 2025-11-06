@@ -6,13 +6,13 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using System.IO;
 
 public class SignUp : MonoBehaviour
 {
     [SerializeField]Button signUP;
-    [SerializeField]InputField id, name, pw,email;
+    [SerializeField]InputField name, pw,email,check;
     bool isSignUp;
-    [SerializeField]Toggle man;
     [SerializeField]Text msg;
     // Start is called before the first frame update
     void Start()
@@ -36,14 +36,12 @@ public class SignUp : MonoBehaviour
     }
     IEnumerator SignUP()
     {
-        string idPattern = "^[a-zA-Z0-9]{8,16}$";
         string pwPattern = "^[a-zA-Z0-9`~!@#$%^&*()_\\-+=\\[\\]{}|;:'\",<.>/?]{8,16}$";
         string emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.(com|net|org|kr)$";
-        string gender = man.isOn ? "Male" : "Female";
         msg.color = new Color(1, 1, 1);
         msg.text = "회원가입 중...";
         isSignUp = false;
-        if (id.text == "" || pw.text == "" || email.text == "" || name.text == "")
+        if (pw.text == "" || email.text == "" || name.text == "")
         {
             msg.color = new Color(1, 0, 0);
             msg.text = "모든 정보를 입력해주세요.";
@@ -57,13 +55,6 @@ public class SignUp : MonoBehaviour
             isSignUp = true;
             yield break;//끝내기
         }
-        if (!Regex.IsMatch(id.text, idPattern))
-        {
-            msg.color = new Color(1, 0, 0);
-            msg.text = "ID는 영문과 숫자로 구성되어야 하며 8~16자리여야 합니다.";
-            isSignUp = true;
-            yield break;
-        }
         if (!Regex.IsMatch(pw.text, pwPattern))
         {
             msg.color = new Color(1, 0, 0);
@@ -71,12 +62,17 @@ public class SignUp : MonoBehaviour
             isSignUp = true;
             yield break;
         }
+        if (pw.text!=check.text)
+        {
+            msg.color = new Color(1, 0, 0);
+            msg.text = "패스워드를 다시 확인해주세요.";
+            isSignUp = true;
+            yield break;
+        }
         WWWForm form = new WWWForm();
-        form.AddField("user_id", id.text);
         form.AddField("pw", pw.text);
         form.AddField("name", name.text);
         form.AddField("email",email.text);
-        form.AddField("gender", gender);
         using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("user"), form))
         {
             yield return www.SendWebRequest();
@@ -89,11 +85,14 @@ public class SignUp : MonoBehaviour
             {
                 try
                 {
-                    Json<string> json = JsonUtility.FromJson<Json<string>>(www.downloadHandler.text);
+                    SignUpJson json = JsonUtility.FromJson<SignUpJson>(www.downloadHandler.text);
                     if (json.result == "Sign up complete")
                     {
-
-                        Session.session.SignIn(id.text, name.text, gender, email.text);
+                        Token token=new Token();
+                        token.token=json.token;
+                        File.WriteAllText(Env.filePath,JsonUtility.ToJson(token));
+                        print(Env.filePath);
+                        Session.session.SignIn(name.text, email.text);
                         Session.session.isGeust = false;
                         SceneManager.LoadScene(2);
                     } else

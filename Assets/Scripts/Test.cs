@@ -52,9 +52,12 @@ public class Test : MonoBehaviour
     IEnumerator Post(byte[] img)
     {
         WWWForm form = new WWWForm();
-        if (!Session.session.isGeust)
+        if (!Session.session.isGeust){
+            print($"token: {Session.session.Token}");
             form.AddField("token", Session.session.Token);
+        }
         form.AddBinaryData("img", img);
+        print(form);
         using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("predict"), form))
         {
             yield return www.SendWebRequest();

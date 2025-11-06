@@ -29,9 +29,8 @@ public class LLM : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         canSubmit = false;
-        form.AddField("user_id", Session.session.UserId);
+        form.AddField("token", Session.session.Token);
         form.AddField("msg", prompt.text);
-        form.AddField("color_id", Session.session.ColorId);
         prompt.text="";
         Text placeholder=prompt.placeholder.GetComponent<Text>();
         string placeholder_text=placeholder.text;

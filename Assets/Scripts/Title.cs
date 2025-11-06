@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using UnityEditor;
+using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -8,10 +8,10 @@ using UnityEngine.UI;
 
 public class Title : MonoBehaviour
 {
-    [SerializeField]InputField id, pw;
+    [SerializeField]InputField email, pw;
     [SerializeField]Button signIn,geust,signUp,getPw;
     bool isSignIn;
-    [SerializeField]Text msg, loading;
+    [SerializeField] Text msg, loading;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +31,7 @@ public class Title : MonoBehaviour
     }
     void SetLoading(bool show){
         loading.gameObject.SetActive(show);
-        id.gameObject.SetActive(!show);
+        email.gameObject.SetActive(!show);
         pw.gameObject.SetActive(!show);
         signIn.gameObject.SetActive(!show);
         signUp.gameObject.SetActive(!show);
@@ -52,15 +52,15 @@ public class Title : MonoBehaviour
         isSignIn = false;
         msg.color = new Color(1, 1, 1);
         msg.text = "로그인 중...";
-        if (id.text == "" || pw.text == "")
+        if (email.text == "" || pw.text == "")
         {
             msg.color = new Color(1, 0, 0);
-            msg.text = "ID와 비밀번호를 입력해주세요.";
+            msg.text = "이메일과 비밀번호를 입력해주세요.";
             isSignIn = true;
             yield break;
         }
         WWWForm form = new WWWForm();
-        form.AddField("user_id", id.text);
+        form.AddField("email", email.text);
         form.AddField("pw", pw.text);
         using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("login"), form))
         {
@@ -74,6 +74,10 @@ public class Title : MonoBehaviour
                     InfoJson json = JsonUtility.FromJson<InfoJson>(www.downloadHandler.text);
                     if (json.msg == "성공")
                     {
+                        Token token=new Token();
+                        token.token=json.token;
+                        File.WriteAllText(Env.filePath,JsonUtility.ToJson(token));
+                        print(Env.filePath);
                         Session.session.isGeust=false;
                         Session.session.Login(json);
                         SceneManager.LoadScene((int)(string.IsNullOrEmpty(Session.session.HexCode) ? Scene.Test : Scene.Result));
@@ -102,17 +106,51 @@ public class Title : MonoBehaviour
             }
         }
     }
+    IEnumerator CheckAutoLogin()
+    {
+        loading.text="자동 로그인을 체크하는중...";
+        if(File.Exists(Env.filePath))
+        {
+            string data=File.ReadAllText(Env.filePath);
+            Token token=JsonUtility.FromJson<Token>(data);
+            print(Env.filePath);
+            if (string.IsNullOrEmpty(token.token))
+            {
+                SetLoading(false);
+                yield break;
+            }
+            else
+            {
+                using (UnityWebRequest www = UnityWebRequest.Get(Env.Api($"/user/{token.token}")))
+                {
+                    yield return www.SendWebRequest();
+                    print(www.downloadHandler.text);
+                    InfoJson json = JsonUtility.FromJson<InfoJson>(www.downloadHandler.text);
+                    Session.session.isGeust = false;
+                    Session.session.Login(json);
+                    SceneManager.LoadScene((int)(string.IsNullOrEmpty(Session.session.HexCode) ? Scene.Test : Scene.Result));
+                }
+            }
+        }
+        else
+        {
+            SetLoading(false);
+        }
+        
+    }
     IEnumerator CheckVersion()
     {
         using (UnityWebRequest www = UnityWebRequest.Get(Env.Api($"/version/{Application.version}")))
         {
+            print(www.url);
             yield return www.SendWebRequest();
             if (www.result == UnityWebRequest.Result.Success)
             {
                 Json<bool> json = JsonUtility.FromJson<Json<bool>>(www.downloadHandler.text);
+                print(json.result);
                 if (json.result)
                 {
-                    SetLoading(false);
+                    StartCoroutine(CheckAutoLogin());
                 }
                 else
                 {

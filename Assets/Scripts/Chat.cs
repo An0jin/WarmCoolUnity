@@ -41,7 +41,7 @@ public class Chat : MonoBehaviour, IChatClientListener
                 JsonList<Message> list = JsonUtility.FromJson<JsonList<Message>>(www.downloadHandler.text);
                 foreach (Message item in list.result)
                     AddMSG(item.name, item.msg);
-                chatClient.Connect(Env.chatid, "1.0", new AuthenticationValues(Session.session.Name));
+                chatClient.Connect(Env.photonChatid, "1.0", new AuthenticationValues(Session.session.Name));
                 isConn = true;
             }
         }
@@ -52,6 +52,7 @@ public class Chat : MonoBehaviour, IChatClientListener
         WWWForm form = new WWWForm();
         form.AddField("token", Session.session.Token);
         form.AddField("msg", input.text);
+        form.AddField("color_id", Session.session.ColorId);
         input.text = "";
         using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("chat"), form))
         {

@@ -12,7 +12,7 @@ public class Session : MonoBehaviour
             if (_instance == null)
             {
                 // Find existing Session instance in the scene
-                _instance = FindObjectOfType<Session>();
+                _instance = FindFirstObjectByType<Session>();
 
                 if (_instance == null)
                 {
@@ -28,18 +28,16 @@ public class Session : MonoBehaviour
 
     
     public string Token { get; private set; }
-    public string UserId { get; private set; }
     public string Name { get; private set; }
-    public string Gender { get; private set; }
     public string Email { get; private set; }
     public string ColorId { get; private set; }
     public string HexCode {set;get;}
     public string Description { get; private set; }
     public bool isGeust{get;set;}
-    public string chatid { 
+    public string PhotonChatId { 
         set=>server.AppSettings.AppIdChat=value;
     }
-    public string punid { 
+    public string PhotonAppId { 
         set=>server.AppSettings.AppIdRealtime=value;
     }
     private void Awake()
@@ -56,9 +54,7 @@ public class Session : MonoBehaviour
 
     public void Login(InfoJson json)
     {
-        UserId = json.user_id;
         Name = json.name;
-        Gender = json.gender;
         Email = json.email;
         ColorId = json.color_id;
         HexCode = json.hex_code;
@@ -66,19 +62,15 @@ public class Session : MonoBehaviour
         Token = json.token;
     }
 
-    public void SignIn(string userId, string name, string gender, string email)
+    public void SignIn(string name, string email)
     {
-        UserId = userId;
         Name = name;
-        Gender = gender;
         Email = email;
     }
 
-    public void UpdateInfo(string name, string gender, string email)
+    public void UpdateInfo(string name)
     {
         Name = name;
-        Gender = gender;
-        Email = email;
     }
 
     public void Predict(ColorJson json)

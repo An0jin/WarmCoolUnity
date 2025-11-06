@@ -32,9 +32,10 @@ public class ColorBtn : MonoBehaviour
     IEnumerator UpdateLipstick()
     {
         Session.session.HexCode = _color;
-        Lipstick lipstick=new Lipstick();
-        lipstick.user_id=Session.session.UserId;
-        lipstick.hex_code=Session.session.HexCode;
+        Lipstick lipstick=new Lipstick(){
+            token=Session.session.Token,
+            hex_code=Session.session.HexCode
+        };
         string json=JsonUtility.ToJson(lipstick);
         using(UnityWebRequest www=UnityWebRequest.Put(Env.Api("user/lipstick"),json)){
             www.SetRequestHeader("Content-Type","application/json");
@@ -46,5 +47,5 @@ public class ColorBtn : MonoBehaviour
 }
 [Serializable]
 public class Lipstick{
-    public string user_id,hex_code;
+    public string token,hex_code;
 }

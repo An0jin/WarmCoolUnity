@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Msg : MonoBehaviour
 {
     Text msg;
-    string _id;
+    string _email;
     void Awake()
     {
         msg=GetComponent<Text>();
@@ -17,10 +17,10 @@ public class Msg : MonoBehaviour
     /// <summary>
 /// Sets the ID and updates the text color based on whether the session's user ID matches the provided ID.
 /// </summary>
-    public string id{
+    public string email{
         set{
-            _id=value;
-            msg.color=new Color(Session.session.UserId==_id?1:0,0,0);
+            _email=value;
+            msg.color=new Color(Session.session.Email==_email?1:0,0,0);
         }
     }
 }

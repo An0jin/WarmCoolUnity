@@ -3,11 +3,20 @@ using System.Collections.Generic;
 
 [Serializable]
 public class InfoJson{
-    public string user_id,name,gender,hex_code, color_id,msg,description,token,email;
+    public string name,hex_code, color_id,msg,description,token,email;
 }
 [Serializable]
 public class Json<T>{
     public T result;
+}
+[Serializable]
+public class Token{
+    public string token;
+}
+[Serializable]
+public class SignUpJson{
+    public string result;
+    public string token;
 }
 [Serializable]
 public class JsonList<T>{

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -9,9 +10,8 @@ using UnityEngine.UI;
 public class Form : MonoBehaviour
 {
    [SerializeField] Button put,delete;
-   [SerializeField] InputField name, pw,email;
+   [SerializeField] InputField name, pw,check;
     bool isUpdate,isDelete;
-    [SerializeField] Toggle man;
     [SerializeField] Text msg;
     // Start is called before the first frame update
     void Start()
@@ -20,8 +20,6 @@ public class Form : MonoBehaviour
         isDelete=true;
         
         SetInputField(ref name,Session.session.Name);
-        if(Session.session.Gender=="Male")
-            man.isOn=true;
         
         put.onClick.AddListener(() =>
         {
@@ -49,39 +47,36 @@ public class Form : MonoBehaviour
     }
     IEnumerator Put()
     {
-        string gender = man.isOn ? "Male" : "Female";
-        string emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.(com|net|org|kr)$";
         string pwPattern = "^[a-zA-Z0-9`~!@#$%^&*()_\\-+=\\[\\]{}|;:'\",<.>/?]{8,16}$";
         msg.color = new Color(1, 1, 1);
         msg.text = "수정중";
         isUpdate = false;
-        if ( pw.text == "" || email.text == "" || name.text == "")
+        if ( pw.text == "" || name.text == "")
         {
             msg.color = new Color(1, 0, 0);
             msg.text = "모든정보를 입력해주세요";
             isUpdate = true;
             yield break;//끝내기
         }
-        if (!Regex.IsMatch(email.text, emailPattern))
-        {
-            msg.color = new Color(1, 0, 0);
-            msg.text = "이메일이 이상합니다";
-            isUpdate = true;
-            yield break;//끝내기
-        }
         if (!Regex.IsMatch(pw.text, pwPattern))
         {
             msg.color = new Color(1, 0, 0);
-            msg.text = "비밀번호는 영문과 숫자, 특수문자로 구성되어야 하며 8~16자리여야 합니다.";
+            msg.text = "패스워드는 영문과 숫자, 특수문자로 구성되어야 하며 8~16자리여야 합니다.";
             isUpdate = true;
             yield break;
         }
-        UserInfo user=new UserInfo();
-        user.gender=gender;
-        user.name=name.text;
-        user.pw=pw.text;
-        user.user_id=Session.session.UserId;
-        user.email=email.text;
+        if (pw.text!=check.text)
+        {
+            msg.color = new Color(1, 0, 0);
+            msg.text = "패스워드를 다시 확인해주세요.";
+            isUpdate = true;
+            yield break;
+        }
+            UserInfo user=new UserInfo(){
+            name=name.text,
+            pw=pw.text,
+            token=Session.session.Token
+        };
         using (UnityWebRequest www = UnityWebRequest.Put(Env.Api("user"), JsonUtility.ToJson(user)))
         {
             www.SetRequestHeader("Content-Type","application/json");
@@ -97,7 +92,7 @@ public class Form : MonoBehaviour
                 {
                     Json<string> json = JsonUtility.FromJson<Json<string>>(www.downloadHandler.text);
                     Debug.Log("JSON 파싱 결과: " + JsonUtility.ToJson(json));
-                    Session.session.UpdateInfo(name.text, gender, email.text);
+                    Session.session.UpdateInfo(name.text);
                     msg.color=new Color(1,1,1,json.result=="Update complete"?1:0);
                     msg.text=json.result;
                 }
@@ -120,7 +115,7 @@ public class Form : MonoBehaviour
     }
     IEnumerator Delete()
     {
-        using (UnityWebRequest www = UnityWebRequest.Delete(Env.Api($"user/{Session.session.UserId}")))
+        using (UnityWebRequest www = UnityWebRequest.Delete(Env.Api($"user/{Session.session.Token}")))
         {
             www.downloadHandler=new DownloadHandlerBuffer();
             yield return www.SendWebRequest();
@@ -131,6 +126,7 @@ public class Form : MonoBehaviour
 
             if (www.result == UnityWebRequest.Result.Success)
             {   
+                File.Delete(Env.filePath);
                 SceneManager.LoadScene(0);
             }
             else
@@ -145,5 +141,5 @@ public class Form : MonoBehaviour
 }
 [Serializable]
 public class UserInfo{
-    public string user_id,pw,name,gender,email;
+    public string token,pw,name;
 }

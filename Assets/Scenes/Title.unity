@@ -668,7 +668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa6125c4bbaeda4fa020e74a158d029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: {fileID: 1493065547}
+  email: {fileID: 1493065547}
   pw: {fileID: 1452042124}
   signIn: {fileID: 1778514299}
   geust: {fileID: 508552770}
@@ -937,7 +937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8ee9f1f78da3d64b8c516c158454c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  server: {fileID: 0}
+  server: {fileID: 11400000, guid: b1f717a0b5e7a2c41983675d132058de, type: 2}
 --- !u!4 &603847102
 Transform:
   m_ObjectHideFlags: 0
@@ -1399,7 +1399,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC544\uC774\uB514"
+  m_Text: "\uC774\uBA54\uC77C"
 --- !u!222 &1081013563
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1852,7 +1852,7 @@ GameObject:
   - component: {fileID: 1493065548}
   - component: {fileID: 1493065547}
   m_Layer: 5
-  m_Name: id
+  m_Name: email
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1922,13 +1922,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1493065548}
   m_TextComponent: {fileID: 781482392}
   m_Placeholder: {fileID: 1081013562}
-  m_ContentType: 0
+  m_ContentType: 6
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 7
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 5
   m_CharacterLimit: 0
   m_OnSubmit:
     m_PersistentCalls:
