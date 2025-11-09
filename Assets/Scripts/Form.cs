@@ -39,7 +39,7 @@ public class Form : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape)){
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene((int)Scene.Result);
         }
     }
     void SetInputField(ref InputField inputField,object title){

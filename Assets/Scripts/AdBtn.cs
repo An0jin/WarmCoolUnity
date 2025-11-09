@@ -18,7 +18,7 @@ public class AdBtn : MonoBehaviour
         if (btn == null) btn = GetComponent<Button>();
 
         MobileAds.Initialize(_ => { Debug.Log("AdMob Initialized"); });
-        btn.interactable = false;
+        // btn.interactable = false;
         LoadInterstitial();
 
         btn.onClick.AddListener(ShowInterstitial);

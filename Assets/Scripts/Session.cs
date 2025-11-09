@@ -61,6 +61,16 @@ public class Session : MonoBehaviour
         Description = json.description;
         Token = json.token;
     }
+    public void LogOut()
+    {
+        Name = "";
+        Email = "";
+        ColorId = "";
+        HexCode = "";
+        Description = "";
+        Token = "";
+    }
+
 
     public void SignIn(string name, string email)
     {

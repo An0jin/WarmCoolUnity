@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
@@ -27,7 +28,11 @@ public class MakeUp : MonoBehaviour
             }
         }
         if (Input.GetKeyDown(KeyCode.Escape))
-            SceneManager.LoadScene(0);
+        {
+            Session.session.LogOut();
+            File.Delete(Env.filePath);
+            SceneManager.LoadScene((int)Scene.Title);
+        }
 
     }
 }
