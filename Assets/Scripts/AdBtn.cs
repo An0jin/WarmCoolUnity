@@ -6,15 +6,9 @@ public class AdBtn : MonoBehaviour
 {
     [SerializeField] Button btn;
     private InterstitialAd interstitialAd;
-    private string adUnitId = ""; // 테스트/실제 구분은 여기서
 
     void Start()
     {
-        #if UNITY_ANDROID
-        adUnitId = Env.admobAppid;
-        #else
-        adUnitId = Env.admobTest;
-        #endif
         if (btn == null) btn = GetComponent<Button>();
 
         MobileAds.Initialize(_ => { Debug.Log("AdMob Initialized"); });
@@ -32,7 +26,7 @@ public class AdBtn : MonoBehaviour
             interstitialAd = null;
         }
 
-        InterstitialAd.Load(adUnitId, new AdRequest(), (ad, loadError) =>
+        InterstitialAd.Load(Env.adMobId, new AdRequest(), (ad, loadError) =>
         {
             if (loadError != null)
             {
