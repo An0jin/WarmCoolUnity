@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,13 +6,16 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using System.IO;
+using System;
 
 public class SignUp : MonoBehaviour
 {
-    [SerializeField]Button signUP;
-    [SerializeField]InputField name, pw,email,check;
+    [SerializeField]Button signUP,numBtn;
+    [SerializeField] InputField name, pw, email, check, num;
     bool isSignUp;
-    [SerializeField]Text msg;
+    [SerializeField] Text msg;
+    string snum;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -23,16 +25,52 @@ public class SignUp : MonoBehaviour
             if (isSignUp)
                 StartCoroutine(SignUP());
         });
+        numBtn.onClick.AddListener(() =>
+        {
+            StartCoroutine(GetNum());
+        });
     }
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
     /// </summary>
     void Update()
-    {    
-        if(Input.GetKeyDown(KeyCode.Escape)){
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
             SceneManager.LoadScene(0);
         }
-    
+
+    }
+    IEnumerator GetNum()
+    {
+        msg.text = "";
+        WWWForm form = new WWWForm();
+        if (email.text == "")
+        {
+            msg.color = new Color(1, 0, 0);
+            msg.text = "이메일을 입력해주세요.";
+            yield break;
+        }
+        msg.color = new Color(1, 1, 1);
+        msg.text = "인증번호를 생성하는 중...";
+        form.AddField("email", email.text);
+        snum = UnityEngine.Random.Range(0, 9999).ToString("D4");
+        form.AddField("num", snum);
+        using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("getNum"), form))
+        {
+            yield return www.SendWebRequest();
+            Json<string> json = JsonUtility.FromJson<Json<string>>(www.downloadHandler.text);
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                msg.color = new Color(1, 1, 1);
+                msg.text = json.result;
+            }
+            else
+            {
+                msg.color = new Color(1, 0, 0);
+                msg.text = "인증번호 생성 실패.";
+            }
+        }   
     }
     IEnumerator SignUP()
     {
@@ -62,10 +100,24 @@ public class SignUp : MonoBehaviour
             isSignUp = true;
             yield break;
         }
-        if (pw.text!=check.text)
+        if (pw.text != check.text)
         {
             msg.color = new Color(1, 0, 0);
             msg.text = "패스워드를 다시 확인해주세요.";
+            isSignUp = true;
+            yield break;
+        }
+        if(num.text == "")
+        {
+            msg.color = new Color(1, 0, 0);
+            msg.text = "인증번호를 입력해주세요.";
+            isSignUp = true;
+            yield break;
+        }
+        if(num.text != snum)
+        {
+            msg.color = new Color(1, 0, 0);
+            msg.text = "인증번호가 일치하지 않습니다.";
             isSignUp = true;
             yield break;
         }
