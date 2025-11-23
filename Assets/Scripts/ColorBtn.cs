@@ -40,7 +40,6 @@ public class ColorBtn : MonoBehaviour
         using(UnityWebRequest www=UnityWebRequest.Put(Env.Api("user/lipstick"),json)){
             www.SetRequestHeader("Content-Type","application/json");
             yield return www.SendWebRequest();
-            
         }
 
     }

@@ -4,7 +4,7 @@
 
 **WarmCoolUnity**는 사용자의 얼굴 이미지를 기반으로 퍼스널 컬러를 분석하고, AR 가상 메이크업을 적용하며, 같은 퍼스널 컬러 그룹의 사용자들과 실시간 채팅까지 가능하게 하는 Unity 기반 통합 뷰티 소셜 시스템입니다.
 
-FastAPI 서버와 YOLOv11-CLS 모델을 연동하여 퍼스널 컬러를 분류하고, Unity에서 ARFoundation 및 Photon을 통해 실시간 인터랙션을 제공합니다.
+FastAPI 서버와 YOLOv12 모델을 연동하여 퍼스널 컬러를 분류하고, Unity에서 ARFoundation 및 Photon을 통해 실시간 인터랙션을 제공합니다.
 
 ---
 
@@ -15,8 +15,8 @@ FastAPI 서버와 YOLOv11-CLS 모델을 연동하여 퍼스널 컬러를 분류�
 - 💄 분석 결과에 따라 AR 가상 메이크업 적용
 - 💬 Photon Chat으로 같은 퍼스널 컬러 그룹 사용자 간 실시간 채팅
 - 🤖 LLM 기반 상황과 퍼스널 컬러에 맞는 립스틱 추천
----
 
+---
 
 ## 🏗 시스템 구성
 
@@ -62,15 +62,14 @@ FastAPI 서버와 YOLOv11-CLS 모델을 연동하여 퍼스널 컬러를 분류�
 
 ---
 
-
 ## 🖼️ 에셋 출처
 
 - ### 폰트
-    - [신촌랩소디체](https://noonnu.cc/font_page/1577)
 
+  - [신촌랩소디체](https://noonnu.cc/font_page/1577)
 - ### 참고 이미지
-    - [![AR Face Assets](https://img.shields.io/badge/-AR%20Face%20Assets-000000?style=flat&logo=unity&logoColor=white)](https://assetstore.unity.com/packages/essentials/asset-packs/ar-face-assets-184187)
 
+  - [![AR Face Assets](https://img.shields.io/badge/-AR%20Face%20Assets-000000?style=flat&logo=unity&logoColor=white)](https://assetstore.unity.com/packages/essentials/asset-packs/ar-face-assets-184187)
 
 ---
 
@@ -83,5 +82,6 @@ FastAPI 서버와 YOLOv11-CLS 모델을 연동하여 퍼스널 컬러를 분류�
 - ![Photon Chat](https://img.shields.io/badge/-Photon%20Chat(Unity)-004480?style=flat&logo=photon&logoColor=white)
 
 ### 🎨 UI/UX 디자인
+
 - ![ChatGPT 4.0](https://img.shields.io/badge/-ChatGPT%204.0-74AA9C?style=flat&logo=openai&logoColor=white)
 - ![Photoshop](https://img.shields.io/badge/-Photoshop-31A8FF?style=flat&logo=adobe-photoshop&logoColor=white)
