@@ -93,13 +93,11 @@ public class Form : MonoBehaviour
                     Json<string> json = JsonUtility.FromJson<Json<string>>(www.downloadHandler.text);
                     Debug.Log("JSON 파싱 결과: " + JsonUtility.ToJson(json));
                     Session.session.UpdateInfo(name.text);
-                    msg.color=new Color(1,1,1,json.result=="Update complete"?1:0);
                     msg.text=json.result;
                 }
                 catch (Exception e)
                 {
                     Debug.LogError("JSON 파싱 오류: " + e.Message);
-                    msg.color = new Color(1, 0, 0);
                     msg.text = "수정 실패. (응답 처리 오류)";
                     isUpdate = true;
                 }
@@ -107,7 +105,6 @@ public class Form : MonoBehaviour
             else
             {
                 Debug.LogError("웹 요청 오류: " + www.error);
-                msg.color = new Color(1, 0, 0);
                 msg.text = "수정 실패. (서버 연결 오류)";
                 isUpdate = true;
             }

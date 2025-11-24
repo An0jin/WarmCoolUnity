@@ -126,6 +126,12 @@ public class Title : MonoBehaviour
                     yield return www.SendWebRequest();
                     print(www.downloadHandler.text);
                     InfoJson json = JsonUtility.FromJson<InfoJson>(www.downloadHandler.text);
+                    if(string.IsNullOrEmpty(json.email))
+                    {
+                        SetLoading(false);
+                        File.Delete(Env.filePath);
+                        yield break;
+                    }
                     Session.session.isGeust = false;
                     Session.session.Login(json);
                     SceneManager.LoadScene((int)(string.IsNullOrEmpty(Session.session.HexCode) ? Scene.Test : Scene.Result));
