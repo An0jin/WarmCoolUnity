@@ -10,7 +10,7 @@ public class Privacy : MonoBehaviour
         btn = GetComponent<Button>();
         btn.onClick.AddListener(() =>
         {
-            Application.OpenURL("https://an0jin.github.io/Toneiverse/privacy.html");
+            Application.OpenURL("https://toneiverse.netlify.app/privacy");
         });
     }
 
