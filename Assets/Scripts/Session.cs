@@ -31,8 +31,8 @@ public class Session : MonoBehaviour
     public string Name { get; private set; }
     public string Email { get; private set; }
     public string ColorId { get; private set; }
+    public string Cname { get; set; }
     public string HexCode {set;get;}
-    public string Description { get; private set; }
     public bool isGeust{get;set;}
     public string PhotonChatId { 
         set=>server.AppSettings.AppIdChat=value;
@@ -58,8 +58,8 @@ public class Session : MonoBehaviour
         Email = json.email;
         ColorId = json.color_id;
         HexCode = json.hex_code;
-        Description = json.description;
         Token = json.token;
+        Cname = json.cname;
     }
     public void LogOut()
     {
@@ -67,8 +67,8 @@ public class Session : MonoBehaviour
         Email = "";
         ColorId = "";
         HexCode = "";
-        Description = "";
         Token = "";
+        Cname = "";
     }
 
 
@@ -87,7 +87,7 @@ public class Session : MonoBehaviour
     {
         HexCode = json.hex_code;
         ColorId = json.color_id;
-        Description = json.description;
+        Cname = json.cname;
     }
 
 }

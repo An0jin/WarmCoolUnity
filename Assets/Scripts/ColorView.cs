@@ -14,11 +14,12 @@ public class ColorView : MonoBehaviour
         using(UnityWebRequest www=UnityWebRequest.Get(Env.Api($"/lipstick/{Session.session.ColorId}"))){
             yield return www.SendWebRequest();
             if(www.result==UnityWebRequest.Result.Success){
-                JsonList<string> json=JsonUtility.FromJson<JsonList<string>>(www.downloadHandler.text);
+                print(www.downloadHandler.text);
+                JsonList<ColorJson> json=JsonUtility.FromJson<JsonList<ColorJson>>(www.downloadHandler.text);
                 foreach (var item in json.result)
                 {
                     ColorBtn btn=Instantiate(Resources.Load<ColorBtn>("ColorBtn"),transform);
-                    btn.color=item;
+                    btn.SetBtnColor(item.hex_code, item.cname);
                 }
             }
         }

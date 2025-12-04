@@ -64,7 +64,7 @@ public class Test : MonoBehaviour
             if (www.result == UnityWebRequest.Result.Success)
             {
                 ColorJson colorJson = JsonUtility.FromJson<ColorJson>(www.downloadHandler.text);
-                if (string.IsNullOrEmpty(colorJson.description))
+                if (string.IsNullOrEmpty(colorJson.cname))
                 {
                     print("에러");
                     msg.text = colorJson.color_id;

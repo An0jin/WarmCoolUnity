@@ -7,18 +7,16 @@ using System;
 public class ColorBtn : MonoBehaviour
 {
     Button btn;
-    private string _color;
-    public string color
+    private string hex,cname;
+    public void SetBtnColor(string hex,string cname)
     {
-        set
-        {
-            _color = value;
-            ColorBlock colors = btn.colors;
-            Color tmp;
-            ColorUtility.TryParseHtmlString(value, out tmp);
-            colors.normalColor = tmp;
-            btn.colors = colors;
-        }
+        this.hex = hex;
+        this.cname = cname;
+        ColorBlock colors = btn.colors;
+        Color tmp;
+        ColorUtility.TryParseHtmlString(hex, out tmp);
+        colors.normalColor = tmp;
+        btn.colors = colors;
     }
     // Start is called before the first frame update
     void Awake()
@@ -31,13 +29,15 @@ public class ColorBtn : MonoBehaviour
     }
     IEnumerator UpdateLipstick()
     {
-        Session.session.HexCode = _color;
+        Session.session.HexCode = hex;
+        print(cname);
+        Session.session.Cname = cname;
         Lipstick lipstick=new Lipstick(){
             token=Session.session.Token,
             hex_code=Session.session.HexCode
         };
         string json=JsonUtility.ToJson(lipstick);
-        using(UnityWebRequest www=UnityWebRequest.Put(Env.Api("user/lipstick"),json)){
+           using(UnityWebRequest www=UnityWebRequest.Put(Env.Api("user/lipstick"),json)){
             www.SetRequestHeader("Content-Type","application/json");
             yield return www.SendWebRequest();
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 [Serializable]
 public class InfoJson{
-    public string name,hex_code, color_id,msg,description,token,email;
+    public string name,hex_code, color_id,msg,description,token,email,cname;
 }
 [Serializable]
 public class Json<T>{
@@ -22,10 +22,15 @@ public class SignUpJson{
 public class JsonList<T>{
     public List<T> result;
 }
+[Serializable]
+public class ColorInfo
+{
+    public string hex_code, cname;
+}
 
 [Serializable]
 public class ColorJson{
-    public string color_id, hex_code, description;
+    public string color_id, hex_code, cname;
 }
 
 [Serializable]

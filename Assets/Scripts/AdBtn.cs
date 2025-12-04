@@ -45,7 +45,7 @@ public class AdBtn : MonoBehaviour
             interstitialAd = ad;
             RegisterCallbacks(interstitialAd);
             Debug.Log("[AD] 로드 성공");
-            btn.interactable = true; // 준비되면 버튼 활성화
+            btn.gameObject.SetActive(true);
         });
     }
 
