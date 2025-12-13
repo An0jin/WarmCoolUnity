@@ -6,13 +6,14 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Toneiverse.DTO;
+using Toneiverse;
 
-public class Test : MonoBehaviour
+public class Test : Btn
 {
-    Button btn;
     [SerializeField] Text msg;
     bool canClick;
-    void Start()
+    void Awake()
     {
         if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
         {
@@ -22,22 +23,24 @@ public class Test : MonoBehaviour
 
 
         canClick = true;
-        btn = GetComponent<Button>();
-        btn.onClick.AddListener(() =>
-        {
-            if (canClick)
-                StartCoroutine(Capture());
-        });
+        base.Awake();
     }
+
+    protected override void OnClick()
+    {
+        if (canClick)
+            StartCoroutine(Capture());
+    }
+
 
     IEnumerator Capture()
     {
         canClick = false;
-        SetBtn = false;//Hide the button
+        Show(false);//Hide the button
         yield return new WaitForEndOfFrame();
         var img = ScreenCapture.CaptureScreenshotAsTexture();
-        StartCoroutine(Post(img.EncodeToJPG()));
-        SetBtn = true;//Show the button
+        Show(true);//Hide the button
+        GetResult(img.EncodeToJPG());
     }
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
@@ -49,51 +52,47 @@ public class Test : MonoBehaviour
             SceneManager.LoadScene(0);
         }
     }
-    IEnumerator Post(byte[] img)
+    void GetResult(byte[] img)
     {
         WWWForm form = new WWWForm();
-        if (!Session.session.isGeust){
+        if (!Session.session.isGuest)
+        {
             print($"token: {Session.session.Token}");
             form.AddField("token", Session.session.Token);
         }
         form.AddBinaryData("img", img);
         print(form);
-        using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("predict"), form))
+        StartCoroutine(APIManager.Post("predict", form, (jsonText) =>
         {
-            yield return www.SendWebRequest();
-            if (www.result == UnityWebRequest.Result.Success)
+            ColorJson colorJson = JsonUtility.FromJson<ColorJson>(jsonText);
+            if (string.IsNullOrEmpty(colorJson.cname))
             {
-                ColorJson colorJson = JsonUtility.FromJson<ColorJson>(www.downloadHandler.text);
-                if (string.IsNullOrEmpty(colorJson.cname))
-                {
-                    print("에러");
-                    msg.text = colorJson.color_id;
-                    Text text = btn.transform.GetChild(0).GetComponent<Text>();
-                    text.text = "퍼스널컬러 구하기";
-                    ColorBlock color = btn.colors;
-                    color.normalColor = new Color(1, 1, 1, 1);
-                    btn.colors = color;
-                    canClick = true;
-                }
-                else
-                {
-                    print("통과");
-                    Session.session.Predict(colorJson);
-                    SceneManager.LoadScene((int)Scene.Result);
-                }
+                print("에러");
+                msg.text = colorJson.color_id;
+                Text text = btn.transform.GetChild(0).GetComponent<Text>();
+                text.text = "퍼스널컬러 구하기";
+                ColorBlock color = btn.colors;
+                color.normalColor = new Color(1, 1, 1, 1);
+                btn.colors = color;
+                canClick = true;
+                Show(true);
             }
-        }
+            else
+            {
+                print("통과");
+                Session.session.Predict(colorJson);
+                SceneManager.LoadScene((int)SceneIndex.Result);
+            }
+        }));
     }
-    bool SetBtn
+
+    void Show(bool value)
     {
-        set
-        {
-            msg.text = "";
-            Text text = btn.transform.GetChild(0).GetComponent<Text>();
-            ColorBlock color = btn.colors;
-            color.normalColor = new Color(1, 1, 1, value ? 1 : 0);
-            btn.colors = color;
-            text.text = value ? "예축하는중" : "";
-        }
+        msg.text = "";
+        Text text = btn.transform.GetChild(0).GetComponent<Text>();
+        ColorBlock color = btn.colors;
+        color.normalColor = new Color(1, 1, 1, value ? 1 : 0);
+        btn.colors = color;
+        text.text = value ? "예축하는중" : "";
     }
 }

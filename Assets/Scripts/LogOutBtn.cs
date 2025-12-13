@@ -2,7 +2,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using Toneiverse;
 public class LogOutBtn : MonoBehaviour
 {
     Button btn;
@@ -14,13 +14,13 @@ public class LogOutBtn : MonoBehaviour
         {
             File.Delete(Env.filePath);
             Session.session.LogOut();
-            SceneManager.LoadScene((int)Scene.Title);
+            SceneManager.LoadScene((int)SceneIndex.Title);
         });
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

@@ -1,20 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
-
-public class OpenBtn : MonoBehaviour
+[RequireComponent(typeof(Button))]
+public class OpenBtn : Btn
 {
     [SerializeField] GameObject obj;
-    Button btn;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    protected override void OnClick()
     {
-        btn = GetComponent<Button>();
-        btn.onClick.AddListener(() => obj.SetActive(true));
+        obj.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Toneiverse.DTO;
 
 public class ColorView : MonoBehaviour
 {
@@ -10,15 +11,18 @@ public class ColorView : MonoBehaviour
         StartCoroutine(SetColorView());
     }
 
-    IEnumerator SetColorView(){
-        using(UnityWebRequest www=UnityWebRequest.Get(Env.Api($"/lipstick/{Session.session.ColorId}"))){
+    IEnumerator SetColorView()
+    {
+        using (UnityWebRequest www = UnityWebRequest.Get(Env.Api($"/lipstick/{Session.session.ColorId}")))
+        {
             yield return www.SendWebRequest();
-            if(www.result==UnityWebRequest.Result.Success){
+            if (www.result == UnityWebRequest.Result.Success)
+            {
                 print(www.downloadHandler.text);
-                JsonList<ColorJson> json=JsonUtility.FromJson<JsonList<ColorJson>>(www.downloadHandler.text);
+                JsonList<ColorJson> json = JsonUtility.FromJson<JsonList<ColorJson>>(www.downloadHandler.text);
                 foreach (var item in json.result)
                 {
-                    ColorBtn btn=Instantiate(Resources.Load<ColorBtn>("ColorBtn"),transform);
+                    ColorBtn btn = Instantiate(Resources.Load<ColorBtn>("ColorBtn"), transform);
                     btn.SetBtnColor(item.hex_code, item.cname);
                 }
             }

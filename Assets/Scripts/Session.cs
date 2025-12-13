@@ -1,9 +1,9 @@
 using Photon.Pun;
 using UnityEngine;
+using Toneiverse.DTO;
 
 public class Session : MonoBehaviour
 {
-    [SerializeField]ServerSettings server;
     private static Session _instance;
     public static Session session
     {
@@ -26,19 +26,30 @@ public class Session : MonoBehaviour
         }
     }
 
-    
+
     public string Token { get; private set; }
     public string Name { get; private set; }
     public string Email { get; private set; }
     public string ColorId { get; private set; }
     public string Cname { get; set; }
-    public string HexCode {set;get;}
-    public bool isGeust{get;set;}
-    public string PhotonChatId { 
-        set=>server.AppSettings.AppIdChat=value;
+    public string HexCode { set; get; }
+    public bool isGuest { get; set; }
+    public string PhotonChatId
+    {
+        set
+        {
+            if (PhotonNetwork.PhotonServerSettings != null)
+                PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat = value;
+        }
     }
-    public string PhotonAppId { 
-        set=>server.AppSettings.AppIdRealtime=value;
+
+    public string PhotonAppId
+    {
+        set
+        {
+            if (PhotonNetwork.PhotonServerSettings != null)
+                PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime = value;
+        }
     }
     private void Awake()
     {

@@ -4,11 +4,10 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using System;
 
-public class ColorBtn : MonoBehaviour
+public class ColorBtn : Btn
 {
-    Button btn;
-    private string hex,cname;
-    public void SetBtnColor(string hex,string cname)
+    private string hex, cname;
+    public void SetBtnColor(string hex, string cname)
     {
         this.hex = hex;
         this.cname = cname;
@@ -18,33 +17,24 @@ public class ColorBtn : MonoBehaviour
         colors.normalColor = tmp;
         btn.colors = colors;
     }
-    // Start is called before the first frame update
-    void Awake()
-    {
-        btn = GetComponent<Button>();
-        btn.onClick.AddListener(() =>
-        {
-            StartCoroutine(UpdateLipstick());
-        });
-    }
-    IEnumerator UpdateLipstick()
+
+    protected override void OnClick()
     {
         Session.session.HexCode = hex;
         print(cname);
         Session.session.Cname = cname;
-        Lipstick lipstick=new Lipstick(){
-            token=Session.session.Token,
-            hex_code=Session.session.HexCode
+        Lipstick lipstick = new Lipstick()
+        {
+            token = Session.session.Token,
+            hex_code = Session.session.HexCode
         };
-        string json=JsonUtility.ToJson(lipstick);
-           using(UnityWebRequest www=UnityWebRequest.Put(Env.Api("user/lipstick"),json)){
-            www.SetRequestHeader("Content-Type","application/json");
-            yield return www.SendWebRequest();
-        }
+        string json = JsonUtility.ToJson(lipstick);
+        StartCoroutine(APIManager.Put("user/lipstick", json));
 
     }
 }
 [Serializable]
-public class Lipstick{
-    public string token,hex_code;
+public class Lipstick
+{
+    public string token, hex_code;
 }

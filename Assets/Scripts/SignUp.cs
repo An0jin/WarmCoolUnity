@@ -7,15 +7,17 @@ using UnityEngine.UI;
 using System.Text.RegularExpressions;
 using System.IO;
 using System;
+using Toneiverse;
+using Toneiverse.DTO;
 
 public class SignUp : MonoBehaviour
 {
-    [SerializeField]Button signUP,numBtn;
+    [SerializeField] Button signUP, numBtn;
     [SerializeField] InputField name, pw, email, check, num;
     bool isSignUp;
     [SerializeField] Text msg;
     string snum;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,7 +72,7 @@ public class SignUp : MonoBehaviour
                 msg.color = new Color(1, 0, 0);
                 msg.text = "인증번호 생성 실패.";
             }
-        }   
+        }
     }
     IEnumerator SignUP()
     {
@@ -107,14 +109,14 @@ public class SignUp : MonoBehaviour
             isSignUp = true;
             yield break;
         }
-        if(num.text == "")
+        if (num.text == "")
         {
             msg.color = new Color(1, 0, 0);
             msg.text = "인증번호를 입력해주세요.";
             isSignUp = true;
             yield break;
         }
-        if(num.text != snum)
+        if (num.text != snum)
         {
             msg.color = new Color(1, 0, 0);
             msg.text = "인증번호가 일치하지 않습니다.";
@@ -124,7 +126,7 @@ public class SignUp : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("pw", pw.text);
         form.AddField("name", name.text);
-        form.AddField("email",email.text);
+        form.AddField("email", email.text);
         using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("user"), form))
         {
             yield return www.SendWebRequest();
@@ -140,20 +142,21 @@ public class SignUp : MonoBehaviour
                     SignUpJson json = JsonUtility.FromJson<SignUpJson>(www.downloadHandler.text);
                     if (json.result == "Sign up complete")
                     {
-                        Token token=new Token();
-                        token.token=json.token;
-                        File.WriteAllText(Env.filePath,JsonUtility.ToJson(token));
+                        Token token = new Token();
+                        token.token = json.token;
+                        File.WriteAllText(Env.filePath, JsonUtility.ToJson(token));
                         print(Env.filePath);
                         Session.session.SignIn(name.text, email.text);
-                        Session.session.isGeust = false;
+                        Session.session.isGuest = false;
                         SceneManager.LoadScene(2);
-                    } else
+                    }
+                    else
                     {
-                    msg.color = new Color(1, 0, 0);
-                    msg.text = "Sign up failed. (응답 처리 오류)";
-                    isSignUp = true;
+                        msg.color = new Color(1, 0, 0);
+                        msg.text = "Sign up failed. (응답 처리 오류)";
+                        isSignUp = true;
 
-                    
+
                     }
                 }
                 catch (Exception e)

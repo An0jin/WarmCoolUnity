@@ -1,14 +1,15 @@
 {
   "dependencies": {
+    "com.antigravity.editor": "https://github.com/hohollala/Antigravity.git",
     "com.unity.2d.enhancers": "1.0.0-pre.1",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.adaptiveperformance": "5.1.6",
+    "com.unity.ads": "4.16.4",
     "com.unity.ai.assistant": "1.0.0-pre.5",
     "com.unity.ai.generators": "1.0.0-pre.11",
     "com.unity.collab-proxy": "2.9.3",
     "com.unity.device-simulator.devices": "1.0.0",
     "com.unity.feature.development": "1.0.2",
-    "com.unity.ide.windsurf": "https://github.com/Asuta/com.unity.ide.windsurf.git",
     "com.unity.mobile.android-logcat": "1.4.6",
     "com.unity.multiplayer.center": "1.0.0",
     "com.unity.timeline": "1.8.9",

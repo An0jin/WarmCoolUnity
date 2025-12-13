@@ -4,6 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
+using Toneiverse;
 
 public class MakeUp : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class MakeUp : MonoBehaviour
         {
             Session.session.LogOut();
             File.Delete(Env.filePath);
-            SceneManager.LoadScene((int)Scene.Title);
+            SceneManager.LoadScene((int)SceneIndex.Title);
         }
 
     }

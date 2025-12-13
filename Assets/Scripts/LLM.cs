@@ -4,12 +4,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using Toneiverse.DTO;
 
 public class LLM : MonoBehaviour
 {
-    [SerializeField]Button submit;
-    [SerializeField]InputField prompt;
-    [SerializeField]Button cls;
+    [SerializeField] Button submit;
+    [SerializeField] InputField prompt;
+    [SerializeField] Button cls;
     bool canSubmit;
 
     void Awake()
@@ -31,13 +32,13 @@ public class LLM : MonoBehaviour
         canSubmit = false;
         form.AddField("token", Session.session.Token);
         form.AddField("msg", prompt.text);
-        prompt.text="";
-        Text placeholder=prompt.placeholder.GetComponent<Text>();
-        string placeholder_text=placeholder.text;
-        placeholder.text="AI가 생각하고 있습니다.";
-        prompt.interactable=false;
-        submit.interactable=false;
-        cls.interactable=false;
+        prompt.text = "";
+        Text placeholder = prompt.placeholder.GetComponent<Text>();
+        string placeholder_text = placeholder.text;
+        placeholder.text = "AI가 생각하고 있습니다.";
+        prompt.interactable = false;
+        submit.interactable = false;
+        cls.interactable = false;
         using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("llm"), form))
         {
             yield return www.SendWebRequest();
@@ -45,20 +46,24 @@ public class LLM : MonoBehaviour
             {
                 string json = www.downloadHandler.text;
                 print(json);
-                Json<string> colorJson = JsonUtility.FromJson<Json<string>>(json);
-                Session.session.HexCode = colorJson.result;
+                ColorInfo colorJson = JsonUtility.FromJson<ColorInfo>(json);
+                Session.session.HexCode = colorJson.hex_code;
+                HexText hexText = GameObject.FindObjectOfType<HexText>();
+                hexText.txt = colorJson.cname;
                 canSubmit = true;
-                placeholder.text=placeholder_text;
-                prompt.interactable=true;
-                submit.interactable=true;
-                cls.interactable=true;
+                placeholder.text = placeholder_text;
+                prompt.interactable = true;
+                submit.interactable = true;
+                cls.interactable = true;
                 gameObject.SetActive(false);
-            }else{
+            }
+            else
+            {
                 canSubmit = true;
-                placeholder.text=placeholder_text;
-                prompt.interactable=true;
-                submit.interactable=true;
-                cls.interactable=true;
+                placeholder.text = placeholder_text;
+                prompt.interactable = true;
+                submit.interactable = true;
+                cls.interactable = true;
                 print(www.error);
             }
         }

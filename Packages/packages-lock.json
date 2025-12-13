@@ -1,5 +1,14 @@
 {
   "dependencies": {
+    "com.antigravity.editor": {
+      "version": "https://github.com/hohollala/Antigravity.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.test-framework": "1.1.9"
+      },
+      "hash": "c5fafc89a89cc926cd9f9e486a35e84efffa0bf6"
+    },
     "com.unity.2d.common": {
       "version": "11.0.1",
       "depth": 1,
@@ -38,6 +47,16 @@
       "dependencies": {
         "com.unity.profiling.core": "1.0.2",
         "com.unity.modules.subsystems": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.ads": {
+      "version": "4.16.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.androidjni": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -153,15 +172,6 @@
         "com.unity.test-framework": "1.1.9"
       },
       "url": "https://packages.unity.com"
-    },
-    "com.unity.ide.windsurf": {
-      "version": "https://github.com/Asuta/com.unity.ide.windsurf.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.unity.test-framework": "1.1.9"
-      },
-      "hash": "6161accf3e7beab96341813913e714c7e2fb5c5d"
     },
     "com.unity.inputsystem": {
       "version": "1.14.2",

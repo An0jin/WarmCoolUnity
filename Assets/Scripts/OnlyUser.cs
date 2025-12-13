@@ -9,6 +9,6 @@ public class OnlyUser : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        gameObject.SetActive(!Session.session.isGeust);
+        gameObject.SetActive(!Session.session.isGuest);
     }
 }

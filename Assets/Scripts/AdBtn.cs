@@ -1,22 +1,32 @@
 using UnityEngine;
 using UnityEngine.UI;
 using GoogleMobileAds.Api;
+using System;
 
-public class AdBtn : MonoBehaviour
+public class AdBtn : Btn
 {
-    Button btn;
     // [SerializeField] Text msg;
     private InterstitialAd interstitialAd;
 
-    void Start()
+    void Awake()
     {
-        btn = GetComponent<Button>();
-
+        base.Awake();
         MobileAds.Initialize(_ => { Debug.Log("AdMob Initialized"); });
         btn.gameObject.SetActive(false);
         LoadInterstitial();
+    }
 
-        btn.onClick.AddListener(ShowInterstitial);
+    protected override void OnClick()
+    {
+        if (interstitialAd != null && interstitialAd.CanShowAd())
+        {
+            interstitialAd.Show();
+        }
+        else
+        {
+            btn.gameObject.SetActive(false);
+            LoadInterstitial();
+        }
     }
     // void SetMsg(string msg){
     //     msg.color = new Color(1, 0, 0);
@@ -47,24 +57,6 @@ public class AdBtn : MonoBehaviour
             Debug.Log("[AD] 로드 성공");
             btn.gameObject.SetActive(true);
         });
-    }
-
-    void ShowInterstitial()
-    {
-        Debug.Log("버튼 누름");
-        if (interstitialAd != null && interstitialAd.CanShowAd())
-        {
-            Debug.Log("[AD] 표시");
-            interstitialAd.Show();
-            // Show() 이후 이 인스턴스는 재사용 금지
-        }
-        else
-        {
-            Debug.Log("[AD] 아직 준비 안 됨 → 재로드 시도");
-            btn.gameObject.SetActive(false);
-            // SetMsg("[AD] 아직 준비 안 됨 → 재로드 시도");
-            LoadInterstitial();
-        }
     }
 
     void RegisterCallbacks(InterstitialAd ad)

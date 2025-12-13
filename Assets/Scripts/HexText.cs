@@ -3,10 +3,20 @@ using UnityEngine.UI;
 
 public class HexText : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Update()
+    Text _txt;
+    void Start()
     {
-        Text txt = GetComponent<Text>();
-        txt.text = $"당신의 립스틱 색상 : {Session.session.Cname}";          
+        _txt = GetComponent<Text>();
+        _txt.text = $"당신의 립스틱 색상 : {Session.session.Cname}";
+    }
+    //버튼 클릭시 정보 변경
+    public string txt
+    {
+
+    set{
+        Session.session.Cname=value;
+        _txt.text = $"당신의 립스틱 색상 : {value}";   
+        }      
+        
     }
 }

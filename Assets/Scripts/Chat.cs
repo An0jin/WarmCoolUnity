@@ -8,28 +8,28 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Toneiverse.DTO;
 
-public class Chat : MonoBehaviour, IChatClientListener
+public class Chat : Btn, IChatClientListener
 {
     private ChatClient chatClient;
-    [SerializeField]Button submit;
-    [SerializeField]InputField input;
+    [SerializeField] InputField input;
     bool isConn;
     void Awake()
     {
+        base.Awake();
         isConn = false;
         chatClient = new ChatClient(this);
-        submit.onClick.AddListener(() =>
-        {
-            if (isConn)
-                StartCoroutine(Submit());
-                // chatClient.PublishMessage("WarmTone", input.text);
-        });
         StartCoroutine(GetChat());
-        // chatClient.Connect(Env.chatid, "1.0", new AuthenticationValues("test"));
         Application.runInBackground = true;
 
     }
+    protected override void OnClick()
+    {
+        if (isConn)
+            StartCoroutine(Submit());
+    }
+
     IEnumerator GetChat()
     {
         using (UnityWebRequest www = UnityWebRequest.Get(Env.Api($"chat/{Session.session.ColorId}")))
@@ -61,10 +61,11 @@ public class Chat : MonoBehaviour, IChatClientListener
     }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape)){
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
             SceneManager.LoadScene(3);
         }
-    
+
         chatClient.Service();
     }
     void AddMSG(string sender, object message)
@@ -129,4 +130,6 @@ public class Chat : MonoBehaviour, IChatClientListener
     {
 
     }
+
+
 }
