@@ -384,6 +384,7 @@ GameObject:
   - component: {fileID: 85452560}
   - component: {fileID: 85452559}
   - component: {fileID: 85452558}
+  - component: {fileID: 85452561}
   m_Layer: 5
   m_Name: Put
   m_TagString: Untagged
@@ -493,6 +494,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 85452556}
   m_CullTransparentMesh: 1
+--- !u!114 &85452561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85452556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762d0a179104ba44f9f2051bf064777d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PutBtn
+  name: {fileID: 1500356088}
+  pw: {fileID: 1452042124}
+  check: {fileID: 1217695376}
+  msg: {fileID: 1521097683}
 --- !u!1 &92599745
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,6 +866,7 @@ GameObject:
   - component: {fileID: 567835706}
   - component: {fileID: 567835705}
   - component: {fileID: 567835704}
+  - component: {fileID: 567835707}
   m_Layer: 5
   m_Name: del
   m_TagString: Untagged
@@ -958,6 +976,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 567835702}
   m_CullTransparentMesh: 1
+--- !u!114 &567835707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567835702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0625a06d96f64af4b9cfd1ce481556a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DeleteBtn
+  msg: {fileID: 1521097683}
 --- !u!1 &793509134
 GameObject:
   m_ObjectHideFlags: 0

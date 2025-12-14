@@ -7,6 +7,12 @@ using System;
 public class ColorBtn : Btn
 {
     private string hex, cname;
+    CnameText cnameText;
+    void Awake()
+    {
+        cnameText = FindFirstObjectByType<CnameText>();
+        base.Awake();
+    }
     public void SetBtnColor(string hex, string cname)
     {
         this.hex = hex;
@@ -21,15 +27,17 @@ public class ColorBtn : Btn
     protected override void OnClick()
     {
         Session.session.HexCode = hex;
-        print(cname);
-        Session.session.Cname = cname;
-        Lipstick lipstick = new Lipstick()
+        cnameText.txt = cname;
+        if (!string.IsNullOrEmpty(Session.session.Token))
         {
-            token = Session.session.Token,
-            hex_code = Session.session.HexCode
-        };
-        string json = JsonUtility.ToJson(lipstick);
-        StartCoroutine(APIManager.Put("user/lipstick", json));
+            Lipstick lipstick = new Lipstick()
+            {
+                token = Session.session.Token,
+                hex_code = Session.session.HexCode
+            };
+            string json = JsonUtility.ToJson(lipstick);
+            StartCoroutine(APIManager.Put("user/lipstick", json));
+        }
 
     }
 }

@@ -1,71 +1,57 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 using Toneiverse.DTO;
 
-public class LLM : MonoBehaviour
+public class LLM : Btn
 {
-    [SerializeField] Button submit;
     [SerializeField] InputField prompt;
     [SerializeField] Button cls;
-    bool canSubmit;
+    [SerializeField] CnameText cnameText;
 
-    void Awake()
+    private string originalPlaceholder;
+    private Text placeholderComp;
+
+    protected override void Awake()
     {
-        canSubmit = true;
-        prompt = transform.GetChild(0).GetComponent<InputField>();
-        submit = transform.GetChild(1).GetComponent<Button>();
-        cls = transform.GetChild(2).GetComponent<Button>();
-
-        submit.onClick.AddListener(() =>
-        {
-            if (canSubmit)
-                StartCoroutine(Submit());
-        });
+        base.Awake(); // 필수: 부모의 btn = GetComponent<Button>() 실행
+        placeholderComp = prompt.placeholder.GetComponent<Text>();
+        originalPlaceholder = placeholderComp.text;
     }
-    IEnumerator Submit()
+
+    protected override void OnClick()
     {
+        if (string.IsNullOrEmpty(prompt.text)) return;
+
+        SetUIState(false); // UI 잠금
+
         WWWForm form = new WWWForm();
-        canSubmit = false;
         form.AddField("token", Session.session.Token);
         form.AddField("msg", prompt.text);
-        prompt.text = "";
-        Text placeholder = prompt.placeholder.GetComponent<Text>();
-        string placeholder_text = placeholder.text;
-        placeholder.text = "AI가 생각하고 있습니다.";
-        prompt.interactable = false;
-        submit.interactable = false;
-        cls.interactable = false;
-        using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("llm"), form))
-        {
-            yield return www.SendWebRequest();
-            if (www.result == UnityWebRequest.Result.Success)
+
+        StartCoroutine(APIManager.Post("llm", form,
+            (res) =>
             {
-                string json = www.downloadHandler.text;
-                print(json);
-                ColorInfo colorJson = JsonUtility.FromJson<ColorInfo>(json);
+                ColorInfo colorJson = JsonUtility.FromJson<ColorInfo>(res);
                 Session.session.HexCode = colorJson.hex_code;
-                HexText hexText = GameObject.FindObjectOfType<HexText>();
-                hexText.txt = colorJson.cname;
-                canSubmit = true;
-                placeholder.text = placeholder_text;
-                prompt.interactable = true;
-                submit.interactable = true;
-                cls.interactable = true;
-                gameObject.SetActive(false);
-            }
-            else
+                cnameText.txt = colorJson.cname;
+                prompt.text = "";
+                SetUIState(true); // UI 복구
+                cls.onClick?.Invoke();
+            },
+            (error) =>
             {
-                canSubmit = true;
-                placeholder.text = placeholder_text;
-                prompt.interactable = true;
-                submit.interactable = true;
-                cls.interactable = true;
-                print(www.error);
+                Debug.LogError(error);
+                SetUIState(true); // UI 복구
             }
-        }
+        ));
+    }
+
+    // [중복 해결 핵심] UI 상태를 한 번에 제어
+    private void SetUIState(bool isReady)
+    {
+        placeholderComp.text = isReady ? originalPlaceholder : "AI가 생각하고 있습니다.";
+        prompt.interactable = isReady;
+        btn.interactable = isReady;
+        cls.interactable = isReady;
     }
 }

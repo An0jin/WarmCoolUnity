@@ -11,7 +11,7 @@ using Toneiverse;
 
 public class Test : Btn
 {
-    [SerializeField] Text msg;
+    [SerializeField] Text msg, btnText;
     bool canClick;
     void Awake()
     {
@@ -39,7 +39,7 @@ public class Test : Btn
         Show(false);//Hide the button
         yield return new WaitForEndOfFrame();
         var img = ScreenCapture.CaptureScreenshotAsTexture();
-        Show(true);//Hide the button
+        Show(true, "예측하는 중");//Hide the button
         GetResult(img.EncodeToJPG());
     }
     /// <summary>
@@ -68,14 +68,9 @@ public class Test : Btn
             if (string.IsNullOrEmpty(colorJson.cname))
             {
                 print("에러");
+                print($"color_id : {colorJson.color_id}");
+                Show(true, "퍼스널컬러 구하기");
                 msg.text = colorJson.color_id;
-                Text text = btn.transform.GetChild(0).GetComponent<Text>();
-                text.text = "퍼스널컬러 구하기";
-                ColorBlock color = btn.colors;
-                color.normalColor = new Color(1, 1, 1, 1);
-                btn.colors = color;
-                canClick = true;
-                Show(true);
             }
             else
             {
@@ -86,13 +81,12 @@ public class Test : Btn
         }));
     }
 
-    void Show(bool value)
+    void Show(bool value, string result = "")
     {
         msg.text = "";
-        Text text = btn.transform.GetChild(0).GetComponent<Text>();
         ColorBlock color = btn.colors;
         color.normalColor = new Color(1, 1, 1, value ? 1 : 0);
         btn.colors = color;
-        text.text = value ? "예축하는중" : "";
+        btnText.text = value ? result : "";
     }
 }
