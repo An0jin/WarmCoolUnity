@@ -1,22 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Privacy : MonoBehaviour
+public class Pricy : Btn
 {
-    Button btn;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void OnClick()
     {
-        btn = GetComponent<Button>();
-        btn.onClick.AddListener(() =>
-        {
-            Application.OpenURL("https://toneiverse.netlify.app/privacy");
-        });
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Application.OpenURL("https://toneiverse.netlify.app/privacy");
     }
 }
