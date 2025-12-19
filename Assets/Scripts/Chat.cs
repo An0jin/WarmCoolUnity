@@ -20,44 +20,35 @@ public class Chat : Btn, IChatClientListener
         base.Awake();
         isConn = false;
         chatClient = new ChatClient(this);
-        StartCoroutine(GetChat());
+        GetChat();
         Application.runInBackground = true;
 
     }
     protected override void OnClick()
     {
         if (isConn)
-            StartCoroutine(Submit());
+        {
+
+            chatClient.PublishMessage(Session.session.ColorId, input.text);
+            WWWForm form = new WWWForm();
+            form.AddField("token", Session.session.Token);
+            form.AddField("msg", input.text);
+            form.AddField("color_id", Session.session.ColorId);
+            input.text = "";
+            StartCoroutine(APIManager.Post("chat", form));
+        }
     }
 
-    IEnumerator GetChat()
+    void GetChat()
     {
-        using (UnityWebRequest www = UnityWebRequest.Get(Env.Api($"chat/{Session.session.ColorId}")))
-        // using (UnityWebRequest www = UnityWebRequest.Get(Env.Api($"chat/WarmTone")))
+        StartCoroutine(APIManager.Get($"chat/{Session.session.ColorId}", (jsonText) =>
         {
-            yield return www.SendWebRequest();
-            if (www.result == UnityWebRequest.Result.Success)
-            {
-                JsonList<Message> list = JsonUtility.FromJson<JsonList<Message>>(www.downloadHandler.text);
-                foreach (Message item in list.result)
-                    AddMSG(item.name, item.msg);
-                chatClient.Connect(Env.photonChatid, "1.0", new AuthenticationValues(Session.session.Name));
-                isConn = true;
-            }
-        }
-    }
-    IEnumerator Submit()
-    {
-        chatClient.PublishMessage(Session.session.ColorId, input.text);
-        WWWForm form = new WWWForm();
-        form.AddField("token", Session.session.Token);
-        form.AddField("msg", input.text);
-        form.AddField("color_id", Session.session.ColorId);
-        input.text = "";
-        using (UnityWebRequest www = UnityWebRequest.Post(Env.Api("chat"), form))
-        {
-            yield return www.SendWebRequest();
-        }
+            JsonList<Message> list = JsonUtility.FromJson<JsonList<Message>>(jsonText);
+            foreach (Message item in list.result)
+                AddMSG(item.name, item.msg);
+            chatClient.Connect(Env.photonChatid, "1.0", new AuthenticationValues(Session.session.Name));
+            isConn = true;
+        }));
     }
     void Update()
     {
