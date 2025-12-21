@@ -10,12 +10,6 @@ public class Login : Btn
     [SerializeField] InputField email, pw;
     [SerializeField] Text msg;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
-    {
-        base.Awake();
-    }
     protected override void OnClick()
     {
         msg.color = new Color(1, 1, 1);
@@ -41,10 +35,6 @@ public class Login : Btn
                     File.WriteAllText(Env.filePath, JsonUtility.ToJson(token));
                     print(Env.filePath);
                     Session.session.isGuest = false;
-                    print($"cname : {json.cname}");
-                    print($"email : {json.email}");
-                    print($"color_id : {json.color_id}");
-                    print($"hex_code : {json.hex_code}");
                     Session.session.Login(json);
                     SceneManager.LoadScene((int)(string.IsNullOrEmpty(Session.session.HexCode) ? SceneIndex.Test : SceneIndex.Result));
                 }

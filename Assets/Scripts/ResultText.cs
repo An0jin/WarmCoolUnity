@@ -1,15 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ResultText : MonoBehaviour
+public class ResultText : TXT
 {
-    Text text;
-    // Start is called before the first frame update
-    void Start()
+    public override void SetText()
     {
-        text=GetComponent<Text>();
-        text.text=$" 당신의 퍼스널컬러: {Session.session.ColorId}";
+        text.text = $"당신의 퍼스널컬러: {Session.session.ColorId}";
     }
 }

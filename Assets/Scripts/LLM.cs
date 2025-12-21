@@ -33,7 +33,8 @@ public class LLM : Btn
             {
                 ColorInfo colorJson = JsonUtility.FromJson<ColorInfo>(res);
                 Session.session.HexCode = colorJson.hex_code;
-                cnameText.txt = colorJson.cname;
+                Session.session.Cname = colorJson.cname;
+                cnameText.SetText();
                 prompt.text = "";
                 SetUIState(true); // UI 복구
                 cls.onClick?.Invoke();

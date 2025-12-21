@@ -6,19 +6,11 @@ using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
-public class SceneBtn : MonoBehaviour
+public class SceneBtn : Btn
 {
     [SerializeField] protected SceneIndex scene;
-    protected Button btn;
-    // Start is called before the first frame update
-    protected void Start()
+    protected override void OnClick()
     {
-        btn = GetComponent<Button>();
-        btn.onClick.AddListener(Click);
-    }
-    protected virtual void Click()
-    {
-
         SceneManager.LoadScene((int)scene);
     }
 }

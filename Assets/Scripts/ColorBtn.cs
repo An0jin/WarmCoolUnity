@@ -27,7 +27,8 @@ public class ColorBtn : Btn
     protected override void OnClick()
     {
         Session.session.HexCode = hex;
-        cnameText.txt = cname;
+        Session.session.Cname = cname;
+        cnameText.SetText();
         if (!string.IsNullOrEmpty(Session.session.Token))
         {
             Lipstick lipstick = new Lipstick()

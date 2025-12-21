@@ -52,7 +52,6 @@ FastAPI 서버와 YOLOv12 모델을 연동하여 퍼스널 컬러를 분류하�
 
 - roboflow를 활용한 데이터 수집
 - github를 활용한 데이터 수집
-- open CV를 활용한 데이터 증강
 
 ### 6. [WarmCoolVim](https://github.com/An0jin/WarmCoolVim)
 

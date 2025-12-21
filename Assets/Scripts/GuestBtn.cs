@@ -5,7 +5,7 @@ public class GuestBtn : SceneBtn
 {
 
     // 부모의 Click 함수를 재정의(Override)
-    protected override void Click()
+    protected override void OnClick()
     {
         // 1. 게스트 로그인 로직 실행
         // (오타가 있다면 isGeust 그대로, 수정했다면 isGuest로 사용)
@@ -20,6 +20,6 @@ public class GuestBtn : SceneBtn
         }
 
         // 2. 부모의 원래 기능(씬 이동) 실행
-        base.Click();
+        base.OnClick();
     }
 }
