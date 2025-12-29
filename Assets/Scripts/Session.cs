@@ -33,7 +33,6 @@ public class Session : MonoBehaviour
     public string ColorId { get; private set; }
     public string Cname { get; set; }
     public string HexCode { set; get; }
-    public bool isGuest { get; set; }
     public string PhotonChatId
     {
         set

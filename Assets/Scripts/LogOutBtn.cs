@@ -1,26 +1,13 @@
 using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Toneiverse;
-public class LogOutBtn : MonoBehaviour
+public class LogOutBtn : SceneBtn
 {
-    Button btn;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected override void OnClick()
     {
-        btn = GetComponent<Button>();
-        btn.onClick.AddListener(() =>
-        {
-            File.Delete(Env.filePath);
-            Session.session.LogOut();
-            SceneManager.LoadScene((int)SceneIndex.Title);
-        });
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        File.Delete(Env.filePath);
+        Session.session.LogOut();
+        base.OnClick();
     }
 }

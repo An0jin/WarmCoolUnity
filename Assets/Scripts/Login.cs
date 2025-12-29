@@ -33,8 +33,6 @@ public class Login : Btn
                     Token token = new Token();
                     token.token = json.token;
                     File.WriteAllText(Env.filePath, JsonUtility.ToJson(token));
-                    print(Env.filePath);
-                    Session.session.isGuest = false;
                     Session.session.Login(json);
                     SceneManager.LoadScene((int)(string.IsNullOrEmpty(Session.session.HexCode) ? SceneIndex.Test : SceneIndex.Result));
                 }

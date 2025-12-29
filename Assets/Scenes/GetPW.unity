@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 55009005}
   - component: {fileID: 55009004}
   - component: {fileID: 55009003}
-  - component: {fileID: 55009002}
+  - component: {fileID: 55009006}
   m_Layer: 5
   m_Name: Back
   m_TagString: Untagged
@@ -333,19 +333,6 @@ RectTransform:
   m_AnchoredPosition: {x: -2.891, y: 314}
   m_SizeDelta: {x: 440.91, y: 126.658}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &55009002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55009000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a614bb1e5746664f841afaebbedac3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scene: 0
 --- !u!114 &55009003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,6 +415,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 55009000}
   m_CullTransparentMesh: 1
+--- !u!114 &55009006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 55009000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a3d66f3e14d27d46830aee835abd092, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BackBtn
+  scene: 0
 --- !u!1 &458417380
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,7 +660,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8ee9f1f78da3d64b8c516c158454c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  server: {fileID: 0}
 --- !u!4 &603847102
 Transform:
   m_ObjectHideFlags: 0

@@ -55,13 +55,8 @@ public class Test : Btn
     void GetResult(byte[] img)
     {
         WWWForm form = new WWWForm();
-        if (!Session.session.isGuest)
-        {
-            print($"token: {Session.session.Token}");
-            form.AddField("token", Session.session.Token);
-        }
+        form.AddField("token", Session.session.Token);
         form.AddBinaryData("img", img);
-        print(form);
         StartCoroutine(APIManager.Post("predict", form, (jsonText) =>
         {
             ColorJson colorJson = JsonUtility.FromJson<ColorJson>(jsonText);

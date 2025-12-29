@@ -6,7 +6,7 @@ public class LLM : Btn
 {
     [SerializeField] InputField prompt;
     [SerializeField] Button cls;
-    [SerializeField] CnameText cnameText;
+    [SerializeField] ResultText cnameText;
 
     private string originalPlaceholder;
     private Text placeholderComp;

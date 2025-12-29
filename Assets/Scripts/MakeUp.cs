@@ -28,12 +28,5 @@ public class MakeUp : MonoBehaviour
                 meshRenderer.material.color = color;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Session.session.LogOut();
-            File.Delete(Env.filePath);
-            SceneManager.LoadScene((int)SceneIndex.Title);
-        }
-
     }
 }

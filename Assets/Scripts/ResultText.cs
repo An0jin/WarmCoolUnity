@@ -3,8 +3,16 @@ using UnityEngine.UI;
 
 public class ResultText : TXT
 {
+    [SerializeField] ResultType resultType;
     public override void SetText()
     {
-        text.text = $"당신의 퍼스널컬러: {Session.session.ColorId}";
+
+        text.text = resultType switch
+        {
+            ResultType.ColorId => Session.session.ColorId,
+            ResultType.Cname => Session.session.Cname,
+            _ => ""
+        };
     }
 }
+enum ResultType { ColorId, Cname }

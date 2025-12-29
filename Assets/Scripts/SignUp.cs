@@ -22,17 +22,6 @@ public class SignUp : Btn
         isSignUp = true;
         base.Awake();
     }
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneManager.LoadScene(0);
-        }
-
-    }
     void Err(string errText)
     {
         msg.color = new Color(1, 0, 0);
@@ -100,9 +89,7 @@ public class SignUp : Btn
                     Token token = new Token();
                     token.token = json.token;
                     File.WriteAllText(Env.filePath, JsonUtility.ToJson(token));
-                    print(Env.filePath);
                     Session.session.SignIn(name.text, email.text);
-                    Session.session.isGuest = false;
                     SceneManager.LoadScene(2);
                 }
                 else

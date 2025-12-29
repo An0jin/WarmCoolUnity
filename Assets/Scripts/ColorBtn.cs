@@ -3,14 +3,15 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using System;
+using Toneiverse.DTO;
 
 public class ColorBtn : Btn
 {
     private string hex, cname;
-    CnameText cnameText;
+    ResultText cnameText;
     void Awake()
     {
-        cnameText = FindFirstObjectByType<CnameText>();
+        cnameText = GameObject.Find("CnameText").GetComponent<ResultText>();
         base.Awake();
     }
     public void SetBtnColor(string hex, string cname)
@@ -29,21 +30,12 @@ public class ColorBtn : Btn
         Session.session.HexCode = hex;
         Session.session.Cname = cname;
         cnameText.SetText();
-        if (!string.IsNullOrEmpty(Session.session.Token))
+        Lipstick lipstick = new Lipstick()
         {
-            Lipstick lipstick = new Lipstick()
-            {
-                token = Session.session.Token,
-                hex_code = Session.session.HexCode
-            };
-            string json = JsonUtility.ToJson(lipstick);
-            StartCoroutine(APIManager.Put("user/lipstick", json));
-        }
-
+            token = Session.session.Token,
+            hex_code = Session.session.HexCode
+        };
+        string json = JsonUtility.ToJson(lipstick);
+        StartCoroutine(APIManager.Put("user/lipstick", json));
     }
-}
-[Serializable]
-public class Lipstick
-{
-    public string token, hex_code;
 }

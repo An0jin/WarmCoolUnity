@@ -23,6 +23,11 @@ namespace Toneiverse
     namespace DTO
     {
         [Serializable]
+        public class Lipstick
+        {
+            public string token, hex_code;
+        }
+        [Serializable]
         public class InfoJson
         {
             public string name, hex_code, color_id, msg, description, token, email, cname;

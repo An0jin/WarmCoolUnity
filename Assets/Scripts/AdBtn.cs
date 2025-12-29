@@ -5,12 +5,13 @@ using System;
 
 public class AdBtn : Btn
 {
-    // [SerializeField] Text msg;
+    // 전면 광고 객체
     private InterstitialAd interstitialAd;
 
     void Awake()
     {
         base.Awake();
+        // Google Mobile Ads SDK 초기화
         MobileAds.Initialize(_ => { Debug.Log("AdMob Initialized"); });
         btn.gameObject.SetActive(false);
         LoadInterstitial();
