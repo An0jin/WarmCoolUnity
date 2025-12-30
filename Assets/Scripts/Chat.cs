@@ -13,6 +13,7 @@ using Toneiverse.DTO;
 public class Chat : Btn, IChatClientListener
 {
     private ChatClient chatClient;
+    [SerializeField] GameObject msgView;
     [SerializeField] InputField input;
     bool isConn;
     void Awake()
@@ -35,7 +36,10 @@ public class Chat : Btn, IChatClientListener
             form.AddField("msg", input.text);
             form.AddField("color_id", Session.session.ColorId);
             input.text = "";
-            StartCoroutine(APIManager.Post("chat", form));
+            StartCoroutine(APIManager.Post("chat", form, (s) =>
+            {
+                print("성공");
+            }));
         }
     }
 
@@ -61,7 +65,7 @@ public class Chat : Btn, IChatClientListener
     }
     void AddMSG(string sender, object message)
     {
-        Msg msg = Instantiate(Resources.Load<Msg>("msg"), transform);
+        Msg msg = Instantiate(Resources.Load<Msg>("msg"), msgView.transform);
         msg.text = $"{sender} : {message}";
         print($"{sender} : {message}");
     }
