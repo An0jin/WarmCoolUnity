@@ -9,13 +9,9 @@ public class ColorBtn : Btn
 {
     private string hex, cname;
     ResultText cnameText;
-    void Awake()
+    public void SetBtnColor(string hex, string cname, ResultText cnameText)
     {
-        cnameText = GameObject.Find("CnameText").GetComponent<ResultText>();
-        base.Awake();
-    }
-    public void SetBtnColor(string hex, string cname)
-    {
+        this.cnameText = cnameText;
         this.hex = hex;
         this.cname = cname;
         ColorBlock colors = btn.colors;

@@ -6,6 +6,7 @@ using Toneiverse.DTO;
 
 public class ColorView : MonoBehaviour
 {
+    [SerializeField] ResultText cnameText;
     void Start()
     {
 
@@ -15,7 +16,7 @@ public class ColorView : MonoBehaviour
             foreach (var item in json.result)
             {
                 ColorBtn btn = Instantiate(Resources.Load<ColorBtn>("ColorBtn"), transform);
-                btn.SetBtnColor(item.hex_code, item.cname);
+                btn.SetBtnColor(item.hex_code, item.cname, cnameText);
             }
         }));
     }
