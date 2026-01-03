@@ -8,13 +8,16 @@ using System.IO;
 using System;
 using Toneiverse;
 using Toneiverse.DTO;
+using Unity.VisualScripting;
 
-public class SignUp : Btn
+public class SignUp : FormBtn
 {
+    [SerializeField] InputField id;
+    [SerializeField] Dropdown domain;
     [SerializeField] GetNum numBtn;
-    [SerializeField] InputField name, pw, email, check, num;
+    [SerializeField] Toggle agree;
+    [SerializeField] InputField num;
     bool isSignUp;
-    [SerializeField] Text msg;
 
     // Start is called before the first frame update
     void Awake()
@@ -22,63 +25,51 @@ public class SignUp : Btn
         isSignUp = true;
         base.Awake();
     }
-    void Err(string errText)
-    {
-        msg.color = new Color(1, 0, 0);
-        msg.text = errText;
-        isSignUp = true;
-    }
-    private bool ValidateForm()
-    {
-        isSignUp = false;
-        if (pw.text == "" || email.text == "" || name.text == "")
+    string email => $"{id.text.Trim()}@{domain.options[domain.value].text.ToLower()}";
+    protected override bool ValidateForm()
+    {// 1. 부모 클래스 검증(공백, 정규식 등) 실패 시 즉시 중단
+        if (!base.ValidateForm())
+            return false;
+        if (!agree.isOn)
         {
-            Err("모든 정보를 입력해주세요.");
+            Error("개인정보처리방침을 동의해주세요.");
             return false;
         }
-        if (!Validator.MatchEmail(email.text))
-        {
-            Err("이메일이 이상합니다");
-            return false;
-        }
-        if (!Validator.MatchPw(pw.text))
-        {
-            Err("비밀번호는 영문과 숫자, 특수문자로 구성되어야 하며 8~16자리여야 합니다.");
-            return false;
-        }
-        if (pw.text != check.text)
-        {
-            Err("패스워드를 다시 확인해주세요.");
-            return false;
-        }
-        if (num.text == "")
-        {
-            Err("인증번호를 입력해주세요.");
-            return false;
-        }
+
+        // 2. 인증번호 일치 여부 확인
         if (!numBtn.CheckNum(num.text))
         {
-            Err("인증번호가 일치하지 않습니다.");
+            Error("인증번호가 일치하지 않습니다.");
             return false;
         }
-        if (!numBtn.CheckEmail(email.text))
+
+        // 3. 인증받은 이메일과 현재 입력된 이메일 일치 여부 확인
+        if (!numBtn.CheckEmail(email)) // 여기서 email은 앞서 만든 FullEmail 프로퍼티 권장
         {
-            Err("이메일이 수정되었습니다. 다시 체크해주세요");
+            Error("이메일이 수정되었습니다. 다시 인증해주세요.");
             return false;
         }
-        return true;
+
+        return true; // 모든 관문을 통과해야만 true 반환
+    }
+    protected override bool IsNull()
+    {
+        return base.IsNull() || string.IsNullOrEmpty(id.text) || string.IsNullOrEmpty(num.text);
     }
     protected override void OnClick()
     {
-        if (!ValidateForm()) return;
-        msg.color = new Color(1, 1, 1);
-        msg.text = "회원가입 중...";
+        if (!ValidateForm())
+        {
+            isSignUp = true;
+            return;
+        }
+        Success("회원가입 중...");
         isSignUp = false;
 
         WWWForm form = new WWWForm();
         form.AddField("pw", pw.text);
         form.AddField("name", name.text);
-        form.AddField("email", email.text);
+        form.AddField("email", email);
         StartCoroutine(APIManager.Post("user", form, (susses) =>
         {
             try
@@ -89,31 +80,24 @@ public class SignUp : Btn
                     Token token = new Token();
                     token.token = json.token;
                     File.WriteAllText(Env.filePath, JsonUtility.ToJson(token));
-                    Session.session.SignIn(name.text, email.text);
-                    SceneManager.LoadScene(2);
+                    Session.session.SignIn(name.text, email);
+                    SceneManager.LoadScene((int)SceneIndex.Test);
                 }
                 else
                 {
-                    msg.color = new Color(1, 0, 0);
-                    msg.text = json.result;
+                    Error(json.result);
                     isSignUp = true;
-
-
                 }
             }
             catch (Exception e)
             {
-                Debug.LogError("JSON 파싱 오류: " + e.Message);
-                msg.color = new Color(1, 0, 0);
-                msg.text = "Sign up failed. (응답 처리 오류)";
+                Error("JSON 파싱 오류: " + e.Message);
                 isSignUp = true;
             }
 
         }, (error) =>
         {
-            Debug.LogError("웹 요청 오류: " + error);
-            msg.color = new Color(1, 0, 0);
-            msg.text = "Sign up failed. (서버 연결 오류)";
+            Error("웹 요청 오류: " + error);
             isSignUp = true;
 
         }));

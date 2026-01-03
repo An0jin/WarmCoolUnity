@@ -65,7 +65,7 @@ public class Chat : Btn, IChatClientListener
     }
     void AddMSG(string sender, object message)
     {
-        Msg msg = Instantiate(Resources.Load<Msg>("msg"), msgView.transform);
+        ChatItem msg = Instantiate(Resources.Load<ChatItem>("msg"), msgView.transform);
         msg.text = $"{sender} : {message}";
         print($"{sender} : {message}");
     }

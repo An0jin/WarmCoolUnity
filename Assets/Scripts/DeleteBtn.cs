@@ -3,10 +3,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class DeleteBtn : Btn
+public class DeleteBtn : MSGBtn
 {
     bool isDelete;
-    [SerializeField] Text msg;
     void Awake()
     {
         isDelete = true;
@@ -25,8 +24,7 @@ public class DeleteBtn : Btn
             },
             (err) =>
             {
-                msg.color = new Color(1, 0, 0);
-                msg.text = "삭제 실패. (서버 연결 오류)";
+                Error("삭제 실패. (서버 연결 오류)");
                 isDelete = true;
 
             }));

@@ -506,10 +506,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 762d0a179104ba44f9f2051bf064777d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PutBtn
-  name: {fileID: 1500356088}
-  pw: {fileID: 1452042124}
-  check: {fileID: 1217695376}
   msg: {fileID: 1521097683}
+  pw: {fileID: 1452042124}
+  pwConfirm: {fileID: 1217695376}
+  name: {fileID: 1500356088}
 --- !u!1 &92599745
 GameObject:
   m_ObjectHideFlags: 0

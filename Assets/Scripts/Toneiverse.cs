@@ -1,25 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using UnityEngine.UI;
 namespace Toneiverse
 {
-    public static class Validator
-    {
-        public static bool MatchPw(string pw)
-        {
-            if (string.IsNullOrEmpty(pw))
-                return false;
-            return Regex.IsMatch(pw, pwPattern);
-        }
-        public static bool MatchEmail(string email)
-        {
-            if (string.IsNullOrEmpty(email))
-                return false;
-            return Regex.IsMatch(email, emailPattern);
-        }
-        private const string pwPattern = "^[a-zA-Z0-9`~!@#$%^&*()_\\-+=\\[\\]{}|;:'\",<.>/?]{8,16}$";
-        private const string emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.(com|net|org|kr)$";
-    }
     namespace DTO
     {
         [Serializable]
@@ -70,6 +54,7 @@ namespace Toneiverse
         {
             public string chat_id, name, msg;
         }
+
     }
 
     public enum SceneIndex
