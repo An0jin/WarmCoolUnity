@@ -9,12 +9,14 @@ using UnityEngine.UI;
 using Toneiverse.DTO;
 using Toneiverse;
 
-public class Test : Btn
+public class Test : MSGBtn
 {
-    [SerializeField] Text msg, btnText;
     bool canClick;
+    [SerializeField] BackBtn backBtn;
+    Text btnText;
     void Awake()
     {
+        btnText = GetComponentInChildren<Text>();
         if (!Permission.HasUserAuthorizedPermission(Permission.Camera))
         {
 
@@ -42,16 +44,6 @@ public class Test : Btn
         Show(true, "예측하는 중");//Hide the button
         GetResult(img.EncodeToJPG());
     }
-    /// <summary>
-    /// Update is called every frame, if the MonoBehaviour is enabled.
-    /// </summary>
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            SceneManager.LoadScene(0);
-        }
-    }
     void GetResult(byte[] img)
     {
         WWWForm form = new WWWForm();
@@ -62,14 +54,12 @@ public class Test : Btn
             ColorJson colorJson = JsonUtility.FromJson<ColorJson>(jsonText);
             if (string.IsNullOrEmpty(colorJson.cname))
             {
-                print("에러");
-                print($"color_id : {colorJson.color_id}");
                 Show(true, "퍼스널컬러 구하기");
-                msg.text = colorJson.color_id;
+                Error(colorJson.color_id);
+                canClick = true;
             }
             else
             {
-                print("통과");
                 Session.session.Predict(colorJson);
                 SceneManager.LoadScene((int)SceneIndex.Result);
             }
@@ -79,9 +69,15 @@ public class Test : Btn
     void Show(bool value, string result = "")
     {
         msg.text = "";
+        SetBtn(btn, value);
+        SetBtn(backBtn.GetComponent<Button>(), value);
+        btnText.text = value ? result : "";
+    }
+    void SetBtn(Button btn, bool value)
+    {
         ColorBlock color = btn.colors;
         color.normalColor = new Color(1, 1, 1, value ? 1 : 0);
         btn.colors = color;
-        btnText.text = value ? result : "";
     }
+
 }

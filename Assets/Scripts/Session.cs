@@ -1,4 +1,3 @@
-using Photon.Pun;
 using UnityEngine;
 using Toneiverse.DTO;
 
@@ -33,23 +32,6 @@ public class Session : MonoBehaviour
     public string ColorId { get; private set; }
     public string Cname { get; set; }
     public string HexCode { set; get; }
-    public string PhotonChatId
-    {
-        set
-        {
-            if (PhotonNetwork.PhotonServerSettings != null)
-                PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat = value;
-        }
-    }
-
-    public string PhotonAppId
-    {
-        set
-        {
-            if (PhotonNetwork.PhotonServerSettings != null)
-                PhotonNetwork.PhotonServerSettings.AppSettings.AppIdRealtime = value;
-        }
-    }
     private void Awake()
     {
         // Application.runInBackground = true;
@@ -73,6 +55,7 @@ public class Session : MonoBehaviour
     }
     public void LogOut()
     {
+        NavigationManager.sceneStack.ClearHistory();
         Name = "";
         Email = "";
         ColorId = "";

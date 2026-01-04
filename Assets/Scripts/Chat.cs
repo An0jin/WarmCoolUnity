@@ -20,6 +20,11 @@ public class Chat : Btn, IChatClientListener
     {
         base.Awake();
         isConn = false;
+        if (!ChatManager.chatManager.IsAppIdConfigured)
+        {
+            ChatManager.chatManager.PhotonChatId = Env.photonChatid;
+            ChatManager.chatManager.PhotonAppId = Env.photonAppid;
+        }
         chatClient = new ChatClient(this);
         GetChat();
         Application.runInBackground = true;

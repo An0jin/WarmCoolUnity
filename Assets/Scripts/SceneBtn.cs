@@ -11,6 +11,6 @@ public class SceneBtn : Btn
     [SerializeField] protected SceneIndex scene;
     protected override void OnClick()
     {
-        SceneManager.LoadScene((int)scene);
+        NavigationManager.navigationManager.Front(scene);
     }
 }

@@ -1,7 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Toneiverse;
-public class BackBtn : SceneBtn
+public class BackBtn : Btn
 {
     // Update is called once per frame
     void Update()
@@ -10,5 +8,9 @@ public class BackBtn : SceneBtn
         {
             OnClick();
         }
+    }
+    protected override void OnClick()
+    {
+        NavigationManager.navigationManager.Back();
     }
 }
