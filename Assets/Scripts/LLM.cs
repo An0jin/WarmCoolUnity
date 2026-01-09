@@ -2,12 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using Toneiverse.DTO;
 
-public class LLM : Btn
+public class LLM : MSGBtn
 {
     [SerializeField] InputField prompt;
     [SerializeField] Button cls;
     [SerializeField] ResultText cnameText;
-    [SerializeField] Text llmText;
 
     private string originalPlaceholder;
     private Text placeholderComp;
@@ -38,7 +37,7 @@ public class LLM : Btn
                 Session.session.HexCode = colorJson.hex_code;
                 Session.session.Cname = colorJson.cname;
                 cnameText.SetText();
-                llmText.text = colorJson.result;
+                Success(colorJson.result);
                 prompt.text = "";
                 SetUIState(true);
             },
