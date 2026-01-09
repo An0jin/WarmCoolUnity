@@ -68,7 +68,7 @@ public class Loading : MonoBehaviour
                     else
                     {
                         Session.session.Login(json);
-                        NavigationManager.navigationManager.Front(string.IsNullOrEmpty(Session.session.HexCode) ? SceneIndex.Test : SceneIndex.Result);
+                        NavigationManager.navigationManager.Front(string.IsNullOrEmpty(Session.session.Sex) ? SceneIndex.ProfileSetup : string.IsNullOrEmpty(Session.session.HexCode) ? SceneIndex.Test : SceneIndex.Result);
                     }
                 }));
             }

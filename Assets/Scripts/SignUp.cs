@@ -58,49 +58,54 @@ public class SignUp : FormBtn
     }
     protected override void OnClick()
     {
-        if (!ValidateForm())
+        if (isSignUp)
         {
-            isSignUp = true;
-            return;
-        }
-        Success("회원가입 중...");
-        isSignUp = false;
-
-        WWWForm form = new WWWForm();
-        form.AddField("pw", pw.text);
-        form.AddField("name", name.text);
-        form.AddField("email", email);
-        StartCoroutine(APIManager.Post("user", form, (susses) =>
-        {
-            try
+            if (!ValidateForm())
             {
-                SignUpJson json = JsonUtility.FromJson<SignUpJson>(susses);
-                if (string.IsNullOrEmpty(json.result))//result가 비어있으면 성공이다
+                isSignUp = true;
+                return;
+            }
+            Success("회원가입 중...");
+            isSignUp = false;
+
+            WWWForm form = new WWWForm();
+            form.AddField("pw", pw.text);
+            form.AddField("name", name.text);
+            form.AddField("email", email);
+            form.AddField("year", year.text);
+            form.AddField("sex", sex);
+            StartCoroutine(APIManager.Post("user", form, (susses) =>
+            {
+                try
                 {
-                    Token token = new Token();
-                    token.token = json.token;
-                    File.WriteAllText(Env.filePath, JsonUtility.ToJson(token));
-                    Session.session.SignIn(name.text, email);
-                    SceneManager.LoadScene((int)SceneIndex.Test);
+                    SignUpJson json = JsonUtility.FromJson<SignUpJson>(susses);
+                    if (string.IsNullOrEmpty(json.result))//result가 비어있으면 성공이다
+                    {
+                        Token token = new Token();
+                        token.token = json.token;
+                        File.WriteAllText(Env.filePath, JsonUtility.ToJson(token));
+                        Session.session.SignIn(name.text, email);
+                        SceneManager.LoadScene((int)SceneIndex.Test);
+                    }
+                    else
+                    {
+                        Error(json.result);
+                        isSignUp = true;
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    Error(json.result);
+                    Error("JSON 파싱 오류: " + e.Message);
                     isSignUp = true;
                 }
-            }
-            catch (Exception e)
+
+            }, (error) =>
             {
-                Error("JSON 파싱 오류: " + e.Message);
+                Error("웹 요청 오류: " + error);
                 isSignUp = true;
-            }
 
-        }, (error) =>
-        {
-            Error("웹 요청 오류: " + error);
-            isSignUp = true;
-
-        }));
+            }));
+        }
 
     }
 

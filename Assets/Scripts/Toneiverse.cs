@@ -4,6 +4,12 @@ using System.Text.RegularExpressions;
 using UnityEngine.UI;
 namespace Toneiverse
 {
+
+
+    public class UserInfo
+    {
+        public string name, pw, token, sex, year;
+    }
     namespace DTO
     {
         [Serializable]
@@ -14,7 +20,7 @@ namespace Toneiverse
         [Serializable]
         public class InfoJson
         {
-            public string name, hex_code, color_id, msg, description, token, email, cname;
+            public string name, hex_code, color_id, msg, description, token, email, cname, sex, year;
         }
         [Serializable]
         public class Json<T>
@@ -65,6 +71,7 @@ namespace Toneiverse
         Result = 3,
         Chat = 4,
         Update = 5,
-        GetPW = 6
+        GetPW = 6,
+        ProfileSetup = 7
     }
 }

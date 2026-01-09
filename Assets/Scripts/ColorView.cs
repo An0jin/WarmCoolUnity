@@ -9,7 +9,7 @@ public class ColorView : MonoBehaviour
     [SerializeField] ResultText cnameText;
     void Start()
     {
-
+        NavigationManager.navigationManager.ClearHistory();
         StartCoroutine(APIManager.Get($"/lipstick/{Session.session.ColorId}", (jsonText) =>
         {
             JsonList<ColorJson> json = JsonUtility.FromJson<JsonList<ColorJson>>(jsonText);

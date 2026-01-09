@@ -772,7 +772,7 @@ GameObject:
   - component: {fileID: 156930136}
   - component: {fileID: 156930135}
   m_Layer: 5
-  m_Name: Scroll View
+  m_Name: ColorView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

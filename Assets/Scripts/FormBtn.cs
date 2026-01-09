@@ -1,11 +1,15 @@
+using System;
 using System.Text.RegularExpressions;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public abstract class FormBtn : MSGBtn
 {
-    [SerializeField] protected InputField pw, pwConfirm, name;
+    [SerializeField] protected InputField pw, pwConfirm, name, year;
+    [SerializeField] protected Toggle man;
+    protected string sex => man.isOn ? "남자" : "여자";
     protected virtual bool MatchPw(string pw)
     {
         string pwPattern = "^[a-zA-Z0-9`~!@#$%^&*()_\\-+=\\[\\]{}|;:'\",<.>/?]{8,16}$";
@@ -23,6 +27,13 @@ public abstract class FormBtn : MSGBtn
         if (IsNull())
         {
             Error("모든 정보를 입력해주세요.");
+            return false;
+        }
+        int todayTear = DateTime.Now.Year;
+        int birth = int.Parse(year.text);
+        if (1 > todayTear - birth || todayTear - birth > 120)
+        {
+            Error("태어난 연도가 이상합니다");
             return false;
         }
         if (!MatchPw(pw.text))

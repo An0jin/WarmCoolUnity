@@ -7,7 +7,6 @@ public class NavigationManager : MonoBehaviour
 {
     private Stack<SceneIndex> _sceneStack = new Stack<SceneIndex>();
     public static NavigationManager sceneStack;
-    public void ClearHistory() => _sceneStack.Clear();
     public static NavigationManager navigationManager
     {
         get
@@ -24,6 +23,10 @@ public class NavigationManager : MonoBehaviour
             }
             return sceneStack;
         }
+    }
+    public void ClearHistory()
+    {
+        navigationManager._sceneStack.Clear();
     }
     private void Awake()
     {

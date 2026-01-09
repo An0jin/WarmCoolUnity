@@ -28,6 +28,8 @@ public class Session : MonoBehaviour
 
     public string Token { get; private set; }
     public string Name { get; private set; }
+    public string Sex { get; private set; }
+    public string Year { get; private set; }
     public string Email { get; private set; }
     public string ColorId { get; private set; }
     public string Cname { get; set; }
@@ -52,16 +54,20 @@ public class Session : MonoBehaviour
         HexCode = json.hex_code;
         Token = json.token;
         Cname = json.cname;
+        Sex = json.sex;
+        Year = json.year;
     }
     public void LogOut()
     {
-        NavigationManager.sceneStack.ClearHistory();
+        NavigationManager.navigationManager.ClearHistory();
         Name = "";
         Email = "";
         ColorId = "";
         HexCode = "";
         Token = "";
         Cname = "";
+        Sex = "";
+        Year = "";
     }
 
 
@@ -71,9 +77,17 @@ public class Session : MonoBehaviour
         Email = email;
     }
 
-    public void UpdateInfo(string name)
+    public void UpdateInfo(string name, string sex, string year)
     {
         Name = name;
+        Sex = sex;
+        Year = year;
+    }
+    //어차피 지울 함수
+    public void AAA(string sex, string year)
+    {
+        Sex = sex;
+        Year = year;
     }
 
     public void Predict(ColorJson json)

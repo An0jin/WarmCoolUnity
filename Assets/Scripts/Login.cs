@@ -34,7 +34,8 @@ public class Login : Btn
                     token.token = json.token;
                     File.WriteAllText(Env.filePath, JsonUtility.ToJson(token));
                     Session.session.Login(json);
-                    SceneManager.LoadScene((int)(string.IsNullOrEmpty(Session.session.HexCode) ? SceneIndex.Test : SceneIndex.Result));
+                    NavigationManager.navigationManager.Front(string.IsNullOrEmpty(Session.session.Sex) ? SceneIndex.ProfileSetup : string.IsNullOrEmpty(Session.session.HexCode) ? SceneIndex.Test : SceneIndex.Result
+);
                 }
                 else
                 {

@@ -7,11 +7,19 @@ using UnityEngine.UI;
 public class PutBtn : FormBtn
 {
     bool isUpdate;
+    [SerializeField] Toggle woman;
     void Awake()
     {
+        if (Session.session.Sex == "남자")
+            man.isOn = true;
+        else
+            woman.isOn = true;
+        name.text = Session.session.Name;
+        year.text = Session.session.Year;
         isUpdate = true;
         base.Awake();
     }
+
     protected override void OnClick()
     {
         if (isUpdate)
@@ -27,15 +35,18 @@ public class PutBtn : FormBtn
             {
                 name = name.text,
                 pw = pw.text,
-                token = Session.session.Token
+                token = Session.session.Token,
+                sex = sex,
+                year = year.text
             };
+
             StartCoroutine(APIManager.Put("user", JsonUtility.ToJson(user), (sussess) =>
             {
                 try
                 {
                     Json<string> json = JsonUtility.FromJson<Json<string>>(sussess);
                     Debug.Log("JSON 파싱 결과: " + JsonUtility.ToJson(json));
-                    Session.session.UpdateInfo(name.text);
+                    Session.session.UpdateInfo(name.text, sex, year.text);
                     Success(json.result);
                 }
                 catch (Exception e)
@@ -52,11 +63,6 @@ public class PutBtn : FormBtn
                 isUpdate = true;
             }));
         }
-    }
-
-    public class UserInfo
-    {
-        public string name, pw, token;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

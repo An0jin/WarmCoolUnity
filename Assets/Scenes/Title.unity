@@ -1086,9 +1086,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 805195308}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6572abf79cb45149b168d50a989cdff, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a3d66f3e14d27d46830aee835abd092, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ShutdownBtn
+  m_EditorClassIdentifier: Assembly-CSharp::BackBtn
 --- !u!1 &900031410
 GameObject:
   m_ObjectHideFlags: 0
