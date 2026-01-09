@@ -7,6 +7,7 @@ public class LLM : Btn
     [SerializeField] InputField prompt;
     [SerializeField] Button cls;
     [SerializeField] ResultText cnameText;
+    [SerializeField] Text llmText;
 
     private string originalPlaceholder;
     private Text placeholderComp;
@@ -27,17 +28,19 @@ public class LLM : Btn
         WWWForm form = new WWWForm();
         form.AddField("token", Session.session.Token);
         form.AddField("msg", prompt.text);
+        form.AddField("sex", Session.session.Sex);
+        form.AddField("year", Session.session.Year);
 
         StartCoroutine(APIManager.Post("llm", form,
             (res) =>
             {
-                ColorInfo colorJson = JsonUtility.FromJson<ColorInfo>(res);
+                LLMResponse colorJson = JsonUtility.FromJson<LLMResponse>(res);
                 Session.session.HexCode = colorJson.hex_code;
                 Session.session.Cname = colorJson.cname;
                 cnameText.SetText();
+                llmText.text = colorJson.result;
                 prompt.text = "";
-                SetUIState(true); // UI 복구
-                cls.onClick?.Invoke();
+                SetUIState(true);
             },
             (error) =>
             {

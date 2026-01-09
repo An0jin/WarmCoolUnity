@@ -44,9 +44,9 @@ namespace Toneiverse
             public List<T> result;
         }
         [Serializable]
-        public class ColorInfo
+        public class LLMResponse
         {
-            public string hex_code, cname;
+            public string hex_code, cname, result;
         }
 
         [Serializable]
