@@ -10,10 +10,12 @@ public abstract class MSGBtn : Btn
     }
     protected virtual void Success(string text)
     {
-        SetMSG(new Color(248, 149, 114), text);
+        Color color = new Color(250 / 255f, 156 / 255f, 120 / 255f);
+        SetMSG(color, text);
     }
     protected virtual void Error(string text)
     {
-        SetMSG(Color.red, text);
+        Color color = Color.red;
+        SetMSG(color, text);
     }
 }
