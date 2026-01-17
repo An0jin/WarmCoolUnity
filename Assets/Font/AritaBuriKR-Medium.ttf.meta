@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 40498b1822c5913428a7b906dc9da9ad
+guid: 100fd7937afb6294fa1511e539362a78
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - SinchonRhapsody TTF
+  - Arita Buri KR
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
