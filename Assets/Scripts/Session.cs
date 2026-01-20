@@ -1,5 +1,6 @@
 using UnityEngine;
 using Toneiverse.DTO;
+using System;
 
 public class Session : MonoBehaviour
 {
@@ -33,7 +34,20 @@ public class Session : MonoBehaviour
     public string Email { get; private set; }
     public string ColorId { get; private set; }
     public string Cname { get; set; }
-    public string HexCode { set; get; }
+    private string _hexCode;
+    public string HexCode
+    {
+        set
+        {
+            if (_hexCode != value)
+            {
+                _hexCode = value;
+                OnColorChanged?.Invoke();
+            }
+        }
+        get => _hexCode;
+    }
+    public static Action OnColorChanged;
     private void Awake()
     {
         // Application.runInBackground = true;
