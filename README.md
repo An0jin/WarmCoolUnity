@@ -63,7 +63,7 @@ FastAPI 서버와 YOLOv12 모델을 연동하여 퍼스널 컬러를 분류하�
 
 - ### 폰트
 
-  - [신촌랩소디체](https://noonnu.cc/font_page/1577)
+  - [아리따 글꼴](https://www.apgroup.com/int/ko/about-us/visual-identity/arita-typeface/arita-typeface.html)
 - ### 참고 이미지
 
   - [![AR Face Assets](https://img.shields.io/badge/-AR%20Face%20Assets-000000?style=flat&logo=unity&logoColor=white)](https://assetstore.unity.com/packages/essentials/asset-packs/ar-face-assets-184187)
