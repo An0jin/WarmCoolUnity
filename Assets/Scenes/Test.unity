@@ -973,6 +973,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   msg: {fileID: 1838506136}
+  lodingMSG: "\uD37C\uC2A4\uB110\uCEEC\uB7EC\uB97C \uAD6C\uD558\uB294\uC911"
   backBtn: {fileID: 795860424}
 --- !u!1 &1637661597
 GameObject:

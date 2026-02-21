@@ -72,6 +72,7 @@ namespace Toneiverse
         Chat = 4,
         Update = 5,
         GetPW = 6,
-        ProfileSetup = 7
+        ProfileSetup = 7,
+        LipstickCheck = 8
     }
 }
