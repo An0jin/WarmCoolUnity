@@ -32,7 +32,7 @@ public class Chat : Btn, IChatClientListener
     }
     protected override void OnClick()
     {
-        if (isConn)
+        if (isConn && input.text.Replace(" ", "") != "")
         {
 
             chatClient.PublishMessage(Session.session.ColorId, input.text);

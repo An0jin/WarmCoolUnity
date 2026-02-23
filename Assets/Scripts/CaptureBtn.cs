@@ -55,15 +55,22 @@ public abstract class CaptureBtn : MSGBtn
 
     protected virtual void Show(bool value, string result = "")
     {
+        print($"result is {result}");
+        print($"value is {value}");
         msg.text = "";
         SetBtn(value);
         backBtn.gameObject.SetActive(value);
-        btnText.text = value ? result : "";
+        btnText.text = result;
     }
     protected virtual void SetBtn(bool value)
     {
-        ColorBlock color = btn.colors;
-        color.normalColor = new Color(1, 1, 1, value ? 1 : 0);
-        btn.colors = color;
+        var image = btn.GetComponent<Image>();
+        if (image != null)
+        {
+            Color c = image.color;
+            c.a = value ? 1f : 0f;
+            print($"c.a is {c.a}");
+            image.color = c;
+        }
     }
 }

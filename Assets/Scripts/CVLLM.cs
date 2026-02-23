@@ -10,7 +10,8 @@ public class CVLLM : CaptureBtn
     protected override void OnCaptureComplete(byte[] img)
     {
         toggle.isOn = false;
-        SetBtn(false);
+        view.SetActive(false);
+        toggle.gameObject.SetActive(false);
         WWWForm form = new WWWForm();
         form.AddField("color_id", Session.session.ColorId);
         form.AddBinaryData("img", img);
@@ -19,17 +20,18 @@ public class CVLLM : CaptureBtn
             try
             {
                 print("파일 받음");
+                view.SetActive(true);
+                toggle.gameObject.SetActive(true);
                 Json<string> json = JsonUtility.FromJson<Json<string>>(susses);
                 toggle.isOn = true;
-                print(json.result);
                 Show(true, first_text);
+                print(json.result);
                 Success(json.result);
             }
             catch (Exception e)
             {
                 Error("JSON 파싱 오류: " + e.Message);
             }
-            SetBtn(true);
 
         }, (error) =>
         {
@@ -39,10 +41,5 @@ public class CVLLM : CaptureBtn
         }));
         canClick = true;
 
-    }
-    protected override void Show(bool value, string result = "")
-    {
-        view.SetActive(value);
-        base.Show(value, result);
     }
 }

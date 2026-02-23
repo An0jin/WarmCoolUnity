@@ -546,7 +546,6 @@ GameObject:
   - component: {fileID: 529158150}
   - component: {fileID: 529158149}
   - component: {fileID: 529158148}
-  - component: {fileID: 529158153}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -700,8 +699,8 @@ MonoBehaviour:
   m_LightEstimationMode: -1
   m_AutoFocus: 0
   m_ImageStabilization: 0
-  m_LightEstimation: -1
-  m_FacingDirection: 2
+  m_LightEstimation: 0
+  m_FacingDirection: 1
   m_RenderMode: 0
 --- !u!81 &529158151
 AudioListener:
@@ -762,23 +761,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &529158153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 529158146}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b15f82cc229284894964d2d30806969d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.XR.ARFoundation::UnityEngine.XR.ARFoundation.AROcclusionManager
-  m_HumanSegmentationStencilMode: 1
-  m_HumanSegmentationDepthMode: 1
-  m_EnvironmentDepthMode: 1
-  m_EnvironmentDepthTemporalSmoothing: 1
-  m_OcclusionPreferenceMode: 2
 --- !u!1 &561196111
 GameObject:
   m_ObjectHideFlags: 0
@@ -1779,6 +1761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CVLLM
   msg: {fileID: 1040334470}
+  color: {r: 0, g: 0, b: 0, a: 1}
   lodingMSG: "AI\uAC00 \uD310\uB2E8\uD558\uB294\uC911"
   backBtn: {fileID: 795860424}
   toggle: {fileID: 399247561}
