@@ -26,7 +26,7 @@ Unity의 **ARFoundation**을 활용하여 사용자에게 몰입감 있는 퍼�
 
 사용자 경험과 시스템 안정성을 고려한 설계를 갖추고 있습니다.
 
-- **Efficient Data Handling**: `JsonUtility`를 활용한 가벼운 데이터 파이싱 및 `UnityWebRequest` 기반의 비동기 통신 최적화.
+- **Efficient Data Handling**: `JsonUtility`를 활용한 가벼운 데이터 파싱 및 `UnityWebRequest` 기반의 비동기 통신 최적화.
 - **Automated Deployment**: 상용 도메인(`duckdns`) 연동을 통한 안정적인 서비스 엔드포인트 관리.
 
 ---
