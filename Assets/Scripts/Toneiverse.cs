@@ -28,6 +28,12 @@ namespace Toneiverse
             public T result;
         }
         [Serializable]
+        public class PutJson
+        {
+            public string result;
+            public string token;
+        }
+        [Serializable]
         public class Token
         {
             public string token;

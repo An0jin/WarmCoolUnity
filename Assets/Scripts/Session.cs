@@ -91,11 +91,12 @@ public class Session : MonoBehaviour
         Email = email;
     }
 
-    public void UpdateInfo(string name, string sex, string year)
+    public void UpdateInfo(string name, string sex, string year, string token)
     {
         Name = name;
         Sex = sex;
         Year = year;
+        Token = token;
     }
     //어차피 지울 함수
     public void AAA(string sex, string year)

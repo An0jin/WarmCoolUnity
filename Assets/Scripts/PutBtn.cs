@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Toneiverse;
 using Toneiverse.DTO;
 using UnityEngine;
@@ -22,8 +23,12 @@ public class PutBtn : FormBtn
 
     protected override void OnClick()
     {
+        print($"눌렀다");
+
         if (isUpdate)
         {
+            print($"체크완료");
+
             isUpdate = false;
             Success("수정중...");
             if (!ValidateForm())
@@ -31,6 +36,7 @@ public class PutBtn : FormBtn
                 isUpdate = true;
                 return;
             }
+            print($"pw.text : {pw.text}");
             UserInfo user = new UserInfo()
             {
                 name = name.text,
@@ -39,14 +45,16 @@ public class PutBtn : FormBtn
                 sex = sex,
                 year = year.text
             };
-
             StartCoroutine(APIManager.Put("user", JsonUtility.ToJson(user), (sussess) =>
             {
                 try
                 {
-                    Json<string> json = JsonUtility.FromJson<Json<string>>(sussess);
+                    PutJson json = JsonUtility.FromJson<PutJson>(sussess);
                     Debug.Log("JSON 파싱 결과: " + JsonUtility.ToJson(json));
-                    Session.session.UpdateInfo(name.text, sex, year.text);
+                    Session.session.UpdateInfo(name.text, sex, year.text, json.token);
+                    Token token = new Token();
+                    token.token = json.token;
+                    File.WriteAllText(Env.filePath, JsonUtility.ToJson(token));
                     Success(json.result);
                 }
                 catch (Exception e)

@@ -12,7 +12,7 @@ public abstract class FormBtn : MSGBtn
     protected string sex => man.isOn ? "남자" : "여자";
     protected virtual bool MatchPw(string pw)
     {
-        string pwPattern = "^[a-zA-Z0-9`~!@#$%^&*()_\\-+=\\[\\]{}|;:'\",<.>/?]{8,16}$";
+        string pwPattern = @"^[a-zA-Z0-9`~!@#$%^&*()_+=\[\]{}|;:'"",.<>/?-]{8,16}$";
         if (string.IsNullOrEmpty(pw))
             return false;
         return Regex.IsMatch(pw, pwPattern);
