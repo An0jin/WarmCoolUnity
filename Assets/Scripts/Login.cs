@@ -32,7 +32,7 @@ public class Login : Btn
                 {
                     Token token = new Token();
                     token.token = json.token;
-                    File.WriteAllText(Env.filePath, JsonUtility.ToJson(token));
+                    File.WriteAllText(Env.I.Config.FilePath, JsonUtility.ToJson(token));
                     Session.session.Login(json);
                     NavigationManager.navigationManager.Front(string.IsNullOrEmpty(Session.session.Sex) ? SceneIndex.ProfileSetup : string.IsNullOrEmpty(Session.session.HexCode) ? SceneIndex.Test : SceneIndex.Result
 );

@@ -16,14 +16,14 @@ public class Chat : Btn, IChatClientListener
     [SerializeField] GameObject msgView;
     [SerializeField] InputField input;
     bool isConn;
-    void Awake()
+    protected override void Awake()
     {
         base.Awake();
         isConn = false;
         if (!ChatManager.chatManager.IsAppIdConfigured)
         {
-            ChatManager.chatManager.PhotonChatId = Env.photonChatid;
-            ChatManager.chatManager.PhotonAppId = Env.photonAppid;
+            ChatManager.chatManager.PhotonChatId = Env.I.Config.PhotonChatId;
+            ChatManager.chatManager.PhotonAppId = Env.I.Config.PhotonAppId;
         }
         chatClient = new ChatClient(this);
         GetChat();
@@ -55,7 +55,7 @@ public class Chat : Btn, IChatClientListener
             JsonList<Message> list = JsonUtility.FromJson<JsonList<Message>>(jsonText);
             foreach (Message item in list.result)
                 AddMSG(item.name, item.msg);
-            chatClient.Connect(Env.photonChatid, "1.0", new AuthenticationValues(Session.session.Name));
+            chatClient.Connect(Env.I.Config.PhotonChatId, "1.0", new AuthenticationValues(Session.session.Name));
             isConn = true;
         }));
     }

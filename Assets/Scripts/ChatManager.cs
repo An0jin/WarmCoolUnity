@@ -10,7 +10,6 @@ public class ChatManager : MonoBehaviour
         {
             if (_instance == null)
             {
-                // 최신 유니티 권장 메서드 사용
                 _instance = FindFirstObjectByType<ChatManager>();
                 if (_instance == null)
                 {

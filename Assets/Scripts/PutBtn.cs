@@ -54,7 +54,7 @@ public class PutBtn : FormBtn
                     Session.session.UpdateInfo(name.text, sex, year.text, json.token);
                     Token token = new Token();
                     token.token = json.token;
-                    File.WriteAllText(Env.filePath, JsonUtility.ToJson(token));
+                    File.WriteAllText(Env.I.Config.FilePath, JsonUtility.ToJson(token));
                     Success(json.result);
                 }
                 catch (Exception e)

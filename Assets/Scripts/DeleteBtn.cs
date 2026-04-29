@@ -6,19 +6,23 @@ using UnityEngine.UI;
 public class DeleteBtn : MSGBtn
 {
     bool isDelete;
-    void Awake()
+    protected override void Awake()
     {
         isDelete = true;
+
         base.Awake();
     }
+
+
     protected override void OnClick()
     {
         if (isDelete)
         {
+
             isDelete = false;
             StartCoroutine(APIManager.Delete($"user/{Session.session.Token}", (success) =>
             {
-                File.Delete(Env.filePath);
+                File.Delete(Env.I.Config.FilePath);
                 SceneManager.LoadScene(0);
 
             },

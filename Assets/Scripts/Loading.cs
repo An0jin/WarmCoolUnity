@@ -39,9 +39,9 @@ public class Loading : MonoBehaviour
     {
         msg.text = "자동 로그인을 체크하는중...";
         //파일 시스템이 존재하는가?
-        if (File.Exists(Env.filePath))
+        if (File.Exists(Env.I.Config.FilePath))
         {
-            string data = File.ReadAllText(Env.filePath);
+            string data = File.ReadAllText(Env.I.Config.FilePath);
             if (string.IsNullOrEmpty(data))
             {
                 SetLoading(false);
@@ -63,7 +63,7 @@ public class Loading : MonoBehaviour
                     if (string.IsNullOrEmpty(json.email))
                     {
                         SetLoading(false);
-                        File.Delete(Env.filePath);
+                        File.Delete(Env.I.Config.FilePath);
                     }
                     else
                     {

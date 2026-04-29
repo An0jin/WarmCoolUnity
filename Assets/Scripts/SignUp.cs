@@ -83,7 +83,7 @@ public class SignUp : FormBtn
                     {
                         Token token = new Token();
                         token.token = json.token;
-                        File.WriteAllText(Env.filePath, JsonUtility.ToJson(token));
+                        File.WriteAllText(Env.I.Config.FilePath, JsonUtility.ToJson(token));
                         Session.session.SignIn(name.text, email);
                         SceneManager.LoadScene((int)SceneIndex.Test);
                     }

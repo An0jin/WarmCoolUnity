@@ -1,6 +1,7 @@
 using UnityEngine;
 public class BackBtn : Btn
 {
+
     // Update is called once per frame
     void Update()
     {
@@ -9,6 +10,7 @@ public class BackBtn : Btn
             OnClick();
         }
     }
+
     protected override void OnClick()
     {
         NavigationManager.navigationManager.Back();

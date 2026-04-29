@@ -6,7 +6,7 @@ public class LogOutBtn : SceneBtn
 {
     protected override void OnClick()
     {
-        File.Delete(Env.filePath);
+        File.Delete(Env.I.Config.FilePath);
         Session.session.LogOut();
         base.OnClick();
     }

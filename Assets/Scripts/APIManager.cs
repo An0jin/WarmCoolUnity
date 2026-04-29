@@ -28,23 +28,23 @@ public static class APIManager
     }
     public static IEnumerator Get(string endpoint, Action<string> onSuccess = null, Action<string> onError = null)
     {
-        UnityWebRequest www = UnityWebRequest.Get(Env.Api(endpoint));
+        UnityWebRequest www = UnityWebRequest.Get(Env.I.Config.Api(endpoint));
         yield return SendRequest(www, onSuccess, onError);
     }
     public static IEnumerator Post(string endpoint, WWWForm form = null, Action<string> onSuccess = null, Action<string> onError = null)
     {
-        UnityWebRequest www = UnityWebRequest.Post(Env.Api(endpoint), form);
+        UnityWebRequest www = UnityWebRequest.Post(Env.I.Config.Api(endpoint), form);
         yield return SendRequest(www, onSuccess, onError);
     }
     public static IEnumerator Put(string endpoint, string json, Action<string> onSuccess = null, Action<string> onError = null)
     {
-        UnityWebRequest www = UnityWebRequest.Put(Env.Api(endpoint), json);
+        UnityWebRequest www = UnityWebRequest.Put(Env.I.Config.Api(endpoint), json);
         www.SetRequestHeader("Content-Type", "application/json");
         yield return SendRequest(www, onSuccess, onError);
     }
     public static IEnumerator Delete(string endpoint, Action<string> onSuccess = null, Action<string> onError = null)
     {
-        UnityWebRequest www = UnityWebRequest.Delete(Env.Api(endpoint));
+        UnityWebRequest www = UnityWebRequest.Delete(Env.I.Config.Api(endpoint));
         www.downloadHandler = new DownloadHandlerBuffer(); // Delete도 응답 본문이 있을 수 있음
         yield return SendRequest(www, onSuccess, onError);
     }
