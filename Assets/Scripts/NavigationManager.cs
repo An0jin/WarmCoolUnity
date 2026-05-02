@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class NavigationManager : MonoBehaviour
 {
     private Stack<SceneIndex> _sceneStack = new Stack<SceneIndex>();
-    public static NavigationManager sceneStack;
+    private static NavigationManager sceneStack;
     public static NavigationManager navigationManager
     {
         get
@@ -47,25 +47,6 @@ public class NavigationManager : MonoBehaviour
         }
         SceneManager.LoadScene((int)scene);
     }
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            Debugging();
-    }
-    public void Debugging()
-    {
-#if UNITY_EDITOR
-        if (_sceneStack.Count == 0)
-        {
-            Debug.Log("[Nav] Stack is empty.");
-            return;
-        }
-
-        // 2. 한 줄에 모든 경로를 시각적으로 표현 (LIFO 순서)
-        string history = string.Join(" -> ", _sceneStack);
-        Debug.Log($"[Nav] Current Stack (Top to Bottom): {history}");
-#endif
-    }
     public void Back()
     {
         if (_sceneStack.Count > 0)
@@ -74,9 +55,7 @@ public class NavigationManager : MonoBehaviour
             SceneManager.LoadScene((int)index);
         }
         else
-        {
-            print("나간다 ㅂㅇㅂㅇ");
             Application.Quit();
-        }
+
     }
 }
