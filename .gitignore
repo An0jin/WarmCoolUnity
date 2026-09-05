@@ -6,6 +6,11 @@
 !/Assets/Scripts/**
 !/Assets/Scripts/LLM.cs
 /Assets/Resources/Env.asset
+/Assets/Scripts/*.meta
+/Assets/Resources/*.meta
+/Packages/*
+/Packages/**
+/ProjectSettings/**
 !/Packages/
 !/Packages/**
 !/ProjectSettings/

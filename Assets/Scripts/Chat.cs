@@ -9,6 +9,7 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Toneiverse.DTO;
+using Photon.Pun;
 
 public class Chat : Btn, IChatClientListener
 {
@@ -63,6 +64,8 @@ public class Chat : Btn, IChatClientListener
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            PhotonNetwork.LeaveRoom();
+            chatClient.Disconnect();
             SceneManager.LoadScene(3);
         }
 

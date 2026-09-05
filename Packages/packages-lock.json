@@ -1,13 +1,13 @@
 {
   "dependencies": {
-    "com.antigravity.editor": {
-      "version": "https://github.com/hohollala/Antigravity.git",
+    "com.badranraza.ide.antigravity": {
+      "version": "https://github.com/BadranRaza/com.unity.ide.antigravity.git",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "com.unity.test-framework": "1.1.9"
       },
-      "hash": "c5fafc89a89cc926cd9f9e486a35e84efffa0bf6"
+      "hash": "56c48cac20e412ac57aaaa47516e5d6161279acd"
     },
     "com.coplaydev.unity-mcp": {
       "version": "https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#main",
