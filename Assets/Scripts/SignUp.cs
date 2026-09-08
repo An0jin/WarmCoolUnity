@@ -74,11 +74,11 @@ public class SignUp : FormBtn
             form.AddField("email", email);
             form.AddField("year", year.text);
             form.AddField("sex", sex);
-            StartCoroutine(APIManager.Post("user", form, (susses) =>
+            StartCoroutine(APIManager.Post("user", form, (jsonText) =>
             {
                 try
                 {
-                    SignUpJson json = JsonUtility.FromJson<SignUpJson>(susses);
+                    SignUpJson json = JsonUtility.FromJson<SignUpJson>(jsonText);
                     if (string.IsNullOrEmpty(json.result))//result가 비어있으면 성공이다
                     {
                         Token token = new Token();

@@ -15,14 +15,14 @@ public class CVLLM : CaptureBtn
         WWWForm form = new WWWForm();
         form.AddField("color_id", Session.session.ColorId);
         form.AddBinaryData("img", img);
-        StartCoroutine(APIManager.Post("cvllm", form, (susses) =>
+        StartCoroutine(APIManager.Post("cvllm", form, (jsonText) =>
         {
             try
             {
                 print("파일 받음");
                 view.SetActive(true);
                 toggle.gameObject.SetActive(true);
-                Json<string> json = JsonUtility.FromJson<Json<string>>(susses);
+                Json<string> json = JsonUtility.FromJson<Json<string>>(jsonText);
                 toggle.isOn = true;
                 Show(true, first_text);
                 print(json.result);

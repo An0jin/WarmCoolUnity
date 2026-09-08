@@ -21,10 +21,10 @@ public class GetNum : MSGBtn
         checkEmail = email;
         num = UnityEngine.Random.Range(0, 9999).ToString("D4");
         form.AddField("num", num);
-        StartCoroutine(APIManager.Post("getNum", form, (susses) =>
+        StartCoroutine(APIManager.Post("getNum", form, (jsonText) =>
         {
             Success("인증번호 생성 성공.");
-            Json<string> json = JsonUtility.FromJson<Json<string>>(susses);
+            Json<string> json = JsonUtility.FromJson<Json<string>>(jsonText);
             Success(json.result);
         }, (error) =>
         {

@@ -45,11 +45,11 @@ public class PutBtn : FormBtn
                 sex = sex,
                 year = year.text
             };
-            StartCoroutine(APIManager.Put("user", JsonUtility.ToJson(user), (sussess) =>
+            StartCoroutine(APIManager.Put("user", JsonUtility.ToJson(user), (jsonText) =>
             {
                 try
                 {
-                    PutJson json = JsonUtility.FromJson<PutJson>(sussess);
+                    PutJson json = JsonUtility.FromJson<PutJson>(jsonText);
                     Debug.Log("JSON 파싱 결과: " + JsonUtility.ToJson(json));
                     Session.session.UpdateInfo(name.text, sex, year.text, json.token);
                     Token token = new Token();

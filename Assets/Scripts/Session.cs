@@ -98,8 +98,7 @@ public class Session : MonoBehaviour
         Year = year;
         Token = token;
     }
-    //어차피 지울 함수
-    public void AAA(string sex, string year)
+    public void SetProfile(string sex, string year)
     {
         Sex = sex;
         Year = year;

@@ -1,54 +1,72 @@
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using UnityEngine.UI;
+
 namespace Toneiverse
 {
-
-
-    public class UserInfo
-    {
-        public string name, pw, token, sex, year;
-    }
     namespace DTO
     {
+        [Serializable]
+        public class UserInfo
+        {
+            public string name;
+            public string pw;
+            public string token;
+            public string sex;
+            public string year;
+        }
+
+        [Serializable]
+        public class ProfileSetupJson
+        {
+            public string token;
+            public string sex;
+            public string year;
+        }
+
         [Serializable]
         public class Lipstick
         {
             public string token, hex_code;
         }
+
         [Serializable]
         public class InfoJson
         {
             public string name, hex_code, color_id, msg, description, token, email, cname, sex, year;
         }
+
         [Serializable]
         public class Json<T>
         {
             public T result;
         }
+
         [Serializable]
         public class PutJson
         {
             public string result;
             public string token;
         }
+
         [Serializable]
         public class Token
         {
             public string token;
         }
+
         [Serializable]
         public class SignUpJson
         {
             public string result;
             public string token;
         }
+
         [Serializable]
         public class JsonList<T>
         {
             public List<T> result;
         }
+
         [Serializable]
         public class LLMResponse
         {
@@ -66,12 +84,11 @@ namespace Toneiverse
         {
             public string chat_id, name, msg;
         }
-
     }
 
     public enum SceneIndex
     {
-        Title = 0,  // 번호를 명시하는 게 안전합니다 (Build Settings 순서와 일치)
+        Title = 0,
         SignUp = 1,
         Test = 2,
         Result = 3,

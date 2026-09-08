@@ -29,9 +29,8 @@ public abstract class FormBtn : MSGBtn
             Error("모든 정보를 입력해주세요.");
             return false;
         }
-        int todayTear = DateTime.Now.Year;
-        int birth = int.Parse(year.text);
-        if (1 > todayTear - birth || todayTear - birth > 120)
+        int currentYear = DateTime.Now.Year;
+        if (!int.TryParse(year.text, out int birth) || currentYear - birth < 1 || currentYear - birth > 120)
         {
             Error("태어난 연도가 이상합니다");
             return false;
