@@ -1,14 +1,32 @@
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
 using UnityEngine.UI; // Unity UI 시스템 네임스페이스 참조
 
-/// <summary>세션의 진단 결과 중 지정된 항목을 UI 텍스트로 표시합니다.</summary>
+/// <summary>세션의 진단 결과 중 지정된 항목을 UI 텍스트로 표시하며 세션 이벤트를 구독해 자동 갱신합니다.</summary>
 public class ResultText : TXT // TXT 기반으로 세션의 결과 텍스트를 자동 업데이트하는 클래스
 {
     [SerializeField] ResultType resultType; // 인스펙터에서 텍스트의 종류(ColorId, Cname 등)를 선택하는 필드
 
+    // 이벤트 리스너 등록
+    private void OnEnable()
+    {
+        Session.OnColorChanged.AddListener(HandleColorChanged);
+        Session.OnColorPredicted.AddListener(HandleColorPredicted);
+    }
+
+    // 이벤트 리스너 해제
+    private void OnDisable()
+    {
+        Session.OnColorChanged.RemoveListener(HandleColorChanged);
+        Session.OnColorPredicted.RemoveListener(HandleColorPredicted);
+    }
+
+    private void HandleColorChanged() => SetText();
+    private void HandleColorPredicted(Toneiverse.DTO.ColorJson _) => SetText();
+
     // 부모 클래스 TXT의 SetText 추상 메서드 재정의
     public override void SetText()
     {
+        if (text == null) text = GetComponent<Text>();
         // 설정된 resultType에 맞춰 Session 싱글턴의 데이터값을 Text UI에 할당
         text.text = resultType switch
         {

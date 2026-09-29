@@ -5,13 +5,14 @@ using System.Linq; // LINQ 참조
 using ExitGames.Client.Photon; // Photon SDK 참조
 using Photon.Chat; // Photon Chat API 참조
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
+using UnityEngine.Events; // UnityEvent 참조
 using UnityEngine.Networking; // 네트워크 참조
 using UnityEngine.SceneManagement; // 씬 전환 참조
 using UnityEngine.UI; // InputField, Text UI 참조
 using Toneiverse.DTO; // DTO 참조
 using Photon.Pun; // Photon PUN 참조
 
-/// <summary>이전 채팅을 불러오고 Photon 채널에서 실시간 메시지를 송수신합니다.</summary>
+/// <summary>이전 채팅을 불러오고 Photon 채널에서 실시간 메시지를 송수신하며 이벤트를 발송합니다.</summary>
 public class Chat : Btn, IChatClientListener // 실시간 오픈 포톤 채팅 제어 스크립트
 {
     private ChatClient chatClient; // Photon Chat 서비스 클라이언트 인스턴스
@@ -19,12 +20,17 @@ public class Chat : Btn, IChatClientListener // 실시간 오픈 포톤 채팅 �
     [SerializeField] InputField input; // 입력 필드
     bool isConn; // 연결 플래그
 
+    [Header("채팅 이벤트 설정")]
+    [SerializeField] public UnityEvent<string, string> onMessageReceivedEvent = new UnityEvent<string, string>();
+    [SerializeField] public UnityEvent onConnectedEvent = new UnityEvent();
+    [SerializeField] public UnityEvent onDisconnectedEvent = new UnityEvent();
+
     // 초기화 생명주기
     protected override void Awake()
     {
         base.Awake();
         isConn = false;
-        
+
         // 포톤 서버 설정 자동 연결
         if (!ChatManager.chatManager.IsAppIdConfigured)
         {
@@ -47,12 +53,9 @@ public class Chat : Btn, IChatClientListener // 실시간 오픈 포톤 채팅 �
             form.AddField("msg", input.text);
             form.AddField("color_id", Session.session.ColorId);
             input.text = "";
-            
+
             // DB 백엔드 채팅 내역 저장 요청
-            StartCoroutine(APIManager.Post("chat", form, (s) =>
-            {
-                print("성공");
-            }));
+            StartCoroutine(APIManager.Post("chat", form));
         }
     }
 
@@ -64,7 +67,7 @@ public class Chat : Btn, IChatClientListener // 실시간 오픈 포톤 채팅 �
             JsonList<Message> list = JsonUtility.FromJson<JsonList<Message>>(jsonText);
             foreach (Message item in list.result)
                 AddMSG(item.name, item.msg);
-            
+
             // 과거 채팅을 로드한 뒤 포톤 서버 접속 실행
             chatClient.Connect(Env.I.Config.PhotonChatId, "1.0", new AuthenticationValues(Session.session.Name));
             isConn = true;
@@ -87,15 +90,18 @@ public class Chat : Btn, IChatClientListener // 실시간 오픈 포톤 채팅 �
     // 채팅 UI 요소 동적 생성
     void AddMSG(string sender, object message)
     {
+        string msgText = message?.ToString() ?? "";
         ChatItem msg = Instantiate(Resources.Load<ChatItem>("msg"), msgView.transform);
-        msg.text = $"{sender} : {message}";
-        print($"{sender} : {message}");
+        msg.text = $"{sender} : {msgText}";
+        print($"{sender} : {msgText}");
+        onMessageReceivedEvent?.Invoke(sender, msgText); // Unity 수신 이벤트 통지
     }
 
     // 포톤 서버 접속 성공 시 채널 구독
     public void OnConnected()
     {
         chatClient.Subscribe(Session.session.ColorId);
+        onConnectedEvent?.Invoke(); // Unity 연결 이벤트 통지
     }
 
     // 메시지 수신 시 처리
@@ -111,6 +117,7 @@ public class Chat : Btn, IChatClientListener // 실시간 오픈 포톤 채팅 �
     public void OnDisconnected()
     {
         chatClient.Disconnect();
+        onDisconnectedEvent?.Invoke(); // Unity 해제 이벤트 통지
     }
 
     // IChatClientListener 인터페이스 나머지 미사용 이벤트

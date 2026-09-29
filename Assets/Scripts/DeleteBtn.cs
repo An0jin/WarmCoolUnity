@@ -1,12 +1,16 @@
 using System.IO; // 로컬 토큰 파일 삭제를 위한 System.IO 참조
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
+using UnityEngine.Events; // UnityEvent 네임스페이스 참조
 using UnityEngine.SceneManagement; // SceneManager 씬 전환 참조
 using UnityEngine.UI; // UI 시스템 참조
 
-/// <summary>회원 정보를 삭제하고 로컬 로그인 파일을 정리합니다.</summary>
+/// <summary>회원 정보를 삭제하고 로컬 로그인 파일을 정리하며 탈퇴 이벤트를 발송합니다.</summary>
 public class DeleteBtn : MSGBtn // 회원 탈퇴 요청 버튼 처리 스크립트
 {
     bool isDelete; // 중복 클릭 차단 플래그
+
+    [Header("회원 탈퇴 이벤트")]
+    [SerializeField] public UnityEvent onAccountDeletedEvent = new UnityEvent();
 
     // 초기화 생명주기
     protected override void Awake()
@@ -26,6 +30,7 @@ public class DeleteBtn : MSGBtn // 회원 탈퇴 요청 버튼 처리 스크립�
             StartCoroutine(APIManager.Delete($"user/{Session.session.Token}", (success) =>
             {
                 File.Delete(Env.I.Config.FilePath); // 로컬 저장 토큰 파일 완전 삭제
+                onAccountDeletedEvent?.Invoke(); // Unity 이벤트 통지
                 SceneManager.LoadScene(0); // 타이틀/로그인 씬(인덱스 0)으로 복귀
             },
             (err) =>

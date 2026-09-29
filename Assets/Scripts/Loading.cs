@@ -1,6 +1,7 @@
 using System.Collections; // IEnumerator 코루틴 참조
 using System.IO; // File 로컬 저장 파일 참조
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
+using UnityEngine.Events; // UnityEvent 네임스페이스 참조
 using UnityEngine.Networking; // 네트워크 관련 참조
 using UnityEngine.SceneManagement; // 씬 관리 참조
 using UnityEngine.UI; // Text UI 참조
@@ -8,11 +9,23 @@ using Toneiverse.DTO; // DTO 객체 참조
 using Toneiverse; // SceneIndex 참조
 using System; // Exception 예외 처리 참조
 
-/// <summary>저장된 토큰으로 자동 로그인하고 적절한 시작 씬으로 이동합니다.</summary>
+/// <summary>저장된 토큰으로 자동 로그인하고 적절한 시작 씬으로 이동하며 진행 이벤트를 발송합니다.</summary>
 public class Loading : MonoBehaviour // 타이틀 로딩 씬에서 버전 체크 및 자동 로그인을 전담하는 클래스
 {
     [SerializeField] Text msg; // 로딩 상황 메시지 UI
     [SerializeField] GameObject susses; // 로그인/회원가입 수동 이동 버튼 그룹 오브젝트
+
+    [Header("로딩 이벤트 설정")]
+    [SerializeField] public UnityEvent<string> onStatusChangedEvent = new UnityEvent<string>();
+    [SerializeField] public UnityEvent<InfoJson> onAutoLoginSuccessEvent = new UnityEvent<InfoJson>();
+    [SerializeField] public UnityEvent onAutoLoginFailedEvent = new UnityEvent();
+
+    // 상태 메시지 갱신 및 이벤트 통지 헬퍼
+    private void SetStatus(string text)
+    {
+        if (msg != null) msg.text = text;
+        onStatusChangedEvent?.Invoke(text);
+    }
 
     // 첫 프레임 초기화
     void Start()
@@ -40,13 +53,14 @@ public class Loading : MonoBehaviour // 타이틀 로딩 씬에서 버전 체크
     // 로컬 저장 인증 토큰 기반 자동 로그인 수행
     void CheckAutoLogin()
     {
-        msg.text = "자동 로그인을 체크하는중...";
+        SetStatus("자동 로그인을 체크하는중...");
         if (File.Exists(Env.I.Config.FilePath))
         {
             string data = File.ReadAllText(Env.I.Config.FilePath);
             if (string.IsNullOrEmpty(data))
             {
                 SetLoading(false);
+                onAutoLoginFailedEvent?.Invoke();
                 return;
             }
             Token token = JsonUtility.FromJson<Token>(data);
@@ -54,6 +68,7 @@ public class Loading : MonoBehaviour // 타이틀 로딩 씬에서 버전 체크
             if (string.IsNullOrEmpty(token.token))
             {
                 SetLoading(false);
+                onAutoLoginFailedEvent?.Invoke();
                 return;
             }
             else
@@ -67,10 +82,12 @@ public class Loading : MonoBehaviour // 타이틀 로딩 씬에서 버전 체크
                     {
                         SetLoading(false);
                         File.Delete(Env.I.Config.FilePath); // 유효하지 않으면 삭제
+                        onAutoLoginFailedEvent?.Invoke();
                     }
                     else
                     {
                         Session.session.Login(json); // 세션 데이터 적재
+                        onAutoLoginSuccessEvent?.Invoke(json); // Unity 이벤트 통지
                         
                         // 프로필 미작성 / 진단 미실행 / 진단 완료 상태별 목적지 씬 분기
                         NavigationManager.navigationManager.Front(
@@ -85,20 +102,21 @@ public class Loading : MonoBehaviour // 타이틀 로딩 씬에서 버전 체크
         else
         {
             SetLoading(false); // 로컬 데이터 없으면 수동 로그인 표시
+            onAutoLoginFailedEvent?.Invoke();
         }
     }
 
     // 앱 버전 호환성 체크
     void CheckVersion()
     {
-        msg.text = "버전 체크중...";
+        SetStatus("버전 체크중...");
 
         StartCoroutine(APIManager.Get($"/version/{Application.version}", (jsonText) =>
         {
             if (string.IsNullOrEmpty(jsonText))
             {
                 Debug.LogError("Server Response is Empty");
-                msg.text = "서버 점검중이거나 서버에 문제가 생겼습니다";
+                SetStatus("서버 점검중이거나 서버에 문제가 생겼습니다");
                 return;
             }
 
@@ -123,7 +141,7 @@ public class Loading : MonoBehaviour // 타이틀 로딩 씬에서 버전 체크
                 url = "https://play.google.com/store/apps/details?id=com.an0jin.Toneiverse";
 #endif
                 Application.OpenURL(url);
-                msg.text = "업데이트 필요";
+                SetStatus("업데이트 필요");
                 Application.Quit();
             }
         }));

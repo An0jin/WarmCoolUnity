@@ -1,13 +1,17 @@
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
+using UnityEngine.Events; // UnityEvent 네임스페이스 참조
 using Toneiverse.DTO; // DTO 데이터 구조체 참조
 using System; // Exception 예외 처리 참조
 using UnityEngine.UI; // Toggle UI 컴포넌트 참조
 
-/// <summary>캡처 이미지를 분석 API로 전송하고 생성된 결과를 표시합니다.</summary>
+/// <summary>캡처 이미지를 분석 API로 전송하고 생성된 결과를 표시하며 분석 완료 이벤트를 발송합니다.</summary>
 public class CVLLM : CaptureBtn // 화면 캡처 기반 Vision LLM 이미지 분석 스크립트
 {
     [SerializeField] protected Toggle toggle; // 결과 표시 토글
     [SerializeField] protected GameObject view; // 결과 뷰 패널
+
+    [Header("Vision LLM 이벤트 설정")]
+    [SerializeField] public UnityEvent<string> onVisionAnalysisCompletedEvent = new UnityEvent<string>();
 
     // CaptureBtn에서 캡처한 이미지 바이트 전송 콜백
     protected override void OnCaptureComplete(byte[] img)
@@ -31,8 +35,8 @@ public class CVLLM : CaptureBtn // 화면 캡처 기반 Vision LLM 이미지 분
                 Json<string> json = JsonUtility.FromJson<Json<string>>(jsonText);
                 toggle.isOn = true;
                 Show(true, first_text);
-                print(json.result);
                 Success(json.result); // LLM 텍스트 결과 표시
+                onVisionAnalysisCompletedEvent?.Invoke(json.result); // Unity 이벤트 통지
             }
             catch (Exception e)
             {

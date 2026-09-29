@@ -1,6 +1,7 @@
 using System.Collections; // IEnumerator 코루틴 사용을 위한 System.Collections 참조
 using System.Collections.Generic; // List 제네릭 컬렉션 참조
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
+using UnityEngine.Events; // UnityEvent 네임스페이스 참조
 using UnityEngine.Networking; // 네트워크 관련 참조
 using UnityEngine.SceneManagement; // 씬 전환 관리자 참조
 using UnityEngine.UI; // UI InputField, Dropdown, Toggle 컴포넌트 참조
@@ -19,6 +20,10 @@ public class SignUp : FormBtn // FormBtn 입력 폼 검증 클래스를 상속�
     [SerializeField] Toggle agree; // 약관 동의 토글
     [SerializeField] InputField num; // 사용자가 입력한 인증번호 입력창
     bool isSignUp; // 요청 중복 방지 플래그
+
+    [Header("회원가입 이벤트 설정")]
+    [SerializeField] public UnityEvent<SignUpJson> onSignUpSuccessEvent = new UnityEvent<SignUpJson>();
+    [SerializeField] public UnityEvent<string> onSignUpFailedEvent = new UnityEvent<string>();
 
     // 초기화 생명주기
     void Awake()
@@ -101,23 +106,29 @@ public class SignUp : FormBtn // FormBtn 입력 폼 검증 클래스를 상속�
                         token.token = json.token;
                         File.WriteAllText(Env.I.Config.FilePath, JsonUtility.ToJson(token)); // 로컬 자동로그인 토큰 기록
                         Session.session.SignIn(name.text, email); // 세션 등록
+                        onSignUpSuccessEvent?.Invoke(json); // Unity 회원가입 성공 이벤트 통지
                         SceneManager.LoadScene((int)SceneIndex.Test); // 측정 씬으로 이동
                     }
                     else
                     {
                         Error(json.result);
+                        onSignUpFailedEvent?.Invoke(json.result);
                         isSignUp = true;
                     }
                 }
                 catch (Exception e)
                 {
-                    Error("JSON 파싱 오류: " + e.Message);
+                    string err = "JSON 파싱 오류: " + e.Message;
+                    Error(err);
+                    onSignUpFailedEvent?.Invoke(err);
                     isSignUp = true;
                 }
 
             }, (error) =>
             {
-                Error("웹 요청 오류: " + error);
+                string err = "웹 요청 오류: " + error;
+                Error(err);
+                onSignUpFailedEvent?.Invoke(err);
                 isSignUp = true;
             }));
         }
