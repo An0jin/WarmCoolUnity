@@ -4,7 +4,7 @@ using Toneiverse; // SceneIndex 열거형 참조
 using Toneiverse.DTO; // DTO 구조체 참조
 using System; // DateTime, Exception 참조
 
-/// <summary>최초 사용자의 성별과 출생 연도를 검증해 서버에 저장합니다.</summary>
+/// <summary>최초 사용자의 성별과 출생 연도를 검증해 서버에 저장합니다 (Unity 6 Awaitable).</summary>
 public class ProfileSetupBtn : MSGBtn // 프로필 초기 설정 전용 버튼 스크립트
 {
     [SerializeField] private Toggle man; // 남성 토글 UI
@@ -12,7 +12,7 @@ public class ProfileSetupBtn : MSGBtn // 프로필 초기 설정 전용 버튼 �
     private bool isUpdate = true; // 요청 진행 여부 플래그
 
     // 클릭 시 검증 및 통신 로직 실행
-    protected override void OnClick()
+    protected override async void OnClick()
     {
         if (!isUpdate) return; // 중복 클릭 시 차단
 
@@ -44,35 +44,29 @@ public class ProfileSetupBtn : MSGBtn // 프로필 초기 설정 전용 버튼 �
             year = Session.session.Year
         };
 
-        // "user" API PUT 전송
-        StartCoroutine(APIManager.Put("user", JsonUtility.ToJson(payload), (jsonText) =>
+        try
         {
-            try
+            // "user" API PUT 비동기 전송
+            string jsonText = await APIManager.PutAsync("user", JsonUtility.ToJson(payload), destroyCancellationToken);
+            Json<string> json = JsonUtility.FromJson<Json<string>>(jsonText);
+            Debug.Log("JSON 파싱 결과: " + JsonUtility.ToJson(json));
+            if (json.result == "수정 완료")
             {
-                Json<string> json = JsonUtility.FromJson<Json<string>>(jsonText);
-                Debug.Log("JSON 파싱 결과: " + JsonUtility.ToJson(json));
-                if (json.result == "수정 완료")
-                {
-                    // 상태에 맞춰 Test(측정 씬) 또는 Result(결과 씬)으로 진입
-                    NavigationManager.navigationManager.Front(string.IsNullOrEmpty(Session.session.HexCode) ? SceneIndex.Test : SceneIndex.Result);
-                }
-                else
-                {
-                    Error("수정 실패. (응답 처리 오류)");
-                    isUpdate = true;
-                }
+                // 상태에 맞춰 Test(측정 씬) 또는 Result(결과 씬)으로 진입
+                NavigationManager.navigationManager.Front(string.IsNullOrEmpty(Session.session.HexCode) ? SceneIndex.Test : SceneIndex.Result);
             }
-            catch (Exception e)
+            else
             {
-                Debug.LogError("JSON 파싱 오류: " + e.Message);
                 Error("수정 실패. (응답 처리 오류)");
                 isUpdate = true;
             }
-        }, (err) =>
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception e)
         {
-            Debug.LogError("웹 요청 오류: " + err);
+            Debug.LogError($"[ProfileSetupBtn] 오류: {e.Message}");
             Error("수정 실패. (서버 연결 오류)");
             isUpdate = true;
-        }));
+        }
     }
 }

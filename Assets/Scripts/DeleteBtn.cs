@@ -1,11 +1,12 @@
+using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
+/// <summary>회원 탈퇴 요청을 서버에 전송하고 로컬 세션을 정리합니다 (Unity 6 Awaitable).</summary>
 public class DeleteBtn : MSGBtn
 {
-    bool isDelete;
+    private bool isDelete;
 
     protected override void Awake()
     {
@@ -13,21 +14,25 @@ public class DeleteBtn : MSGBtn
         base.Awake();
     }
 
-    protected override void OnClick()
+    protected override async void OnClick()
     {
-        if (isDelete)
+        if (!isDelete) return;
+        isDelete = false;
+
+        try
         {
-            isDelete = false;
-            StartCoroutine(APIManager.Delete($"user/{Session.session.Token}", (success) =>
+            await APIManager.DeleteAsync($"user/{Session.session.Token}", destroyCancellationToken);
+            if (File.Exists(Env.I.Config.FilePath))
             {
                 File.Delete(Env.I.Config.FilePath);
-                SceneManager.LoadScene(0);
-            },
-            (err) =>
-            {
-                Error("삭제 실패. (서버 연결 오류)");
-                isDelete = true;
-            }));
+            }
+            SceneManager.LoadScene(0);
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception)
+        {
+            Error("삭제 실패. (서버 연결 오류)");
+            isDelete = true;
         }
     }
 }

@@ -1,10 +1,9 @@
-using System.Collections; // IEnumerator 코루틴 사용을 위한 System.Collections 참조
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
-using UnityEngine.Networking; // 네트워크 관련 참조
 using UnityEngine.UI; // Button, ColorBlock 등 UI 시스템 참조
 using Toneiverse.DTO; // DTO 객체 참조
+using System; // OperationCanceledException 참조
 
-/// <summary>립스틱 색상을 표시하고 선택값을 세션과 서버에 저장합니다.</summary>
+/// <summary>립스틱 색상을 표시하고 선택값을 세션과 서버에 저장합니다 (Unity 6 Awaitable).</summary>
 public class ColorBtn : Btn // 립스틱 대표 색상을 선택하는 버튼 구현 클래스
 {
     private string hex, cname; // 색상 16진수 코드(HEX) 및 립스틱 명칭 필드
@@ -24,7 +23,7 @@ public class ColorBtn : Btn // 립스틱 대표 색상을 선택하는 버튼 �
     }
 
     // 립스틱 버튼 클릭 이벤트 핸들러
-    protected override void OnClick()
+    protected override async void OnClick()
     {
         Session.session.HexCode = hex; // 세션에 HEX 코드 할당 (AR 착색 변경 이벤트 발동)
         Session.session.Cname = cname; // 세션에 립스틱 명칭 저장
@@ -37,6 +36,15 @@ public class ColorBtn : Btn // 립스틱 대표 색상을 선택하는 버튼 �
             hex_code = Session.session.HexCode // 선택된 HEX 코드
         };
         string json = JsonUtility.ToJson(lipstick); // JSON 문자열 변환
-        StartCoroutine(APIManager.Put("user/lipstick", json)); // 백엔드 서버에 대표 립스틱 설정 전송
+
+        try
+        {
+            await APIManager.PutAsync("user/lipstick", json, destroyCancellationToken); // 백엔드 서버에 대표 립스틱 설정 전송
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception e)
+        {
+            Debug.LogError($"[ColorBtn] 립스틱 설정 오류: {e.Message}");
+        }
     }
 }

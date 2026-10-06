@@ -1,77 +1,83 @@
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
-using UnityEngine.Events; // UnityAction 콜백 대리자 제공
 using UnityEngine.Networking; // UnityWebRequest 등 웹 네트워크 통신 클래스 제공
-using System.Collections; // IEnumerator 코루틴 인터페이스 제공
+using System; // Exception, OperationCanceledException 참조
 using System.Collections.Generic; // List 제네릭 컬렉션 제공
-using System.Text; // 텍스트 인코딩 관련 클래스 제공
+using System.Threading; // CancellationToken 참조
 
-/// <summary>HTTP 요청을 생성하고 서버 응답을 콜백으로 전달합니다.</summary>
-public static class APIManager // 모든 HTTP 요청 API를 정적으로 제공하는 클래스
+/// <summary>HTTP 요청을 생성하고 서버 응답을 UnityEngine.Awaitable 비동기 패턴으로 처리합니다.</summary>
+public static class APIManager
 {
-    // [핵심] 모든 요청 전송 및 성공/실패 응답 처리를 공통 담당하는 비공개 코루틴
-    private static IEnumerator SendRequest(UnityWebRequest www, UnityAction<string> onSuccess, UnityAction<string> onError)
+    /// <summary>공통 비동기 요청 전송 메서드 (Zero-allocation, CancellationToken 연동)</summary>
+    public static async Awaitable<string> SendRequestAsync(UnityWebRequest www, CancellationToken cancellationToken = default)
     {
-        // www 객체의 통신 리소스를 안전하게 메모리 해제하기 위한 using 블록
         using (www)
         {
-            // 네트워크 통신 요청을 보내고 응답 수신까지 대기
-            yield return www.SendWebRequest();
+            using var registration = cancellationToken.Register(() =>
+            {
+                if (!www.isDone) www.Abort();
+            });
 
-            // 요청 결과가 성공인지 판별
+            try
+            {
+                await www.SendWebRequest();
+            }
+            catch when (cancellationToken.IsCancellationRequested)
+            {
+                throw new OperationCanceledException(cancellationToken);
+            }
+
             if (www.result == UnityWebRequest.Result.Success)
             {
-                // 응답 본문 텍스트 추출 (null일 경우 빈 문자열 처리)
-                string data = www.downloadHandler?.text ?? "";
-                onSuccess?.Invoke(data); // 성공 콜백 호출
+                return www.downloadHandler?.text ?? string.Empty;
             }
-            else
-            {
-                onError?.Invoke(www.error); // 네트워크 또는 HTTP 에러 발생 시 에러 콜백 호출
-            }
+
+            throw new UnityException($"[APIManager] HTTP {www.responseCode} Error: {www.error}\n{www.downloadHandler?.text}");
         }
     }
 
-    // GET 요청 실행 메서드
-    public static IEnumerator Get(string endpoint, UnityAction<string> onSuccess = null, UnityAction<string> onError = null)
+    /// <summary>GET 요청 비동기 실행 (Awaitable)</summary>
+    public static async Awaitable<string> GetAsync(string endpoint, CancellationToken cancellationToken = default)
     {
-        // URL을 조합하여 UnityWebRequest GET 요청 생성
         UnityWebRequest www = UnityWebRequest.Get(Env.I.Config.Api(endpoint));
-        yield return SendRequest(www, onSuccess, onError); // 공통 전송 루틴 호출
+        return await SendRequestAsync(www, cancellationToken);
     }
 
-    // POST 요청 실행 메서드 (IMultipartFormSection 데이터 전송)
-    public static IEnumerator Post(string endpoint, List<IMultipartFormSection> form = null, UnityAction<string> onSuccess = null, UnityAction<string> onError = null)
+    /// <summary>GET 요청 및 JSON DTO 역직렬화 (Awaitable)</summary>
+    public static async Awaitable<T> GetJsonAsync<T>(string endpoint, CancellationToken cancellationToken = default)
     {
-        // 멀티파트 폼 섹션 데이터를 담아 UnityWebRequest POST 요청 생성
+        string jsonText = await GetAsync(endpoint, cancellationToken);
+        return JsonUtility.FromJson<T>(jsonText);
+    }
+
+    /// <summary>POST 요청 비동기 실행 (Awaitable)</summary>
+    public static async Awaitable<string> PostAsync(string endpoint, List<IMultipartFormSection> form = null, CancellationToken cancellationToken = default)
+    {
         UnityWebRequest www = (form != null && form.Count > 0)
             ? UnityWebRequest.Post(Env.I.Config.Api(endpoint), form)
             : UnityWebRequest.Post(Env.I.Config.Api(endpoint), new List<IMultipartFormSection>());
-        yield return SendRequest(www, onSuccess, onError); // 공통 전송 루틴 호출
+        return await SendRequestAsync(www, cancellationToken);
     }
 
-    // [하위 호환성 유지] 레거시 WWWForm POST 오버로드
-    [System.Obsolete("WWWForm is deprecated. Use List<IMultipartFormSection> instead.")]
-    public static IEnumerator Post(string endpoint, WWWForm form, UnityAction<string> onSuccess = null, UnityAction<string> onError = null)
+    /// <summary>POST 요청 및 JSON DTO 역직렬화 (Awaitable)</summary>
+    public static async Awaitable<T> PostJsonAsync<T>(string endpoint, List<IMultipartFormSection> form = null, CancellationToken cancellationToken = default)
     {
-        UnityWebRequest www = UnityWebRequest.Post(Env.I.Config.Api(endpoint), form);
-        yield return SendRequest(www, onSuccess, onError);
+        string jsonText = await PostAsync(endpoint, form, cancellationToken);
+        return JsonUtility.FromJson<T>(jsonText);
     }
 
-    // PUT 요청 실행 메서드 (JSON 데이터 전송)
-    public static IEnumerator Put(string endpoint, string json, UnityAction<string> onSuccess = null, UnityAction<string> onError = null)
+    /// <summary>PUT 요청 비동기 실행 (Awaitable, JSON 바디)</summary>
+    public static async Awaitable<string> PutAsync(string endpoint, string json, CancellationToken cancellationToken = default)
     {
-        // JSON 문자열 데이터를 전송하는 UnityWebRequest PUT 요청 생성
         UnityWebRequest www = UnityWebRequest.Put(Env.I.Config.Api(endpoint), json);
-        www.SetRequestHeader("Content-Type", "application/json"); // JSON 요청 헤더 명시
-        yield return SendRequest(www, onSuccess, onError); // 공통 전송 루틴 호출
+        www.SetRequestHeader("Content-Type", "application/json");
+        return await SendRequestAsync(www, cancellationToken);
     }
 
-    // DELETE 요청 실행 메서드
-    public static IEnumerator Delete(string endpoint, UnityAction<string> onSuccess = null, UnityAction<string> onError = null)
+    /// <summary>DELETE 요청 비동기 실행 (Awaitable)</summary>
+    public static async Awaitable<string> DeleteAsync(string endpoint, CancellationToken cancellationToken = default)
     {
-        // UnityWebRequest DELETE 요청 생성
         UnityWebRequest www = UnityWebRequest.Delete(Env.I.Config.Api(endpoint));
-        www.downloadHandler = new DownloadHandlerBuffer(); // 서버의 텍스트 응답을 수신하기 위한 버퍼 생성
-        yield return SendRequest(www, onSuccess, onError); // 공통 전송 루틴 호출
+        www.downloadHandler = new DownloadHandlerBuffer();
+        return await SendRequestAsync(www, cancellationToken);
     }
 }

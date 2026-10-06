@@ -1,5 +1,4 @@
 using System; // System 네임스페이스 참조
-using System.Collections; // IEnumerator 참조
 using System.Collections.Generic; // List 참조
 using System.Linq; // LINQ 참조
 using ExitGames.Client.Photon; // Photon SDK 참조
@@ -11,7 +10,7 @@ using UnityEngine.UI; // InputField, Text UI 참조
 using Toneiverse.DTO; // DTO 참조
 using Photon.Pun; // Photon PUN 참조
 
-/// <summary>이전 채팅을 불러오고 Photon 채널에서 실시간 메시지를 송수신합니다.</summary>
+/// <summary>이전 채팅을 불러오고 Photon 채널에서 실시간 메시지를 송수신합니다 (Unity 6 Awaitable).</summary>
 public class Chat : Btn, IChatClientListener // 실시간 오픈 포톤 채팅 제어 스크립트
 {
     private ChatClient chatClient; // Photon Chat 서비스 클라이언트 인스턴스
@@ -32,42 +31,61 @@ public class Chat : Btn, IChatClientListener // 실시간 오픈 포톤 채팅 �
             ChatManager.chatManager.PhotonAppId = Env.I.Config.PhotonAppId;
         }
         chatClient = new ChatClient(this); // IChatClientListener 등록
-        GetChat(); // 과거 DB 채팅 수신
+        _ = GetChatAsync(); // 과거 DB 채팅 비동기 수신
         Application.runInBackground = true;
     }
 
     // 전송 버튼 클릭 핸들러
-    protected override void OnClick()
+    protected override async void OnClick()
     {
         if (isConn && input.text.Replace(" ", "") != "")
         {
-            chatClient.PublishMessage(Session.session.ColorId, input.text); // 포톤 실시간 채팅 전송
+            string messageToSend = input.text;
+            chatClient.PublishMessage(Session.session.ColorId, messageToSend); // 포톤 실시간 채팅 전송
             List<IMultipartFormSection> form = new List<IMultipartFormSection>
             {
                 new MultipartFormDataSection("token", Session.session.Token),
-                new MultipartFormDataSection("msg", input.text),
+                new MultipartFormDataSection("msg", messageToSend),
                 new MultipartFormDataSection("color_id", Session.session.ColorId)
             };
             input.text = "";
 
-            // DB 백엔드 채팅 내역 저장 요청
-            StartCoroutine(APIManager.Post("chat", form));
+            try
+            {
+                // DB 백엔드 채팅 내역 저장 요청 (Awaitable)
+                await APIManager.PostAsync("chat", form, destroyCancellationToken);
+            }
+            catch (OperationCanceledException) { }
+            catch (Exception e)
+            {
+                Debug.LogError($"[Chat] 채팅 저장 오류: {e.Message}");
+            }
         }
     }
 
-    // DB에 저장된 기존 채팅 내역 가져오기
-    void GetChat()
+    // DB에 저장된 기존 채팅 내역 가져오기 (Awaitable)
+    private async Awaitable GetChatAsync()
     {
-        StartCoroutine(APIManager.Get($"chat/{Session.session.ColorId}", (jsonText) =>
+        try
         {
-            JsonList<Message> list = JsonUtility.FromJson<JsonList<Message>>(jsonText);
-            foreach (Message item in list.result)
-                AddMSG(item.name, item.msg);
+            var list = await APIManager.GetJsonAsync<JsonList<Message>>($"chat/{Session.session.ColorId}", destroyCancellationToken);
+            if (list?.result != null)
+            {
+                foreach (Message item in list.result)
+                {
+                    AddMSG(item.name, item.msg);
+                }
+            }
 
             // 과거 채팅을 로드한 뒤 포톤 서버 접속 실행
             chatClient.Connect(Env.I.Config.PhotonChatId, "1.0", new AuthenticationValues(Session.session.Name));
             isConn = true;
-        }));
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception e)
+        {
+            Debug.LogError($"[Chat] 이전 채팅 로드 오류: {e.Message}");
+        }
     }
 
     // 매 프레임 호출

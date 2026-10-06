@@ -3,8 +3,9 @@ using UnityEngine.Networking; // IMultipartFormSection 등 네트워킹 참조
 using System.Collections.Generic; // List 제네릭 컬렉션 참조
 using UnityEngine.UI; // InputField, Button, Text UI 참조
 using Toneiverse.DTO; // DTO 객체 참조
+using System; // OperationCanceledException 참조
 
-/// <summary>사용자 질문을 전송해 AI 메이크업 답변을 표시하고 추천 결과를 적용합니다.</summary>
+/// <summary>사용자 질문을 전송해 AI 메이크업 답변을 표시하고 추천 결과를 적용합니다 (Unity 6 Awaitable).</summary>
 public class LLM : MSGBtn // AI 메이크업 추천 프롬프트 전송 버튼
 {
     [SerializeField] InputField prompt; // 프롬프트 질문 입력 필드
@@ -23,7 +24,7 @@ public class LLM : MSGBtn // AI 메이크업 추천 프롬프트 전송 버튼
     }
 
     // AI 질의 버튼 클릭 핸들러
-    protected override void OnClick()
+    protected override async void OnClick()
     {
         if (string.IsNullOrEmpty(prompt.text)) return; // 공백 질문 예외 처리
 
@@ -37,24 +38,25 @@ public class LLM : MSGBtn // AI 메이크업 추천 프롬프트 전송 버튼
             new MultipartFormDataSection("year", Session.session.Year)
         };
 
-        // API "llm" 호출
-        StartCoroutine(APIManager.Post("llm", form,
-            (res) =>
-            {
-                LLMResponse colorJson = JsonUtility.FromJson<LLMResponse>(res);
-                Session.session.HexCode = colorJson.hex_code; // 추천된 색상 헥스코드 반영
-                Session.session.Cname = colorJson.cname; // 추천된 제품명 반영
-                cnameText.SetText(); // UI 텍스트 업데이트
-                Success(colorJson.result); // AI 텍스트 답변 표시
-                prompt.text = ""; // 입력창 비우기
-                SetUIState(true); // UI 조작 잠금 해제
-            },
-            (error) =>
-            {
-                Debug.LogError(error);
-                SetUIState(true); // 에러 발생 시 UI 잠금 해제
-            }
-        ));
+        try
+        {
+            // API "llm" 호출 (Awaitable)
+            LLMResponse colorJson = await APIManager.PostJsonAsync<LLMResponse>("llm", form, destroyCancellationToken);
+            Session.session.HexCode = colorJson.hex_code; // 추천된 색상 헥스코드 반영
+            Session.session.Cname = colorJson.cname; // 추천된 제품명 반영
+            cnameText.SetText(); // UI 텍스트 업데이트
+            Success(colorJson.result); // AI 텍스트 답변 표시
+            prompt.text = ""; // 입력창 비우기
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception error)
+        {
+            Debug.LogError($"[LLM] 오류: {error.Message}");
+        }
+        finally
+        {
+            SetUIState(true); // 완료/취소/에러 시 UI 조작 잠금 해제
+        }
     }
 
     // UI 대기/완료 상태 한 번에 조절

@@ -1,18 +1,18 @@
-using System.Collections; // IEnumerator 코루틴 인터페이스 참조
 using System.Collections.Generic; // List 제네릭 컬렉션 참조
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
 using UnityEngine.Networking; // UnityEngine.Networking 네임스페이스 참조
 using UnityEngine.UI; // InputField, Text UI 네임스페이스 참조
 using Toneiverse.DTO; // DTO 구조체 참조
+using System; // OperationCanceledException 참조
 
-/// <summary>입력한 이메일로 비밀번호 찾기 요청을 전송합니다.</summary>
+/// <summary>입력한 이메일로 비밀번호 찾기 요청을 전송합니다 (Unity 6 Awaitable).</summary>
 public class GetPW : Btn // Btn을 상속받는 비밀번호 찾기 기능 버튼
 {
     [SerializeField] InputField email; // 이메일 입력 UI 필드 참조
     [SerializeField] Text msg; // 처리 결과 안내용 Text 컴포넌트
 
     // 버튼 클릭 이벤트 구현
-    protected override void OnClick()
+    protected override async void OnClick()
     {
         List<IMultipartFormSection> form = new List<IMultipartFormSection>
         {
@@ -20,15 +20,16 @@ public class GetPW : Btn // Btn을 상속받는 비밀번호 찾기 기능 버�
         };
         msg.text = "아이디와 비밀번호 찾는중..."; // 로딩 안내 텍스트 표시
 
-        // API 통신 전송
-        StartCoroutine(APIManager.Post("email", form, (data) =>
+        try
         {
-            Json<string> result = JsonUtility.FromJson<Json<string>>(data); // 서버 JSON 응답 파싱
+            // API 통신 전송 (Awaitable)
+            var result = await APIManager.PostJsonAsync<Json<string>>("email", form, destroyCancellationToken);
             msg.text = result.result; // 서버 결과 문자열 표시
-        }, (error) =>
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception)
         {
-            string err = "로그인 실패. (서버 연결 오류)";
-            msg.text = err; // 에러 발생 안내
-        }));
+            msg.text = "로그인 실패. (서버 연결 오류)";
+        }
     }
 }

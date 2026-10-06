@@ -3,8 +3,9 @@ using UnityEngine.Networking; // IMultipartFormSection 등 네트워킹 참조
 using System.Collections.Generic; // List 제네릭 컬렉션 참조
 using UnityEngine.UI; // InputField, Dropdown UI 네임스페이스 참조
 using Toneiverse.DTO; // DTO 데이터 구조체 참조
+using System; // OperationCanceledException 참조
 
-/// <summary>이메일 인증번호를 발송하고 가입 시 일치 여부를 확인합니다.</summary>
+/// <summary>이메일 인증번호를 발송하고 가입 시 일치 여부를 확인합니다 (Unity 6 Awaitable).</summary>
 public class GetNum : MSGBtn // 이메일 인증번호 발송 요청 버튼
 {
     private string num, checkEmail; // 생성된 4자리 인증번호 및 인증된 이메일 기록 필드
@@ -15,7 +16,7 @@ public class GetNum : MSGBtn // 이메일 인증번호 발송 요청 버튼
     string email => id.text + "@" + domain.options[domain.value].text;
 
     // 클릭 시 인증번호 생성 및 요청 로직 실행
-    protected override void OnClick()
+    protected override async void OnClick()
     {
         msg.text = "";
 
@@ -38,16 +39,18 @@ public class GetNum : MSGBtn // 이메일 인증번호 발송 요청 버튼
             new MultipartFormDataSection("num", num)
         };
 
-        // API 통신을 통해 인증번호 발송 요청
-        StartCoroutine(APIManager.Post("getNum", form, (jsonText) =>
+        try
         {
+            // API 통신을 통해 인증번호 발송 요청 (Awaitable)
+            var json = await APIManager.PostJsonAsync<Json<string>>("getNum", form, destroyCancellationToken);
             Success("인증번호 생성 성공.");
-            Json<string> json = JsonUtility.FromJson<Json<string>>(jsonText);
             Success(json.result);
-        }, (error) =>
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception)
         {
             Error("인증번호 생성 실패.");
-        }));
+        }
     }
 
     // 사용자가 입력한 인증번호와 발급된 번호 일치 검사
