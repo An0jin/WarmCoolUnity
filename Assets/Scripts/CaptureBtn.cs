@@ -1,10 +1,9 @@
 using System.Collections; // IEnumerator 코루틴 참조
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
-using UnityEngine.Events; // UnityEvent 네임스페이스 참조
 using UnityEngine.Android; // 안드로이드 권한 API 참조
 using UnityEngine.UI; // UI Text, Image 컴포넌트 참조
 
-/// <summary>화면 캡처, 로딩 UI 표시, 이미지 전달 과정을 담당하며 인스펙터 UnityEvent를 제공합니다.</summary>
+/// <summary>화면 캡처, 로딩 UI 표시, 이미지 전달 과정을 담당하는 기본 클래스입니다.</summary>
 public abstract class CaptureBtn : MSGBtn // 카메라 화면 캡처 및 이미지 바이트 추출 기본 클래스
 {
     protected bool canClick = true; // 중복 캡처 방지용 플래그
@@ -12,10 +11,6 @@ public abstract class CaptureBtn : MSGBtn // 카메라 화면 캡처 및 이미�
     [SerializeField] protected string lodingMSG; // 캡처 처리 중 로딩 문구
     protected string first_text; // 원본 버튼 텍스트
     [SerializeField] protected BackBtn backBtn; // 뒤로가기 버튼 참조
-
-    [Header("캡처 이벤트 설정")]
-    [SerializeField] public UnityEvent onCaptureStartedEvent = new UnityEvent();
-    [SerializeField] public UnityEvent<byte[]> onCaptureCompleteEvent = new UnityEvent<byte[]>();
 
     // 초기화 생명주기
     protected override void Awake()
@@ -42,7 +37,6 @@ public abstract class CaptureBtn : MSGBtn // 카메라 화면 캡처 및 이미�
     private IEnumerator Capture()
     {
         canClick = false; // 중복 클릭 차단
-        onCaptureStartedEvent?.Invoke(); // 캡처 시작 유니티 이벤트 통지
         Show(false); // 캡처 중 버튼 UI 숨김
         yield return new WaitForEndOfFrame(); // 프레임 끝까지 대기
 
@@ -50,7 +44,6 @@ public abstract class CaptureBtn : MSGBtn // 카메라 화면 캡처 및 이미�
         Show(true, lodingMSG); // UI 다시 표시 및 로딩 메시지 표출
 
         byte[] imgBytes = img.EncodeToJPG();
-        onCaptureCompleteEvent?.Invoke(imgBytes); // 캡처 완료 유니티 이벤트 통지
 
         // 자식 클래스 오버라이드 메서드로 JPG 인코딩 바이너리 전달
         OnCaptureComplete(imgBytes);

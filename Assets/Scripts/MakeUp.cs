@@ -3,14 +3,11 @@ using UnityEngine.Events; // UnityEvent 네임스페이스 참조
 using UnityEngine.XR.ARFoundation; // ARFoundation 얼굴 인식 패키지 참조
 using Toneiverse; // 세션 데이터 참조
 
-/// <summary>추적 중인 AR 얼굴 재질에 선택한 립스틱 색상을 적용하고 착색 이벤트를 발송합니다.</summary>
+/// <summary>추적 중인 AR 얼굴 재질에 선택한 립스틱 색상을 적용합니다.</summary>
 public class MakeUp : MonoBehaviour // AR 카메라 기반 입술 재질 립스틱 착색 스크립트
 {
     private ARFaceManager faceManager; // ARFaceManager 컴포넌트 필드
     [SerializeField, Range(0f, 255f)] private float alpha; // 립스틱 투명도 값 (0 ~ 255)
-
-    [Header("메이크업 이벤트 설정")]
-    [SerializeField] public UnityEvent<Color> onFaceColorAppliedEvent = new UnityEvent<Color>();
 
     // 컴포넌트 획득 초기화
     void Awake()
@@ -40,8 +37,8 @@ public class MakeUp : MonoBehaviour // AR 카메라 기반 입술 재질 립스�
         {
             face.GetComponent<MeshRenderer>().material.color = appliedColor;
         }
-        onFaceColorAppliedEvent?.Invoke(appliedColor); // Unity 이벤트 통지
     }
+
 
     // HEX 및 Alpha 통합 Color 객체 반환
     private Color UpdateSingleFaceColor()

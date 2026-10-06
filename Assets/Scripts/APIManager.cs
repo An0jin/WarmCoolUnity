@@ -2,6 +2,7 @@ using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
 using UnityEngine.Events; // UnityAction 콜백 대리자 제공
 using UnityEngine.Networking; // UnityWebRequest 등 웹 네트워크 통신 클래스 제공
 using System.Collections; // IEnumerator 코루틴 인터페이스 제공
+using System.Collections.Generic; // List 제네릭 컬렉션 제공
 using System.Text; // 텍스트 인코딩 관련 클래스 제공
 
 /// <summary>HTTP 요청을 생성하고 서버 응답을 콜백으로 전달합니다.</summary>
@@ -38,12 +39,22 @@ public static class APIManager // 모든 HTTP 요청 API를 정적으로 제공�
         yield return SendRequest(www, onSuccess, onError); // 공통 전송 루틴 호출
     }
 
-    // POST 요청 실행 메서드 (WWWForm 데이터 전송 가능)
-    public static IEnumerator Post(string endpoint, WWWForm form = null, UnityAction<string> onSuccess = null, UnityAction<string> onError = null)
+    // POST 요청 실행 메서드 (IMultipartFormSection 데이터 전송)
+    public static IEnumerator Post(string endpoint, List<IMultipartFormSection> form = null, UnityAction<string> onSuccess = null, UnityAction<string> onError = null)
     {
-        // 폼 데이터를 담아 UnityWebRequest POST 요청 생성
-        UnityWebRequest www = UnityWebRequest.Post(Env.I.Config.Api(endpoint), form);
+        // 멀티파트 폼 섹션 데이터를 담아 UnityWebRequest POST 요청 생성
+        UnityWebRequest www = (form != null && form.Count > 0)
+            ? UnityWebRequest.Post(Env.I.Config.Api(endpoint), form)
+            : UnityWebRequest.Post(Env.I.Config.Api(endpoint), new List<IMultipartFormSection>());
         yield return SendRequest(www, onSuccess, onError); // 공통 전송 루틴 호출
+    }
+
+    // [하위 호환성 유지] 레거시 WWWForm POST 오버로드
+    [System.Obsolete("WWWForm is deprecated. Use List<IMultipartFormSection> instead.")]
+    public static IEnumerator Post(string endpoint, WWWForm form, UnityAction<string> onSuccess = null, UnityAction<string> onError = null)
+    {
+        UnityWebRequest www = UnityWebRequest.Post(Env.I.Config.Api(endpoint), form);
+        yield return SendRequest(www, onSuccess, onError);
     }
 
     // PUT 요청 실행 메서드 (JSON 데이터 전송)

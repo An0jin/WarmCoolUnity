@@ -1,5 +1,6 @@
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
-using UnityEngine.Events; // UnityEvent 네임스페이스 참조
+using UnityEngine.Networking; // IMultipartFormSection 등 네트워킹 참조
+using System.Collections.Generic; // List 제네릭 컬렉션 참조
 using Toneiverse.DTO; // DTO 구조체 참조
 using UnityEngine.UI; // InputField, Text UI 참조
 using System.IO; // 로컬 파일 입출력 참조
@@ -7,15 +8,11 @@ using UnityEngine.SceneManagement; // 씬 관리 참조
 using Toneiverse; // SceneIndex 열거형 참조
 using System; // Exception 참조
 
-/// <summary>로그인 요청을 처리하고 발급된 토큰을 로컬에 저장하며 로그인 이벤트를 발송합니다.</summary>
+/// <summary>로그인 요청을 처리하고 발급된 토큰을 로컬에 저장하며 다음 씬으로 이동합니다.</summary>
 public class Login : Btn // 로그인 버튼 기능을 담당하는 스크립트
 {
     [SerializeField] InputField email, pw; // 이메일 및 비밀번호 입력 UI 필드
     [SerializeField] Text msg; // 결과 상태 텍스트 필드
-
-    [Header("로그인 이벤트 설정")]
-    [SerializeField] public UnityEvent<InfoJson> onLoginSuccessEvent = new UnityEvent<InfoJson>(); // 인스펙터 로그인 성공 이벤트
-    [SerializeField] public UnityEvent<string> onLoginFailedEvent = new UnityEvent<string>(); // 인스펙터 로그인 실패 이벤트
 
     // 버튼 클릭 핸들러
     protected override void OnClick()
@@ -29,13 +26,14 @@ public class Login : Btn // 로그인 버튼 기능을 담당하는 스크립트
             string err = "이메일과 비밀번호를 입력해주세요.";
             msg.color = new Color(1, 0, 0); // 에러 표시(빨간색)
             msg.text = err;
-            onLoginFailedEvent?.Invoke(err);
             return;
         }
 
-        WWWForm form = new WWWForm();
-        form.AddField("email", email.text);
-        form.AddField("pw", pw.text);
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("email", email.text),
+            new MultipartFormDataSection("pw", pw.text)
+        };
 
         // 로그인 API POST 요청
         StartCoroutine(APIManager.Post("login", form, (jsonText) =>
@@ -49,8 +47,6 @@ public class Login : Btn // 로그인 버튼 기능을 담당하는 스크립트
                     token.token = json.token;
                     File.WriteAllText(Env.I.Config.FilePath, JsonUtility.ToJson(token)); // 토큰 파일 동기화
                     Session.session.Login(json); // 사용자 데이터 세션 바인딩
-                    
-                    onLoginSuccessEvent?.Invoke(json); // Unity 성공 이벤트 통지
 
                     // 세션 데이터 완성도에 맞춰 적절한 진입 씬으로 이동
                     NavigationManager.navigationManager.Front(
@@ -62,7 +58,6 @@ public class Login : Btn // 로그인 버튼 기능을 담당하는 스크립트
                 else
                 {
                     msg.text = json.msg;
-                    onLoginFailedEvent?.Invoke(json.msg);
                 }
             }
             catch (Exception e)
@@ -71,7 +66,6 @@ public class Login : Btn // 로그인 버튼 기능을 담당하는 스크립트
                 Debug.LogError("JSON 파싱 오류: " + e.Message);
                 msg.color = new Color(1, 0, 0);
                 msg.text = errMsg;
-                onLoginFailedEvent?.Invoke(errMsg);
             }
         }));
     }

@@ -57,17 +57,11 @@ public class Session : MonoBehaviour // 사용자 상태를 세션 형태로 싱
 
     [Header("세션 상태 변경 이벤트")]
     [SerializeField] public UnityEvent onColorChangedEvent = new UnityEvent();
-    [SerializeField] public UnityEvent<InfoJson> onLoggedInEvent = new UnityEvent<InfoJson>();
-    [SerializeField] public UnityEvent onLoggedOutEvent = new UnityEvent();
     [SerializeField] public UnityEvent<ColorJson> onColorPredictedEvent = new UnityEvent<ColorJson>();
-    [SerializeField] public UnityEvent<string, string, string> onProfileUpdatedEvent = new UnityEvent<string, string, string>();
 
     // 스크립트 연결을 위한 간편 접근자
     public static UnityEvent OnColorChanged => session.onColorChangedEvent;
-    public static UnityEvent<InfoJson> OnLoggedIn => session.onLoggedInEvent;
-    public static UnityEvent OnLoggedOut => session.onLoggedOutEvent;
     public static UnityEvent<ColorJson> OnColorPredicted => session.onColorPredictedEvent;
-    public static UnityEvent<string, string, string> OnProfileUpdated => session.onProfileUpdatedEvent;
 
     // 오브젝트 생성 및 초기화
     private void Awake()
@@ -92,7 +86,6 @@ public class Session : MonoBehaviour // 사용자 상태를 세션 형태로 싱
         Cname = json.cname;
         Sex = json.sex;
         Year = json.year;
-        onLoggedInEvent?.Invoke(json); // 로그인 이벤트 통지
     }
 
     // 로그아웃 시 씬 이동 기록 및 세션 데이터 초기화
@@ -107,7 +100,6 @@ public class Session : MonoBehaviour // 사용자 상태를 세션 형태로 싱
         Cname = "";
         Sex = "";
         Year = "";
-        onLoggedOutEvent?.Invoke(); // 로그아웃 이벤트 통지
     }
 
     // 가입 정보 설정
@@ -124,7 +116,6 @@ public class Session : MonoBehaviour // 사용자 상태를 세션 형태로 싱
         Sex = sex;
         Year = year;
         Token = token;
-        onProfileUpdatedEvent?.Invoke(name, sex, year); // 프로필 갱신 이벤트 통지
     }
 
     // 성별 및 출생연도 설정

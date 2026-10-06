@@ -1,5 +1,6 @@
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
-using UnityEngine.Events; // UnityEvent 네임스페이스 참조
+using UnityEngine.Networking; // IMultipartFormSection 등 네트워킹 참조
+using System.Collections.Generic; // List 제네릭 컬렉션 참조
 using UnityEngine.UI; // InputField, Dropdown UI 네임스페이스 참조
 using Toneiverse.DTO; // DTO 데이터 구조체 참조
 
@@ -13,14 +14,10 @@ public class GetNum : MSGBtn // 이메일 인증번호 발송 요청 버튼
     // 전체 이메일 주소 조합 프로퍼티
     string email => id.text + "@" + domain.options[domain.value].text;
 
-    [Header("인증번호 이벤트")]
-    [SerializeField] public UnityEvent<string> onCodeGeneratedEvent = new UnityEvent<string>();
-
     // 클릭 시 인증번호 생성 및 요청 로직 실행
     protected override void OnClick()
     {
         msg.text = "";
-        WWWForm form = new WWWForm();
 
         // 아이디 미입력 시 에러 처리
         if (id.text == "")
@@ -30,12 +27,16 @@ public class GetNum : MSGBtn // 이메일 인증번호 발송 요청 버튼
         }
 
         Success("인증번호를 생성하는 중...");
-        form.AddField("email", email);
         checkEmail = email;
 
         // 4자리 난수(0000 ~ 9999) 생성
         num = UnityEngine.Random.Range(0, 9999).ToString("D4");
-        form.AddField("num", num);
+
+        List<IMultipartFormSection> form = new List<IMultipartFormSection>
+        {
+            new MultipartFormDataSection("email", email),
+            new MultipartFormDataSection("num", num)
+        };
 
         // API 통신을 통해 인증번호 발송 요청
         StartCoroutine(APIManager.Post("getNum", form, (jsonText) =>
@@ -43,7 +44,6 @@ public class GetNum : MSGBtn // 이메일 인증번호 발송 요청 버튼
             Success("인증번호 생성 성공.");
             Json<string> json = JsonUtility.FromJson<Json<string>>(jsonText);
             Success(json.result);
-            onCodeGeneratedEvent?.Invoke(num); // Unity 인스펙터 이벤트 통지
         }, (error) =>
         {
             Error("인증번호 생성 실패.");

@@ -1,19 +1,15 @@
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
-using UnityEngine.Events; // UnityEvent 네임스페이스 참조
 using UnityEngine.UI; // Toggle, InputField UI 컴포넌트 참조
 using Toneiverse; // SceneIndex 열거형 참조
 using Toneiverse.DTO; // DTO 구조체 참조
 using System; // DateTime, Exception 참조
 
-/// <summary>최초 사용자의 성별과 출생 연도를 검증해 서버에 저장하고 완료 이벤트를 발송합니다.</summary>
+/// <summary>최초 사용자의 성별과 출생 연도를 검증해 서버에 저장합니다.</summary>
 public class ProfileSetupBtn : MSGBtn // 프로필 초기 설정 전용 버튼 스크립트
 {
     [SerializeField] private Toggle man; // 남성 토글 UI
     [SerializeField] private InputField year; // 연도 입력 UI
     private bool isUpdate = true; // 요청 진행 여부 플래그
-
-    [Header("프로필 설정 이벤트")]
-    [SerializeField] public UnityEvent onProfileSetupCompletedEvent = new UnityEvent();
 
     // 클릭 시 검증 및 통신 로직 실행
     protected override void OnClick()
@@ -57,8 +53,6 @@ public class ProfileSetupBtn : MSGBtn // 프로필 초기 설정 전용 버튼 �
                 Debug.Log("JSON 파싱 결과: " + JsonUtility.ToJson(json));
                 if (json.result == "수정 완료")
                 {
-                    onProfileSetupCompletedEvent?.Invoke(); // Unity 이벤트 통지
-
                     // 상태에 맞춰 Test(측정 씬) 또는 Result(결과 씬)으로 진입
                     NavigationManager.navigationManager.Front(string.IsNullOrEmpty(Session.session.HexCode) ? SceneIndex.Test : SceneIndex.Result);
                 }

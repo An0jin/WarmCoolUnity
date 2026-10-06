@@ -1,18 +1,14 @@
 using System.Collections; // IEnumerator 코루틴 사용을 위한 System.Collections 참조
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
-using UnityEngine.Events; // UnityEvent 네임스페이스 참조
 using UnityEngine.Networking; // 네트워크 관련 참조
 using UnityEngine.UI; // Button, ColorBlock 등 UI 시스템 참조
 using Toneiverse.DTO; // DTO 객체 참조
 
-/// <summary>립스틱 색상을 표시하고 선택값을 세션과 서버에 저장하며 인스펙터 선택 이벤트를 발송합니다.</summary>
+/// <summary>립스틱 색상을 표시하고 선택값을 세션과 서버에 저장합니다.</summary>
 public class ColorBtn : Btn // 립스틱 대표 색상을 선택하는 버튼 구현 클래스
 {
     private string hex, cname; // 색상 16진수 코드(HEX) 및 립스틱 명칭 필드
     ResultText cnameText; // 결과 화면 텍스트 업데이트용 참조 변수
-
-    [Header("색상 선택 이벤트")]
-    [SerializeField] public UnityEvent<string, string> onLipstickSelectedEvent = new UnityEvent<string, string>();
 
     // 동적으로 생성된 버튼의 색상과 데이터를 바인딩하는 설정 함수
     public void SetBtnColor(string hex, string cname, ResultText cnameText)
@@ -33,8 +29,6 @@ public class ColorBtn : Btn // 립스틱 대표 색상을 선택하는 버튼 �
         Session.session.HexCode = hex; // 세션에 HEX 코드 할당 (AR 착색 변경 이벤트 발동)
         Session.session.Cname = cname; // 세션에 립스틱 명칭 저장
         if (cnameText != null) cnameText.SetText(); // UI 텍스트 동기화 업데이트
-
-        onLipstickSelectedEvent?.Invoke(hex, cname); // Unity 이벤트 통지
 
         // 서버 업데이트용 Lipstick DTO 구성
         Lipstick lipstick = new Lipstick()
