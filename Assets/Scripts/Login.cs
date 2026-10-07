@@ -1,12 +1,12 @@
+using System; // Exception 참조
+using System.Collections.Generic; // List 제네릭 컬렉션 참조
+using System.IO; // 로컬 파일 입출력 참조
+using Toneiverse; // SceneIndex 열거형 참조
+using Toneiverse.DTO; // DTO 구조체 참조
 using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
 using UnityEngine.Networking; // IMultipartFormSection 등 네트워킹 참조
-using System.Collections.Generic; // List 제네릭 컬렉션 참조
-using Toneiverse.DTO; // DTO 구조체 참조
-using UnityEngine.UI; // InputField, Text UI 참조
-using System.IO; // 로컬 파일 입출력 참조
 using UnityEngine.SceneManagement; // 씬 관리 참조
-using Toneiverse; // SceneIndex 열거형 참조
-using System; // Exception 참조
+using UnityEngine.UI; // InputField, Text UI 참조
 
 /// <summary>로그인 요청을 처리하고 발급된 토큰을 로컬에 저장하며 다음 씬으로 이동합니다.</summary>
 public class Login : Btn // 로그인 버튼 기능을 담당하는 스크립트
@@ -49,8 +49,10 @@ public class Login : Btn // 로그인 버튼 기능을 담당하는 스크립트
 
                 // 세션 데이터 완성도에 맞춰 적절한 진입 씬으로 이동
                 NavigationManager.navigationManager.Front(
-                    string.IsNullOrEmpty(Session.session.Sex) ? SceneIndex.ProfileSetup : 
-                    string.IsNullOrEmpty(Session.session.HexCode) ? SceneIndex.Test : 
+                    string.IsNullOrEmpty(Session.session.Sex) ? SceneIndex.ProfileSetup :
+
+                    string.IsNullOrEmpty(Session.session.HexCode) ? SceneIndex.Test :
+
                     SceneIndex.Result
                 );
             }

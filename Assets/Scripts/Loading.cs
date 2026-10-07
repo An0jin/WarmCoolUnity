@@ -1,10 +1,9 @@
-using System.IO; // File 로컬 저장 파일 참조
-using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
-using UnityEngine.SceneManagement; // 씬 관리 참조
-using UnityEngine.UI; // Text UI 참조
-using Toneiverse.DTO; // DTO 객체 참조
-using Toneiverse; // SceneIndex 참조
 using System; // Exception 예외 처리 참조
+using System.IO; // File 로컬 저장 파일 참조
+using Toneiverse; // SceneIndex 참조
+using Toneiverse.DTO; // DTO 객체 참조
+using UnityEngine; // Unity 기본 엔진 네임스페이스 참조
+using UnityEngine.UI; // Text UI 참조
 
 /// <summary>저장된 토큰으로 자동 로그인하고 적절한 시작 씬으로 이동합니다 (Unity 6 Awaitable).</summary>
 public class Loading : MonoBehaviour // 타이틀 로딩 씬에서 버전 체크 및 자동 로그인을 전담하는 클래스
@@ -22,7 +21,7 @@ public class Loading : MonoBehaviour // 타이틀 로딩 씬에서 버전 체크
     async void Start()
     {
         SetLoading(true); // 로딩 전용 UI 표출
-        await CheckVersionAsync(); // 버전 상태 체크 비동기 시작
+        await CheckVersionAsync(); // 버전 상태 체크 시작
     }
 
     // 로딩 토글 상태 조절
@@ -41,7 +40,7 @@ public class Loading : MonoBehaviour // 타이틀 로딩 씬에서 버전 체크
         }
     }
 
-    // 로컬 저장 인증 토큰 기반 자동 로그인 수행 (Awaitable)
+    // 로컬 저장 인증 토큰 기반 자동 로그인 수행
     private async Awaitable CheckAutoLoginAsync()
     {
         SetStatus("자동 로그인을 체크하는중...");
@@ -60,34 +59,43 @@ public class Loading : MonoBehaviour // 타이틀 로딩 씬에서 버전 체크
                 SetLoading(false);
                 return;
             }
-
-            try
+            else
             {
                 // 서버 토큰 유효성 검증
-                InfoJson json = await APIManager.GetJsonAsync<InfoJson>($"/user/{token.token}", destroyCancellationToken);
-                print("이메일 : " + json.email);
-                if (string.IsNullOrEmpty(json.email))
+                try
                 {
+                    InfoJson json = await APIManager.GetJsonAsync<InfoJson>($"/user/{token.token}");
+                    print("이메일 : " + json?.email);
+                    if (json == null || string.IsNullOrEmpty(json.email))
+                    {
+                        SetLoading(false);
+                        if (File.Exists(Env.I.Config.FilePath))
+                        {
+                            File.Delete(Env.I.Config.FilePath); // 유효하지 않으면 삭제
+                        }
+                    }
+                    else
+                    {
+                        Session.session.Login(json); // 세션 데이터 적재
+
+                        // 프로필 미작성 / 진단 미실행 / 진단 완료 상태별 목적지 씬 분기
+                        NavigationManager.navigationManager.Front(
+                            string.IsNullOrEmpty(Session.session.Sex) ? SceneIndex.ProfileSetup :
+                            string.IsNullOrEmpty(Session.session.HexCode) ? SceneIndex.Test :
+                            SceneIndex.Result
+                        );
+                    }
+                }
+                catch (OperationCanceledException) { }
+                catch (Exception e)
+                {
+                    Debug.LogError($"[Loading] 자동 로그인 실패: {e.Message}");
                     SetLoading(false);
-                    File.Delete(Env.I.Config.FilePath); // 유효하지 않으면 삭제
+                    if (File.Exists(Env.I.Config.FilePath))
+                    {
+                        File.Delete(Env.I.Config.FilePath);
+                    }
                 }
-                else
-                {
-                    Session.session.Login(json); // 세션 데이터 적재
-                    
-                    // 프로필 미작성 / 진단 미실행 / 진단 완료 상태별 목적지 씬 분기
-                    NavigationManager.navigationManager.Front(
-                        string.IsNullOrEmpty(Session.session.Sex) ? SceneIndex.ProfileSetup : 
-                        string.IsNullOrEmpty(Session.session.HexCode) ? SceneIndex.Test : 
-                        SceneIndex.Result
-                    );
-                }
-            }
-            catch (OperationCanceledException) { }
-            catch (Exception e)
-            {
-                Debug.LogError($"[Loading] 자동 로그인 실패: {e.Message}");
-                SetLoading(false);
             }
         }
         else
@@ -96,14 +104,14 @@ public class Loading : MonoBehaviour // 타이틀 로딩 씬에서 버전 체크
         }
     }
 
-    // 앱 버전 호환성 체크 (Awaitable)
+    // 앱 버전 호환성 체크
     private async Awaitable CheckVersionAsync()
     {
         SetStatus("버전 체크중...");
 
         try
         {
-            var json = await APIManager.GetJsonAsync<Json<bool>>($"/version/{Application.version}", destroyCancellationToken);
+            Json<bool> json = await APIManager.GetJsonAsync<Json<bool>>($"/version/{Application.version}");
 
             if (json == null)
             {
@@ -131,7 +139,7 @@ public class Loading : MonoBehaviour // 타이틀 로딩 씬에서 버전 체크
         catch (OperationCanceledException) { }
         catch (Exception e)
         {
-            Debug.LogError($"[Loading] 버전 확인 오류: {e.Message}");
+            Debug.LogError($"[Loading] 버전 체크 실패: {e.Message}");
             SetStatus("서버 점검중이거나 서버에 문제가 생겼습니다");
         }
     }

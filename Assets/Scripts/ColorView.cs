@@ -12,11 +12,10 @@ public class ColorView : MonoBehaviour // 사용자 진단 퍼스널컬러용 �
     async void Start()
     {
         NavigationManager.navigationManager.ClearHistory(); // 씬 이력 스택 초기화
-
         try
         {
             // 세션의 ColorId(퍼스널컬러 그룹)에 대응하는 립스틱 리스트 GET 비동기 요청
-            var json = await APIManager.GetJsonAsync<JsonList<ColorJson>>($"/lipstick/{Session.session.ColorId}", destroyCancellationToken);
+            var json = await APIManager.GetJsonAsync<JsonList<ColorJson>>($"/lipstick/{Session.session.ColorId}");
 
             if (json?.result != null)
             {
@@ -24,7 +23,7 @@ public class ColorView : MonoBehaviour // 사용자 진단 퍼스널컬러용 �
                 {
                     // Resources/ColorBtn 프리팹 동적 생성
                     ColorBtn btn = Instantiate(Resources.Load<ColorBtn>("ColorBtn"), transform);
-                    
+
                     // 버튼의 색상과 제품명 및 UI 연동 설정
                     btn.SetBtnColor(item.hex_code, item.cname, cnameText);
                 }

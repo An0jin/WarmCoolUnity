@@ -15,7 +15,7 @@ public class Session : MonoBehaviour // 사용자 상태를 세션 형태로 싱
             if (_instance == null)
             {
                 // 씬에서 기존 Session 객체 검색
-                _instance = FindFirstObjectByType<Session>();
+                _instance = FindAnyObjectByType<Session>();
 
                 if (_instance == null)
                 {
