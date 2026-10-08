@@ -21,7 +21,7 @@ public class DeleteBtn : MSGBtn
 
         try
         {
-            await APIManager.DeleteAsync($"user/{Session.session.Token}", destroyCancellationToken);
+            await APIManager.DeleteAsync($"user/{Session.session.Token}");
             if (File.Exists(Env.I.Config.FilePath))
             {
                 File.Delete(Env.I.Config.FilePath);

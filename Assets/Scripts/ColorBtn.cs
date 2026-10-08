@@ -39,7 +39,7 @@ public class ColorBtn : Btn // 립스틱 대표 색상을 선택하는 버튼 �
 
         try
         {
-            await APIManager.PutAsync("user/lipstick", json, destroyCancellationToken); // 백엔드 서버에 대표 립스틱 설정 전송
+            await APIManager.PutAsync("user/lipstick", json); // 백엔드 서버에 대표 립스틱 설정 전송
         }
         catch (OperationCanceledException) { }
         catch (Exception e)

@@ -39,7 +39,7 @@ public class Login : Btn // 로그인 버튼 기능을 담당하는 스크립트
             };
 
             // APIManager의 Awaitable JSON 역직렬화 메서드 호출 (오브젝트 파괴 시 자동 취소)
-            InfoJson json = await APIManager.PostJsonAsync<InfoJson>("login", form, destroyCancellationToken);
+            InfoJson json = await APIManager.PostJsonAsync<InfoJson>("login", form);
 
             if (json != null && json.msg == "성공")
             {

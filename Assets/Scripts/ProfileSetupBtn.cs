@@ -47,7 +47,7 @@ public class ProfileSetupBtn : MSGBtn // 프로필 초기 설정 전용 버튼 �
         try
         {
             // "user" API PUT 비동기 전송
-            string jsonText = await APIManager.PutAsync("user", JsonUtility.ToJson(payload), destroyCancellationToken);
+            string jsonText = await APIManager.PutAsync("user", JsonUtility.ToJson(payload));
             Json<string> json = JsonUtility.FromJson<Json<string>>(jsonText);
             Debug.Log("JSON 파싱 결과: " + JsonUtility.ToJson(json));
             if (json.result == "수정 완료")

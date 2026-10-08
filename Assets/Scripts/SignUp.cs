@@ -91,7 +91,7 @@ public class SignUp : FormBtn // FormBtn 입력 폼 검증 클래스를 상속�
         try
         {
             // 가입 API 전송 (Awaitable)
-            var json = await APIManager.PostJsonAsync<SignUpJson>("user", form, destroyCancellationToken);
+            var json = await APIManager.PostJsonAsync<SignUpJson>("user", form);
             if (string.IsNullOrEmpty(json.result)) // 에러 문구가 없으면 회원가입 성공
             {
                 Token token = new Token();

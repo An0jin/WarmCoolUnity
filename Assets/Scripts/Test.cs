@@ -21,7 +21,7 @@ public class Test : CaptureBtn // 화면 캡처 기반 퍼스널컬러 진단 �
         try
         {
             // 백엔드 "predict" 퍼스널컬러 분석 API 전송 (Awaitable)
-            ColorJson colorJson = await APIManager.PostJsonAsync<ColorJson>("predict", form, destroyCancellationToken);
+            ColorJson colorJson = await APIManager.PostJsonAsync<ColorJson>("predict", form);
 
             // 진단 실패 시
             if (string.IsNullOrEmpty(colorJson.cname))

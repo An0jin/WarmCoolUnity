@@ -23,7 +23,7 @@ public class GetPW : Btn // Btn을 상속받는 비밀번호 찾기 기능 버�
         try
         {
             // API 통신 전송 (Awaitable)
-            var result = await APIManager.PostJsonAsync<Json<string>>("email", form, destroyCancellationToken);
+            var result = await APIManager.PostJsonAsync<Json<string>>("email", form);
             msg.text = result.result; // 서버 결과 문자열 표시
         }
         catch (OperationCanceledException) { }

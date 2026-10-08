@@ -53,7 +53,7 @@ public class Chat : Btn, IChatClientListener // 실시간 오픈 포톤 채팅 �
             try
             {
                 // DB 백엔드 채팅 내역 저장 요청 (Awaitable)
-                await APIManager.PostAsync("chat", form, destroyCancellationToken);
+                await APIManager.PostAsync("chat", form);
             }
             catch (OperationCanceledException) { }
             catch (Exception e)
@@ -68,7 +68,7 @@ public class Chat : Btn, IChatClientListener // 실시간 오픈 포톤 채팅 �
     {
         try
         {
-            var list = await APIManager.GetJsonAsync<JsonList<Message>>($"chat/{Session.session.ColorId}", destroyCancellationToken);
+            var list = await APIManager.GetJsonAsync<JsonList<Message>>($"chat/{Session.session.ColorId}");
             if (list?.result != null)
             {
                 foreach (Message item in list.result)

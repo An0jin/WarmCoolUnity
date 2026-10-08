@@ -42,7 +42,7 @@ public class GetNum : MSGBtn // 이메일 인증번호 발송 요청 버튼
         try
         {
             // API 통신을 통해 인증번호 발송 요청 (Awaitable)
-            var json = await APIManager.PostJsonAsync<Json<string>>("getNum", form, destroyCancellationToken);
+            var json = await APIManager.PostJsonAsync<Json<string>>("getNum", form);
             Success("인증번호 생성 성공.");
             Success(json.result);
         }

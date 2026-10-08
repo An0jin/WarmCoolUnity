@@ -27,7 +27,7 @@ public class CVLLM : CaptureBtn // 화면 캡처 기반 Vision LLM 이미지 분
         try
         {
             // 백엔드 "cvllm" API Awaitable 요청
-            var json = await APIManager.PostJsonAsync<Json<string>>("cvllm", form, destroyCancellationToken);
+            var json = await APIManager.PostJsonAsync<Json<string>>("cvllm", form);
             print("파일 받음");
             view.SetActive(true);
             toggle.gameObject.SetActive(true);

@@ -41,7 +41,7 @@ public class LLM : MSGBtn // AI 메이크업 추천 프롬프트 전송 버튼
         try
         {
             // API "llm" 호출 (Awaitable)
-            LLMResponse colorJson = await APIManager.PostJsonAsync<LLMResponse>("llm", form, destroyCancellationToken);
+            LLMResponse colorJson = await APIManager.PostJsonAsync<LLMResponse>("llm", form);
             Session.session.HexCode = colorJson.hex_code; // 추천된 색상 헥스코드 반영
             Session.session.Cname = colorJson.cname; // 추천된 제품명 반영
             cnameText.SetText(); // UI 텍스트 업데이트

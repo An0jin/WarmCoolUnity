@@ -51,10 +51,10 @@ public class PutBtn : FormBtn // 회원정보 수정을 담당하는 스크립�
         try
         {
             // 백엔드로 정보 수정 PUT 요청 (Awaitable)
-            string jsonText = await APIManager.PutAsync("user", JsonUtility.ToJson(user), destroyCancellationToken);
+            string jsonText = await APIManager.PutAsync("user", JsonUtility.ToJson(user));
             PutJson json = JsonUtility.FromJson<PutJson>(jsonText);
             Debug.Log("JSON 파싱 결과: " + JsonUtility.ToJson(json));
-            
+
             // 메모리 세션 및 로컬 인증 파일 갱신
             Session.session.UpdateInfo(name.text, sex, year.text, json.token);
             Token token = new Token();
