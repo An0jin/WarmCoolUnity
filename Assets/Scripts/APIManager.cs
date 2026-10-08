@@ -12,7 +12,6 @@ public static class APIManager
     {
         using (www)
         {
-
             await www.SendWebRequest();
             return www.result == UnityWebRequest.Result.Success
                 ? www.downloadHandler?.text ?? string.Empty
