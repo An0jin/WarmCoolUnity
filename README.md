@@ -16,9 +16,9 @@ Unity의 **ARFoundation**을 활용하여 사용자에게 몰입감 있는 퍼�
 
 ### 2. Real-time Social Networking (Photon)
 
-퍼스널 컬러를 매개로 한 실시간 커뮤니티 환경을 **Photon**을 통해 구현했습니다.
+퍼스널 컬러를 매개로 한 실시간 커뮤니티 환경을 **Ph- **Personal Color Grouping**: 사용자의 진단 결과(웜톤/쿨톤)에 따라 자동으로 채팅 채널(Photon Chat) 배정.
+oton**을 통해 구현했습니다.
 
-- **Personal Color Grouping**: 사용자의 진단 결과(웜톤/쿨톤)에 따라 자동으로 채팅 채널(Photon Chat) 배정.
 - **Seamless Synchronization**: 실시간 메시징 기술 최적화 및 안정성 확보.
 - **In-App Social Experience**: 사용자들이 뷰티 팁을 공유할 수 있는 소셜 공간 구축.
 

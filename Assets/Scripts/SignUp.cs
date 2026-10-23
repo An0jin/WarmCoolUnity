@@ -78,7 +78,7 @@ public class SignUp : FormBtn // FormBtn 입력 폼 검증 클래스를 상속�
 
         Success("회원가입 중...");
         isSignUp = false; // 중복 전송 잠금
-
+        
         List<IMultipartFormSection> form = new List<IMultipartFormSection>
         {
             new MultipartFormDataSection("pw", pw.text),
