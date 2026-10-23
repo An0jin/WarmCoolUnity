@@ -14,7 +14,7 @@ public class NavigationManager : MonoBehaviour
         {
             if (sceneStack == null)
             {
-                sceneStack = FindFirstObjectByType<NavigationManager>();
+                sceneStack = FindAnyObjectByType<NavigationManager>();
                 if (sceneStack == null)
                 {
                     GameObject obj = new GameObject("NavigationManager");
